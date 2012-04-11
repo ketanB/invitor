@@ -1,0 +1,85 @@
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <span class="english">English</span>
+        </li>
+        <li>
+          <a href="#" class="spanish">Espanol</a>
+        </li>
+      </ul>
+      <ul>
+        <li class="first">
+          <div class="profileBox"> <span class="profileimg"><img src="/images/profileImg.png" width="54" height="54" alt=" " /></span>
+            <div class="details">
+              <p><strong><%= current_user.full_name %></strong></p>
+              <p class="email"><%= current_user.email %></p>
+            </div>
+          </div>
+          <div class="wheather">
+            
+            <%#= render_weather 'dhaka' %>
+            
+          </div>
+        </li>
+        <li>
+          <div class="title">
+            <h2>Invitations to Upcoming Events</h2>
+            <div class="creatBtn"><%= link_to image_tag('/images/invitationBtn.png'), new_event_path %></div>
+          </div>
+          <div class="details">
+            <ul>
+              <%- @events.each do |event| %>
+              <li>
+                <div class="det_topcrv"><!----></div>
+                <div class="det_midRep">
+                  <div class="indet">
+                    <h3><%= link_to event.name, :controller=>"invitations", :action=>"status", :id=>event.id%></h3>
+                    <p><strong>Hosted by:</strong> <%= event.hosted_by %></p>
+                    <p><strong>When:</strong> <%= event.date %> <%= event.time %></p>
+                    <p><strong>Where:</strong> <%= event.location_address %> </p>
+                    <p class="links">
+                      <%= link_to 'Edit', edit_event_path(event) if current_user.id == event.user_id%>
+                      <%= link_to 'Invite More Guests', contacts_user_path(current_user, :event_id => event.id) if allowed_to_invite?(event, current_user)%>
+                    </p>
+                  </div>
+                  <div class="response">
+                    <h4>Your Response</h4>
+                    <div class="responseInd"><img src="/images/green.png" width="16" height="16" style="vertical-align:middle;" /> <%= current_user.event_response(event) %></div>
+                    <h4>All Guest Responses</h4>
+                    <div class="otherattendees">
+                      <div class="indGreen" title="Attending"><%= Event.guest_responses(event.guests)[:yes] %></div>
+                      <div class="indblue"  title="Maybe"><%= Event.guest_responses(event.guests)[:maybe] %></div>
+                      <div class="indred"  title="Not Attending"><%= Event.guest_responses(event.guests)[:no] %></div>
+                      <div class="indgrey"  title="No Reply"><%= Event.guest_responses(event.guests)[:norep] %></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="det_botcrv">
+                  <!---->
+                </div>
+              </li>
+              <%- end %>
+            </ul>
+          </div>
+
+          <div class="sideBanner">
+            <img src="/images/banner300by250.png" width="302" height="251" /></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<style type="text/css">
+  p.links a{
+    float: left;
+    margin-top: 5px;
+    margin-right: 10px;
+}
+</style>

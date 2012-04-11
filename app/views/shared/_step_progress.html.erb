@@ -1,0 +1,27 @@
+<ul class="steps">
+  <li> 
+    <%= link_to new_step_1_path, :title=>  'Choose Design'  do%>
+      <%= image_tag("icon_chooseDesing#{params[:action] == "new" ? "H" : ""}.png") %>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to new_step_2_path, :method => :post, :title=>  'Enter Details'  do%>
+      <%= image_tag("icon_enterDetail#{params[:action] == "new_step_2" ? "H" : ""}.png") %>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to new_step_3_path, :method => :post, :title=>  'Invite Guest'  do%>
+      <%= image_tag("icon_inviteGuest#{params[:action] == "new_step_3" ? "H" : ""}.png") %>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to new_step_4_path, :method => :post, :title=>  'Preview Invitation'  do%>
+      <%= image_tag("icon_previewInvitation#{params[:action] == "new_step_4" ? "H" : ""}.png") %>
+    <% end %>
+  </li>
+  <li>
+    <%= link_to 'javascript:void(0)', :id=> 'finish_send', :title=>  'Finish &amp; Send'  do%>
+      <%= image_tag("icon_finish#{params[:action] == "new" ? "" : ""}.png") %>
+    <% end %>
+  </li>
+</ul>

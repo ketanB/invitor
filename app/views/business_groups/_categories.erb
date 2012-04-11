@@ -1,0 +1,51 @@
+
+<%
+@business_groups_12.each do |business|
+%>
+  <div class="category">
+    <div>
+      <a href="<%=company_path(business)%>"><img src="/images/categories/<%=  "#{business.id}" %>.png"></img></a>
+    </div>
+
+    <div>
+      <%
+      @companies = Company.find_all_by_business_group_id_and_city_id(business.id, 1).first(3)
+      val = 3 - @companies.length
+      if(@companies.length < 3)
+        @companies +=  Company.find_all_by_business_group_id_and_state_id(business.id, 1).first(val)
+
+      end
+      val = 3 - @companies.length
+      if (@companies.length < 3)
+        @companies +=  Company.find_all_by_business_group_id(business.id).first(val)
+      end
+    %>
+      <tr>
+        <% @companies.each do |company| %>
+          <td>
+            <p style="font-size: small; margin-bottom: 1px"><%= link_to company.name.first(20), company_path(company), :title => company.name %></p>
+          </td>
+        <%  end %>
+        <td>
+          <a style="float: right;" href="<%=detail_business_groups_path(:id => business.id)%>"><img src="/images/categories/see_more.png"></img></a>
+        </td>
+      </tr>
+    </div>
+  </div>
+  <% end %>
+
+  <style type="text/css">
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .category {
+      float: left;
+      width: 150px;
+      margin-left: 38px;
+      margin-bottom: 20px;
+    }
+    .category_btn {
+      background: url("/images/categories/bakeries.png");
+      width: 150px;
+      height: 148px;
+
+    }
+  </style>
+

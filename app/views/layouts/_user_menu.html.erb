@@ -1,0 +1,9 @@
+<%- unless logged_in? %>
+  <%= link_to I18n.t('layout.menu.sign_in'), login_path %> |
+  <%= link_to I18n.t('layout.menu.sing_up'), new_user_path %>
+<%- else %>
+  <%= link_to I18n.t('layout.menu.invitations'), events_path %> |
+  <%= link_to I18n.t('layout.menu.address_book'), contacts_user_path(current_user) %> |
+  <%= link_to I18n.t('layout.menu.settings'), user_path(current_user) %> |
+  <%= link_to I18n.t('layout.menu.logout'), logout_path %>
+<%- end %>

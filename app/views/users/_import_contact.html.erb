@@ -1,0 +1,88 @@
+<%= image_tag 'close.jpeg', :id=> 'close_import_contact_lb', :class=> 'close_lb', :title => 'close' %>
+<% form_tag import_contacts_events_path, :remote => true, :multipart => true, :id => 'contact_import_form' do %>
+
+
+  <div id="email_import">
+    <h2>Import Contact</h2>
+    <p>
+      <label>
+        Select Source
+      </label>
+
+      <select name="from" id="source_from">
+        <option value="">Select source</option>
+        <option value="gmail">Gmail</option>
+        <option value="yahoo">Yahoo</option>
+        <option value="msn">Hotmail</option>
+        <option value="aol">AOL</option>
+        <option value="csv">Outlook</option>
+        <option value="facebook">Facebook</option>
+      </select>
+    </p>
+    <p>
+      <label>
+        Email Address
+      </label>
+
+
+      <input name="login" type="text"/>
+    </p>
+    <p>
+      <label>
+        Enter Your Password
+      </label>
+
+      <input name="password" type="password"/>
+    </p>
+    <p id="not_going_to_save_portion">
+      Note : we are not going to save your Password anywhere
+    </p>
+
+    <p>
+      <%= hidden_field_tag :vendor_name %>
+      <%= submit_tag "Import contacts", :id => 'submit_imported' %>
+    </p>
+  </div>
+  <div id="imported_contacts" >
+
+  </div>
+  <div id="select_contacts" style="display: none">
+    <a href="javascript:void(0)" id="check_all">Check All</a>
+    <a href="javascript:void(0)" id="uncheck_all">UnCheck All</a>
+    <a href="javascript:void(0)" id="forward_selected">Forward Selected</a>
+  </div>
+  <div id="loading" style="display: none">
+    <%= image_tag 'loadingAnimation.gif' %>
+  </div>
+<% end %>
+
+<style type="text/css">
+  #imported_contacts{
+    width: 600px;
+    height: 300px;
+    overflow: auto;
+    text-align: center;
+  }
+  #imported_contacts ul li {float: left; width: 584px; border-top: 1px solid #cccccc}
+  #imported_contacts span.checkbox {float: left; width: 50px}
+  #imported_contacts span.email {float: left; width: 280px; text-align: left}
+  #imported_contacts span.name {float: left; width: 250px; text-align: left}
+
+  #select_contacts a{
+    margin-top: 6px;
+    margin-right: 10px;
+    float: left;
+    width: 80px;
+  }
+
+  #select_contacts a#forward_selected {font-size: 16px; width: 130px;}
+  #TB_window {-moz-border-radius: 10px;}
+  #close_import_contact_lb{
+    float: left;
+    position: absolute;
+    left: 599px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #email_import label {float: left; width: 120px;}
+</style>

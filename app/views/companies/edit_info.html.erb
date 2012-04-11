@@ -1,0 +1,118 @@
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag  'style_register' %>
+<% end %>
+<div class="dashbord">
+
+  <div class="dashbord_tCrv_signup">    <!---->
+    <ul class="language">
+      <li>
+        <a class="english" href="javascript:change_Language('en');">English</a>
+      </li>
+      <li>
+        <a class="spanish" href="javascript:change_Language('es');">Espanol</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+
+      <ul>
+
+        <li>
+          <div class="signup_header" style ="margin-bottom: 10px;">Update Business Details</div>
+          <div class="details">
+
+            <ul>
+              <li>
+
+                <%= render :partial => 'form_info' %>
+
+              </li>
+            </ul>
+          </div>
+
+        </li></ul></div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+
+  <div style="clear: both;"></div>
+</div>
+
+<style type="text/css">
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li {
+
+    height: 650px;
+
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details {width: 450px;}
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep{
+    width: 450px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .rowBtn{
+    width: 928px;
+    margin-left: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row{
+    width: 928px;
+    margin-left: 20px;
+
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row input,
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row input[type="text"]{
+    width: 400px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    font-size: 22px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row select{
+    width: 410px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    height: auto;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row textarea{
+    width: 400px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    height: 50;
+  }
+
+  .signup_header{
+    font-size: 22px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row label {
+    float:left;
+    width:250px;
+    height:20px;
+    font-size:18px;
+    font-family:Verdana, Geneva, sans-serif;
+    font-weight: normal;
+    color:#46a0c2;
+    line-height:20px;
+    margin-left: 90px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row label.miles {
+    width: auto;
+    font-size:14px;
+  }
+
+  .in_between_signup {
+    padding:136px 0 0;
+    width:208px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .sidelink {
+    width:196px;
+    
+  }
+
+
+</style>

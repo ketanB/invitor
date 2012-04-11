@@ -1,0 +1,24 @@
+<%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_change_guest_name_lb', :title => 'close' %>
+<% form_for :contact, :url => change_guest_name_users_path, :remote => true, :html=> { :id => 'change_guest_name_form'} do |f|%>
+
+  <h2>Edit Name</h2>
+  <p>
+    <label  style="vertical-align: top">
+      First Name
+    </label>
+    <%= text_field_tag :firstname, ''%>
+  </p>
+
+  <p>
+    <label>
+      Last Name
+    </label>
+    <%= text_field_tag :lastname, ''%>
+
+  </p>
+  <p style="text-align: center">
+    <%= hidden_field_tag 'guest[g_id]', g_id %>
+    <%= submit_tag "Save"%>
+  </p>
+<% end %>
+

@@ -1,0 +1,22 @@
+<li>
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+    <div class="postcomment">
+      <h3>Event Videos</h3>
+      <div id="event_videos">        
+        <%@event.videos.each do |video|%>
+          <%=raw video.embed_path%>
+          <br/>
+        <%end%>
+      </div>
+      <br/>
+      <%= form_for(:event, :url => upload_video_events_path, :html => { :method => :post, :id => 'uploadVideoForm', :multipart => true }) do |f| %>
+        Upload a video: <%= text_field_tag :embed_video_path %>
+        <%= hidden_field_tag :event_id, @event.id %>
+        <%= submit_tag 'Upload', :id => 'upload_video' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="box_bot"><!----></div>
+
+</li>

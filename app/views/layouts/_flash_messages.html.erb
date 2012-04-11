@@ -1,0 +1,59 @@
+<% unless true # flash.empty? %>
+  <div id="flash_messages" >
+    <%= image_tag 'close.jpeg',  :id => 'close_flash_messages', :title => 'close' %>
+
+    <% if @notice || flash[:notice]%>
+      <div class="flash_message notice">
+        <%= @notice %>
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
+
+    <% if @error || flash[:error]%>
+      <div class="flash_message error">
+        <%= @error %>
+        <%= flash[:error] %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+
+<style type="text/css">
+  #flash_messages{
+    top:100px;
+    position:fixed;
+    width:600px;
+    height: 103px;
+    z-index:11;
+    overflow: visible;
+    padding: 10px;
+    margin-left: 200px;
+    border: 3px solid #42abf6;
+    -moz-border-radius: 5px;
+    background: #F2F2F2;
+    line-height: 20px;
+  }
+
+  div.flash_message{
+    width: 500px;
+    color: green;
+  }
+  div.error {
+    color: red;
+  }
+  #close_flash_messages{
+    float: left;
+    position: absolute;
+    left: 589px;
+    top: 2px;
+    cursor: pointer;
+  }
+</style>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#close_flash_messages').click(function(){
+      $(this).parents("#flash_messages").animate({ opacity: 'hide' }, "slow");
+    });
+  })
+</script>

@@ -1,0 +1,27 @@
+<h1>Listing business_categories</h1>
+
+<table>
+ <tr class="evenRow">
+    <th>Title</th>
+    <th>Business group</th>
+    <th>Active</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @business_categories.each do |business_category| %>
+  <tr class="<%= cycle('oddRow', 'evenRow') %>">
+    <td><%= business_category.title %></td>
+    <td><%= business_category.business_group.title %></td>
+    <td><%= business_category.active %></td>
+    <td><%= link_to 'Show', business_category %></td>
+    <td><%= link_to 'Edit', edit_business_category_path(business_category) %></td>
+    <td><%= link_to 'Destroy', business_category, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Business category', new_business_category_path %>

@@ -1,0 +1,11 @@
+<% if category %>
+  <div class="category">
+    <span class="cat_chkbox">
+      <%= select_tag('company[category_ids][]',
+        category.id, @company.categories.collect(&:id).include?(category.id),
+        :id => "company_cat_id_#{category.id}",
+        :class => 'category_checkbox') %>
+    </span>
+    <span class="cat_title"><%= category.title %></span>
+  </div>
+<% end %>

@@ -1,0 +1,28 @@
+<h1>Listing cities</h1>
+
+<table>
+  <tr class="evenRow">
+    <th>Name</th>
+    <th>Country</th>
+    <th>Active</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @cities.each do |city| %>
+  <tr class="<%= cycle('oddRow', 'evenRow') %>">
+    <td><%= city.name %></td>
+    <td><%= city.country.name if city.country%></td>
+    <td><%= city.active %></td>
+    <td><%= link_to 'Show', city %></td>
+    <td><%= link_to 'Edit', edit_city_path(city) %></td>
+    <td><%= link_to 'Destroy', city, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= will_paginate  @cities%><br/>
+
+<%= link_to 'New City', new_city_path %>

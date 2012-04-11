@@ -1,0 +1,24 @@
+<h3>Contacts</h3>
+
+<div class="rightpanel">
+  <p>Import existing contacts from:</p>
+
+
+  <%EMAIL_PROVIDER.each do |email|%>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#import_contacts_<%=email%>").fancybox({
+          'width'		: '75%',
+          'height'		: '75%',
+          'autoScale'	: false,
+          'transitionIn'	: 'none',
+          'transitionOut'	: 'none',
+          'type'		: 'iframe'
+        });
+      });
+    </script>
+
+    <%=link_to image_tag("/images/#{email}.png"), "/users/import_contacts", :id=>"import_contacts_#{email}"%>
+
+  <%end%>
+</div>

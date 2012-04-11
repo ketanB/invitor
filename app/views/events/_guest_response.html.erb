@@ -1,0 +1,45 @@
+<div class="responseBox">
+  <a class="respone" href="#"><%= Guest::RESPONSE[@guest.response] %>
+    <% if([1,2].include?(@guest.response )) %>
+      + <%= @guest.additional_guests %> Guests
+    <% end %>
+  </a>
+
+</div>
+
+<div class="responseBox">
+  <div class="yes">
+    <%= radio_button_tag "guest[response]", 1, @guest.response == 1 %>
+    Yes
+  </div>
+  <% if @setting.allow_guest_maybe?  %>
+  <div class="maybe">
+    <%= radio_button_tag "guest[response]", 2, @guest.response == 2 %>
+    May Be
+  </div>
+  <% end %>
+
+  <div class="no">
+    <%= radio_button_tag "guest[response]", 3, @guest.response == 3 %>
+    No
+  </div>
+  <% if(@setting.allow_guests_to_bring_people?) %>
+    <div class="select">
+      <select name="guest[additional_guests]" id="guest_additional_guests">
+        <option value="0">+0</option>
+        <% @setting.max_people_to_bring.to_i.times do |i| %>
+          <option value="<%= i+1 %>" <%= 'selected' if @guest.additional_guests == i+1 %>>+<%= i+1 %></option>
+        <% end %>
+      </select>
+      Additional guests
+    </div>
+
+  <% end %>
+  <div class="check">
+    <%= check_box_tag 'guest[send_daily_activity]', true, @guest.send_daily_activity? %>
+    Send me daily activity updates
+  </div>
+</div>
+<%= hidden_field_tag :g_id, @guest.g_id  %>
+<%= hidden_field_tag :event_id, @event.id  %>
+

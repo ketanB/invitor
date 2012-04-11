@@ -1,0 +1,268 @@
+<% title 'Add Guest' %>
+
+<%= content_for :javascript_include do%>
+  <%= javascript_include_tag 'thickbox' %>
+<% end %>
+<%= content_for :stylesheet do%>
+  <%= stylesheet_link_tag 'thickbox' %>
+<% end %>
+
+<%= form_for(@event, :url => new_step_4_url, :html =>{:id => 'event_form'}) do |f| %>
+  <div class="dashbord">
+    <div class="dashbord_tCrv">
+      <!---->
+    </div>
+    <div class="dashbord_mRepeat">
+      <div class="midshade">
+        <ul class="language">
+          <li>
+            <span class="english">English</span>
+          </li>
+          <li>
+            <a href="#" class="spanish">Espanol</a>
+          </li>
+        </ul>
+        <ul>
+          <li class="first">
+            <%= render :partial => 'shared/step_progress' %>
+            <div class="title">
+              <h2>Add Guest</h2>
+              <div class="creatBtn"><img src="/images/buttons.png" width="427" height="61" border="0" usemap="#Map" />
+                <map name="Map" id="Map">
+                  <area id="save_n_continue" shape="rect" coords="13,4,293,38" href="javascript:void(0)" title="Save Invitation &amp; Continue" />
+                  <area id="skip_step" shape="rect" coords="299,3,407,38" href="javascript:void(0)" title="Skip Step" />
+                </map>
+              </div>
+            </div>
+          </li>
+          <li>
+
+
+            <div class="emailDet">
+              <div class="emailTp"><!----></div>
+              <div class="email_midRep">
+
+                <div class="contact">
+                  <div class="leftpanel">
+                    <h3>Enter Email Addresses Here</h3>
+                    <textarea rows="3" cols="60" name="email_address" id="email_address"></textarea>
+                    <a href="javascript:void(0)">
+                      <span id="linkLanguage">select the language for sending (default English)</span>
+                      <span id="continueAdding">Continue Adding</span>
+                    </a>
+                  </div>
+                  <div class="rightpanel">
+                    <p>Import existing contacts from:</p>
+                    <a  href="#TB_inline?height=510&amp;width=600&amp;inlineId=lightbox_div&amp;modal=true" class="importContact thickbox" vendor="gmail"><img alt=" " src="/images/gmail.png"/></a>
+                    <a  href="#TB_inline?height=510&amp;width=600&amp;inlineId=lightbox_div&amp;modal=true" class="importContact thickbox"  vendor="yahoo"><img alt=" " src="/images/yahoo.png"/></a>
+                    <a href="#TB_inline?height=510&amp;width=600&amp;inlineId=lightbox_div&amp;modal=true" class="importContact thickbox"  vendor="msn"><img alt=" " src="/images/msn.png" /></a>
+                    <a href="#TB_inline?height=510&amp;width=600&amp;inlineId=lightbox_div&amp;modal=true" class="importContact thickbox"  vendor="aol"><img alt=" " src="/images/aol.png" /></a>
+                    <!--<script type="text/javascript" src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/en_US"></script>
+                    <fb:login-button onlogin="facebook_onlogin();" class=" fb_login_not_logged_in FB_login_button"><a class="fbconnect_login_button" id="RES_ID_fb_login"><img id="RES_ID_fb_login_image" src="http://static.ak.fbcdn.net/rsrc.php/zA114/hash/7e3mp7ee.gif" alt="Connect"></a></fb:login-button>									   <script type="text/javascript"> FB.init("706f7d9324d3cdf4de74326c2dcaef87", "xd_receiver.htm"); </script>
+                    -->
+
+                  </div>
+                  <div style="clear: both;">
+                    <div id="content_mails">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="emailBt"><!----></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+  <div class="boxes"></div>
+  <div class="dashbord">
+    <div class="dashbord_tCrv">
+      <!---->
+    </div>
+    <div class="dashbord_mRepeat">
+      <div class="midshade">
+        <ul>
+          <li class="first">
+            <div align="center" class="title">
+              <input type="image" value="" src="/images/addprevew.png" name="add_guest" id="add_guest"/>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+  <%= hidden_field_tag :cur_language, I18n.locale %>
+  <%= hidden_field_tag 'skip_step3' %>
+<% end %>
+
+<div id="lightbox_div" >
+  <%= render 'users/import_contact' %>
+</div>
+
+<style type="text/css">
+  #imported_contacts{
+    width: 600px;
+    height: 300px;
+    overflow: auto;
+    text-align: center;
+  }
+  #imported_contacts ul li {float: left; width: 584px; border-top: 1px solid #cccccc}
+  #imported_contacts span.checkbox {float: left; width: 50px}
+  #imported_contacts span.email {float: left; width: 280px; text-align: left}
+  #imported_contacts span.name {float: left; width: 250px; text-align: left}
+  #lightbox_div { 
+    float: left;
+    width: 600px;
+    height: 400px;
+
+    display: none;
+  }
+  #select_contacts a{
+    margin-top: 6px;
+    margin-right: 10px;
+    float: left;
+    width: 80px;
+  }
+
+  #select_contacts a#forward_selected {font-size: 16px; width: 130px;}
+  #TB_window {-moz-border-radius: 10px;}
+  #close_import_contact_lb{
+    float: left;
+    position: absolute;
+    left: 599px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #email_import label {float: left; width: 120px;}
+
+  div.cercularback {
+    float:left;
+    width:100%;
+    background: url("<%=@event.bg_image_url%>") 0px 145px repeat-x;
+
+  }
+  .emailblock{width: 410px;float: left; overflow: hidden}
+  .english{width: 100px; float: left}
+  .spanish{width: 100px; float: left}
+</style>
+<script type="text/javascript" >
+  $(document).ready(function(){
+    $('#skip_step').click(function(){
+      $('#skip_step3').val(1);
+      $('#event_form').submit();
+    });
+
+    $('#save_n_continue, #add_guest').click(function(){
+      $('#event_form').submit();
+    });
+
+    
+    $("#contact_import_form").bind("ajax:complete", transferContacts);
+
+    $('#submit_imported').click(function(){
+      $('#imported_contacts').html($('#loading').html());
+    });
+    
+    $('a.importContact').click(function(){
+      $('#source_from').val($(this).attr('vendor'));
+      
+    });
+
+    $('img#close_lb').click(function(){
+      tb_remove();
+    });
+    
+    var cur_lan = $('#cur_language').val();
+    $('span#continueAdding').hide();
+    
+    $('span#linkLanguage').click(function(){
+      $(this).renderEmailsByLanguage();
+      $('#email_address').attr('disabled', 'disabled');
+      $(this).hide();
+      $('span#continueAdding').show();
+    });
+
+    $('span#continueAdding').click(function(){
+      $('#email_address').removeAttr('disabled');
+      $(this).hide();
+      $('span#linkLanguage').show();
+    });
+  });
+
+  $.fn.renderEmailsByLanguage = function(){
+    var emails = $('#email_address').val();
+    var email_arr = emails.split(',');
+    var email_name_arr = new Array();
+    var email_name = '';
+    var email = '';
+    var name = '';
+    var html = '';
+    for(var i=0; i< email_arr.length; i++){
+      email_name = email_arr[i];
+      if(email_name.length > 5){
+        if(email_name.indexOf('[') >= 0){
+          email_name_arr = email_name.split('[');
+          email = email_name_arr[0];
+          
+          if(email_name_arr[1] && email_name_arr[1].length > 3)
+            name = email_name_arr[1].replace(']', '');
+         
+        }
+        else
+          email = email_name;
+      
+        if($(this).email_valid(email)){
+          html += '<input type="hidden" name="email['+ i +']" value="' + email + '"/>';
+          html += '<input type="hidden" name="name['+ i +']" value="' + name + '"/>';
+        
+          html += '<div class="emailblock">' + email_arr[i] + '</div>';
+          html += '<div class="english">English <input name="rbtn[' + i + ']" type="radio" value="en" checked="checked" /></div>';
+          html += '<div class="spanish">Spanish <input name="rbtn[' + i + ']" type="radio" value="es" /></div>';
+        }
+      }
+    }
+    $('#content_mails').html(html);
+  };
+
+  $.fn.email_valid = function(str){
+    var isEMail = /^.+\@(\[?)[a-zA-Z0-9\-\.]+\.([a-zA-Z]{2,3}|[0-9]{1,3})(\]?)$/;
+    str = $.trim(str);
+    return isEMail.test(str);
+  };
+
+  var transferContacts = function(){
+    alert("asd")
+    var return_contacts = new Array;
+    $('#uncheck_all').hide();
+    $('#uncheck_all').hide();
+    $('#select_contacts').show();
+    $('#select_contacts a#forward_selected').click(function(){
+      $('input.chk_contact').each(function() {
+        if($(this).attr('checked'))
+          return_contacts.push($(this).val());
+      });
+      $('#email_address').val($('#email_address').val()+return_contacts.join(','));
+      tb_remove();
+      $(this).renderEmailsByLanguage();
+      $('#email_address').attr('disabled', 'disabled');
+      $('span#linkLanguage').hide();
+      $('span#continueAdding').show();
+    });
+
+    $('#uncheck_all').click(function(){
+      $('.chk_contact').attr('checked', false);
+      $(this).hide();
+      $('#check_all').show();
+    });
+
+    $('#check_all').click(function(){
+      $('.chk_contact').attr('checked', true);
+      $(this).hide();
+      $('#uncheck_all').show();
+    });
+  };
+
+</script>

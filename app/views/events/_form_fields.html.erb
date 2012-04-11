@@ -1,0 +1,80 @@
+<%#= customize_javascript "tools/jquery-timepicker" %>
+<%= customize_stylesheet "jquery-ui" %>
+
+<div class="field">
+  <%= f.label :name %><br />
+  <%= f.text_field :name %>
+</div>
+<div class="field">
+  <%= f.label :description %><br />
+  <%= f.text_area :description, :class => 'mceEditor' %>
+</div>
+<div class="field">
+  <%= f.label :hosted_by %><br />
+  <%= f.text_field :hosted_by %>
+</div>
+<div class="field">
+  <%= f.label :date_and_time %><br />
+  <%= f.text_field :date_and_time %>
+</div>
+<div class="field">
+  <%= f.label :location_details %><br />
+  <%= f.text_field :location_details %>
+</div>
+<div class="field">
+  <%= f.label :location_address %><br />
+  <%= f.text_field :location_address %>
+</div>
+
+<%= f.fields_for :setting do |sf| %>
+  <div class="field">
+    <%= sf.label :allow_pictures %><br />
+    <%= sf.check_box :allow_pictures %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :allow_videos %><br />
+    <%= sf.check_box :allow_videos %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :allow_guest_to_invite_friends %><br />
+    <%= sf.check_box :allow_guest_to_invite_friends %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :allow_guests_to_bring_people %><br />
+    <%= sf.check_box :allow_guests_to_bring_people %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :max_people_to_bring %><br />
+    <%= sf.text_field :max_people_to_bring %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :display_guest_list %><br />
+    <%= sf.check_box :display_guest_list %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :cap_attendees_at %><br />
+    <%= sf.text_field :cap_attendees_at %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :show_comment_board %><br />
+    <%= sf.check_box :show_comment_board %>
+  </div>
+
+  <div class="field">
+    <%= sf.label :show_profile_pictures %><br />
+    <%= sf.check_box :show_profile_pictures %>
+  </div>
+<% end %>
+
+<div class="actions">
+  <%= f.submit %>
+</div>
+
+<%#= javascript_tag "jQuery('#event_date_and_time').datetimepicker({ampm: true});" %>

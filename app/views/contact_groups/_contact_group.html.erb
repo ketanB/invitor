@@ -1,0 +1,6 @@
+<% if contact_group %>
+  <li >
+    <%= check_box_tag "contact_group_#{contact_group.id}", contact_group.id, false, :class=> 'chkbox_contact_group' %>
+    <%= link_to "#{contact_group.name}(#{contact_group.contacts.length})", 'javascript:void(0)' , :class=> 'contact_group', :group_id => contact_group.id%>
+  </li>
+<% end %>

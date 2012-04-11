@@ -1,0 +1,36 @@
+<div style="float:left;">
+  <%= grid(@guests,  :show_filters => :always) do |g|
+
+    g.column :column_name => 'Name', :attribute_name => 'full_name', :model_class=>Contact do |name|
+      name.contact.full_name if name.contact
+    end
+
+    g.column :column_name => 'Email', :attribute_name => 'email', :model_class=>Contact do |name|
+      name.contact.email if name.contact
+    end
+
+    g.column :column_name => 'Sent' do |guest|
+      (guest.invited ? guest.invited_at.strftime("%m/%d") : "Pending") rescue nil
+    end
+
+    g.column :column_name => 'Viewed' do |guest|
+      (guest.email_viewed ? guest.email_viewed_at.strftime("%m/%d") : "Pending") rescue nil
+    end
+
+    g.column(:column_name => 'RSVP'){|guest|Guest::RESPONSE[guest.response]}
+    g.column{|guest| ""}
+
+  end -%>
+</div>
+<div style="float:right;">
+  RSVP Status
+  <br/>
+  <%Guest::RESPONSE.each do |index, resp_val|%>
+    <%=image_tag "resp_#{index}.png", :alt=>resp_val, :title=>resp_val%> ---------- <%=@guests_count[index] || "0" %><br/>
+  <%end%>
+</div>
+
+<script type="text/javascript">
+  $('#grid_title').attr('innerHTML', 'Invitation Status');
+</script>
+

@@ -1,0 +1,233 @@
+<%= form_for(@company, :html => { :multipart => true}) do |f| %>
+  <% if @company.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@company.errors.count, "error") %> prohibited this company from being saved:</h2>
+
+      <ul>
+        <% @company.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :street1 %><br />
+    <%= f.text_field :street1 %>
+  </div>
+  <div class="field">
+    <%= f.label :street2 %><br />
+    <%= f.text_field :street2 %>
+  </div>
+  <div class="field">
+    <%= f.label :phone %><br />
+    <%= f.text_field :phone %>
+  </div>
+  <div class="field">
+    <%= f.label :fax %><br />
+    <%= f.text_field :fax %>
+  </div>
+  <div class="field">
+    <%= f.label :country_id %><br /><%= f.select :country_id, Country.active.all.collect{|c| [c.name, c.id]} , {:prompt => 'Select Country' }%>
+    <%= f.select :country_id, Country.active.all.collect{|c| [c.name, c.id]} , {:prompt => 'Select Country' }%>
+  </div>
+
+  <div class="field">
+    <%= f.label :state_id %><br />
+    <span id="state_ajax">
+      <%= f.select :state_id, (@states||[]).collect{|c| [c.code, c.id]} , {:prompt => 'Select State' }%>
+    </span>
+    <%= image_tag('loading.gif', :id=> 'loading_state', :style => 'display: none') %>
+    Or
+    <%= f.text_field :state_str %>
+  </div>
+
+  <div class="field">
+    <%= f.label :city_id %><br />
+    <span id="city_ajax">
+      <%= f.select :city_id, (@cities||[]).collect{|c| [c.name, c.id]} , {:prompt => 'Select City' }%>
+    </span>
+    <%= image_tag('loading.gif', :id=> 'loading_city', :style => 'display: none') %> Or
+    <%= f.text_field :city_str %>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :zip %><br />
+    <%= f.text_field :zip %>
+  </div>
+
+  <div class="field">
+    <%= f.label :website %><br />
+    <%= f.text_field :website %>
+  </div>
+  <div class="field">
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </div>
+  <div class="field">
+    <%= f.label :business_group_id %><br />
+    <%= f.select :business_group_id, BusinessGroup.active.all.collect{|c| [c.title, c.id]} , { :prompt => 'Select Group' }%>
+  </div>
+  <div class="field">
+    <%= f.label :category %><br />
+    <span id="business_category_ajax" style="float: left; width: 100%">
+      <%= render :partial=> 'category', :collection =>  @business_categories%>
+    </span>
+    <%= image_tag('loading.gif', :id=> 'loading_business_category', :style => 'display: none') %>
+  </div>
+  <div class="field">
+    <%= f.label :latitude %><br />
+    <%= f.text_field :latitude %>
+  </div>
+  <div class="field">
+    <%= f.label :longitude %><br />
+    <%= f.text_field :longitude %>
+  </div>
+  <div class="field">
+    <%= f.label :detail %><br />
+    <%= f.text_area :detail, :style => 'width:600px; height:300px' %>
+  </div>
+
+  <div class="field">
+    <%= f.label 'Tags|Keywords' %><br />
+    <%= f.text_area :tag_list, :style => 'width:600px; height:50px' %>
+  </div>
+  <div style="width: 100%; float: left">
+    <% unless @company.new_record? %>
+      <%= render :partial => 'existing_photo', :collection => @company.assets %>
+    <% end %>
+  </div>
+
+  <div  id="company_images" style="width: 100%; float: left">
+    <% if @company.new_record? %>
+      <%= render :partial => 'photo', :locals => { :form => f, :photo => @company.assets.build } %>
+
+    <% end %>
+
+  </div>
+  <%= add_object_link("New Photo", f, @company.assets.build, "photo", "#company_images") %>
+
+  <%#*<div style="display: none" id="dummy_image_field">%>
+  <%#= render :partial => 'photo', :locals => { :form => f, :photo => @company.assets.build } %>
+  <%#*</div>%>
+  <%#= add_object_link("New Photo", f, @company.photos.build, "photo", "#photos") %>
+
+  <%#*<span class="addMoreImage"> Add More</span>%>
+
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+
+
+<style type="text/css">
+  .deleteExistingImage, span.removeImageField, span.addMoreImage {cursor: pointer; font-weight: bold}
+  .actions{margin-top: 10px}
+  #company_images p{ padding: 5px 0}
+
+  .existing_image {float: left; width: 80px; padding: 5px; border: 1px}
+
+  div.category {
+    width: 200px;
+    padding: 5px;
+    margin: 5px 10px 5px 0;
+    float: left;
+    border: 1px solid #cccccc;
+}
+</style>
+
+<script type="text/javascript">
+  var company_id = '<%= @company.id %>';
+
+   $.fn.handleCountryChange = function(){
+    $('select#company_country_id').change(function(){
+      $('#company_state_id, #loading_state').toggle();
+      $.ajax({
+        url: '/companies/load_states?country_id='+$(this).val(),
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('#company_state_id').show();
+          $('#loading_state').hide();
+          alert("dime");
+          //$(this).handleCityChange();
+        }
+      });
+    });
+
+
+  $.fn.handleStateChange = function(){
+  $('select#company_state_id').click(function(){
+      $('#company_city_id, #loading_city').toggle();
+      $.ajax({
+        url: '/companies/load_cities?state_id='+$(this).val(),
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('#company_city_id').show();
+          $('#loading_city').hide();
+        }
+      });
+    });
+  };
+
+  $.fn.handleGroupChange = function(){
+    $('select#company_business_group_id').change(function(){
+      $('#company_business_category_id, #load_business_categories').toggle();
+      $.ajax({
+        url: '/companies/load_business_categories?business_group_id='+$(this).val()+'&company_id='+company_id,
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('#company_business_category_id').show();
+          $('#loading_state').hide();
+        }
+      });
+    });
+  };
+
+ 
+  };
+  $.fn.deletePhoto = function(){
+    $('span.deleteExistingImage').click(function(){
+      if(confirm('Delete photo?')){
+        var div_to_remove = $(this).parent('.existing_image');
+        $.ajax({
+          url: '/companies/delete_photo?photo_id='+$(this).attr('photo_id'),
+          type: 'post',
+          dataType: 'script',
+          success: function(results) {
+            div_to_remove.remove();
+          }
+        });
+      }
+    });
+
+  };
+
+$(document).ready(function() {
+    $(this).handleCountryChange();
+    $(this).handleStateChange();
+    $(this).handleGroupChange();
+    $('a.addMoreImage').click(function(){
+      // $('#company_images').append($('#dummy_image_field').html());
+      $('span.removeImageField').click(function(){
+        $(this).parents('.photo').remove();
+      });
+    });
+
+    $('span.removeImageField').click(function(){
+      $(this).parents('.photo').remove();
+    });
+    $(this).deletePhoto();
+  });
+
+
+</script>

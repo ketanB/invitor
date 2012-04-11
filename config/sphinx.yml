@@ -1,0 +1,14 @@
+development:
+  bin_path: "/usr/local/bin"
+  port: 9313
+  morphology: stem_en
+test:
+  bin_path: "/usr/bin"
+  port: 9313
+  morphology: stem_en
+production:
+  pid_file: /var/rails/apps/invitar/shared/searchd.pid
+  searchd_file_path: /var/rails/apps/invitar/shared/sphinx
+  bin_path: "/usr/local/bin"
+  port: 9313
+  morphology: stem_en

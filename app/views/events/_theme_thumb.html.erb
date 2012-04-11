@@ -1,0 +1,26 @@
+<li style="float:left; margin-bottom: 5px;" >
+  <%= link_to "javascript:void(0)", :theme_id => theme_thumb.id, :bg_image_url => theme_thumb.bg_image.url(:medium), :fg_image_url => theme_thumb.main_image.url(:medium), :class =>'themePreviewLink' do%>
+    <div class="roundedInnerBox">
+      <%= image_tag theme_thumb.bg_image.url(:thumb)%>
+    </div>
+  <% end %>
+  <div class="clear"></div>
+</li>
+<%if false%>
+<div class="themePreview" id="preview_<%= theme_thumb.id %>" style="display: none">
+  <%= link_to "javascript:void(0)",:theme_id => theme_thumb.id,  :bg_image_url => theme_thumb.bg_image.url(:medium), :fg_image_url => theme_thumb.main_image.url(:medium), :class =>'themePreviewLink', :title=> 'Click to Select' do%>
+    <b class="b1"></b><b class="b2"></b><b class="b3"></b><b class="b4"></b>
+    <div class="roundedInnerBox">
+      <%= image_tag theme_thumb.bg_image.url(:medium), :width => 320, :height => 210, :class => 'bgImage' %>
+    </div>
+    <b class="b4"></b><b class="b3"></b><b class="b2"></b><b class="b1"></b>
+    <div class="innerThumb">
+      <b class="b5"></b><b class="b6"></b><b class="b7"></b><b class="b8"></b>
+      <div class="roundedInnerBox2">
+        <%= image_tag theme_thumb.main_image.url(:medium), :width => 160, :height => 140 , :class => ''%>
+      </div>
+      <b class="b8"></b><b class="b7"></b><b class="b6"></b><b class="b5"></b>
+    </div>
+  <% end %>
+</div>
+<%end%>

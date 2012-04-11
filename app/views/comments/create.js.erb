@@ -1,0 +1,6 @@
+<% if @comment.parent_id.to_i > 0 %>
+  $("#comment_reply_<%=@comment.parent_id%>").html("<%= escape_javascript(render :partial =>'reply', :locals => {:reply => @comment}) %>");
+  $('#reply_link_<%=@comment.parent_id%>').hide();
+<% else %>
+  $("#event_comments").append("<%= escape_javascript(render @comment) %>");
+<% end %>

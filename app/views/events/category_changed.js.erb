@@ -1,0 +1,6 @@
+$("#theme_thumbs").html("<%= escape_javascript(render :partial => 'theme_thumb', :collection =>  @themes) %>");
+<% if  @themes.size > 0 %>
+  $('#preview_theme').html($('#preview_<%=@themes[0].id%>').html());
+  <% else %>
+  $('#preview_theme').html('');
+<% end %>

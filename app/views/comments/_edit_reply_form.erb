@@ -1,0 +1,14 @@
+<%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_edit_reply_comment_lb', :title => 'close' %>
+<% form_for :comment, :url => update_comment_comments_path, :remote => true, :html=> { :id => 'edit_reply_comment_form'} do |f|%>
+
+  <h2>Edit Reply</h2>
+  <p>
+    <%= text_area_tag 'comment[comment]', '', :id => 'edit_comment', :rows => 7, :cols => 54 %>
+  </p>
+
+  <p style="text-align: center">
+    <%= hidden_field_tag 'id', '', :id=> 'edit_comment_id' %>
+    <%= submit_tag "Update"%>
+  </p>
+<% end %>
+

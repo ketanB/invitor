@@ -1,0 +1,140 @@
+<% content_for :stylesheet do %>
+  <%= stylesheet_link_tag "jquery.loadmask.css"%>
+<% end %>
+<% content_for :javascript_tag do %>
+  <%= javascript_include_tag  'jquery.loadmask.js' %>
+<% end %>
+<style type="text/css">
+  span.cat a{padding: 0px 5px;}
+
+  .rightlist span.frame {float: left; width: 85px;}
+
+  .rightlist span.stars {
+    float: left;
+    background:url('/images/stars_ash.png') no-repeat;
+  }
+  .rightlist span.stars img {width: 85px}
+
+  span.reviews_count {
+    color:#7DAB13;
+    font-size:11px;
+    padding-left:3px;
+    float: left;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .leftpanel ul li .box_mid .postcomment ul.comments li .ratelist .leftlist {
+    width:380px;
+  }
+
+  .pagination a {margin: 0px 3px}
+
+  div.total_entries {float: left;}
+  div.pagination {float: left;}
+
+  ul.sort li a{
+    text-decoration: none;
+    padding: 2px 0px;
+    float: left;
+    color: #000000;
+  }
+  ul.sort li a:hover{
+    text-decoration: underline;
+    color: #363636;
+  }
+  ul.sort li.selected a{
+    color: #363636;
+    font-weight: bold;
+  }
+  ul.sort li span{float: left; margin-right: 3px;}
+</style>
+<%= raw Cartographer::Header.new.to_s %>
+
+
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li> <span class="english">English</span> </li>
+        <li> <a href="#" class="spanish">Espanol</a> </li>
+      </ul>
+      <ul>
+        <li class="first">&nbsp;
+        </li>
+        <li id="search-content">
+          <%= render :partial => "search_content" %>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    Search.initPage();
+    Search.bindSearch();
+  })
+  Search = {
+    initPage: function(){
+      $('.leftnum .previous_page').remove();
+      $('.leftnum .next_page').remove();
+    },
+    bindSearch: function(){
+      $(".remote-search").bind("click", function(){
+        var url = $(this).attr("href");
+        Search.remoteSearch(url);
+        return false;
+      });
+      $(".input-remote-search").bind("click", function(){
+        Search.updateCitiesId(this);
+        var url = Search.buildCityUrl();
+        Search.remoteSearch(url);
+      });
+      $('.pagination a').bind("click", function(){
+        var url =$(this).attr('href').replace("/companies/search", "/companies/remote_search");
+        Search.remoteSearch(url);
+        return false;
+      });
+    },
+    buildCityUrl: function(){
+      var url = $("#current_url").val();
+      url = url + "&cities=" + cities.join(",");
+      return url;
+    },
+    updateCitiesId: function(el){
+      var city = $(el).val();
+      if ($(el).is(':checked')){
+        var cityStr = "," + cities.join(",")+ ",";
+        if (cityStr.indexOf(","+city+",")== -1){
+          cities.push(city);
+        }
+      }else{
+        var temp = [];
+        for(var i =0; i < cities.length; i ++){
+          if (cities[i].toString() != city.toString()){
+            temp.push(cities[i]);
+          }
+        }
+        cities = temp;
+      }
+    },
+    remoteSearch: function(url){
+      $("#search-content").mask("Loading... ");
+      jQuery.ajax({
+        type: 'get', dataType: 'html',
+        success: function(data){
+          $("#search-content").html(data);
+          initialize_gmap_map();
+          Search.bindSearch();
+          $("#search-content").unmask();
+        },
+        url: url
+      });
+      return false;
+    }
+  }
+
+</script>

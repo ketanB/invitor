@@ -1,0 +1,10 @@
+---
+environment: production
+address: 127.0.0.1
+user: mongrel
+group: mongrel
+port: "8000"
+servers: 5
+cwd: /home/invitar/rails_apps/invitar/current
+pid_file: tmp/pids/mongrel.pid
+log_file: log/mongrel.log

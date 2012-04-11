@@ -1,0 +1,33 @@
+<%= form_for(@theme, :html => { :multipart => true })  do |f| %>
+  <% if @theme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@theme.errors.count, "error") %> prohibited this theme from being saved:</h2>
+
+      <ul>
+      <% @theme.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :background_image %><br />
+    <%= f.file_field :bg_image %>
+  </div>
+  <div class="field">
+    <%= f.label :main_image%><br />
+    <%= f.file_field :main_image %>
+  </div>
+  <div class="field">
+    <%= f.label :default %><br />
+    <%= f.check_box :default %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

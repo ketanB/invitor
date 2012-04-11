@@ -1,0 +1,17 @@
+<li>
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+    <div class="postcomment">
+      <h3>Event Photos</h3>
+      <div id="event_photos">
+      </div>
+      <%= form_for(:event, :url => upload_photo_events_path, :html => { :method => :post, :id => 'uploadPhotoForm', :multipart => true }) do |f| %>
+        Upload a photo: <%= f.file_field :photo %>
+        <%= f.hidden_field :event_id, :value=> @event.id %>
+        <%= submit_tag 'Upload', :id => 'upload_photo' %>
+      <% end %>
+    </div>
+  </div>
+  <div class="box_bot"><!----></div>
+
+</li>

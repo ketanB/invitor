@@ -1,0 +1,89 @@
+<%= form_for(:company_info, :url => {:action => :create_info}, :html => { :multipart => true}) do |f| %>
+  <% if @company_info.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@company_info.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% @company_info.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%= f.hidden_field :company_id %>
+
+  <div class="det_midRep">
+    <div class="row">
+      <label style="float: left;">Company Name</label>
+      <%= f.text_field :name, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Street 1</label>
+      <%= f.text_field :street1, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Street 2</label>
+      <%= f.text_field :street2, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Phone</label>
+      <%= f.text_field :phone, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Fax </label>
+      <%= f.text_field :fax, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Country</label>
+      <%= f.select :country_id, Country.active.all.collect{|c| [c.name, c.id]} , { :prompt => 'Select Country' }%>
+    </div>
+
+    <div class="row">
+      <label>State</label>
+      <span id="state_ajax">
+
+        <%= f.select :state_id, (@states||[]).collect{|c| [c.code, c.id]} , { :prompt => "Select State" }%>
+      </span>
+      <%= image_tag('loading.gif', :id=> 'loading_state', :style => 'display: none') %>
+    </div>
+
+    <div class="row">
+      <label>City</label>
+      <span id="city_ajax">
+        <%= f.select :city_id, (@cities||[]).collect{|c| [c.name, c.id]} , { :prompt => 'Select City' }%>
+      </span>
+      <%= image_tag('loading.gif', :id=> 'loading_city', :style => 'display: none') %>
+    </div>
+
+    <div class="row">
+      <label>Zip</label>
+      <%= f.text_field :zip, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Website</label>
+      <%= f.text_field :website, :class => "text" %>
+    </div>
+
+    <div class="row">
+      <label>Business is Closed ?</label>
+      <%= f.check_box :is_closed, :style => "float: left;" %><label style="float: left; margin-left: 5px;">Yes</label>
+    </div>
+
+    <div class="row">
+      <label>Your Email</label>
+      <%= f.text_field :email %>
+    </div>
+
+    <div class="rowBtn" style="text-align: center;">
+      <%= image_submit_tag '/images/submit_signup.png', :name=>'submit'%>
+    </div>
+
+
+  </div>
+<% end  %>

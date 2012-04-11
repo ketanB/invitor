@@ -1,0 +1,6 @@
+<% if @comment.parent_id.to_i > 0 %>
+  $('div#comment_reply_<%=@comment.parent_id%>').html('');
+  $('a#reply_link_<%@comment.parent_id%>').toggle();
+<% else %>
+  $('li#comment_<%=@comment.id%>').remove();
+<% end %>

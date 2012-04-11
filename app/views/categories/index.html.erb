@@ -1,0 +1,26 @@
+<h1>Listing categories</h1>
+
+<table>
+  <tr class="evenRow">
+    <th>Name</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @categories.each do |category| %>
+  <tr class="<%= cycle('oddRow', 'evenRow') %>">
+    <td><%= category.name %></td>
+    <td><%= truncate(category.description) %></td>
+    <td><%= link_to 'Show', category %></td>
+    <td><%= link_to 'Edit Themes', assign_theme_category_path(category) %></td>
+    <td><%= link_to 'Edit', edit_category_path(category) %></td>
+    <td><%= link_to 'Destroy', category, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Category', new_category_path %>

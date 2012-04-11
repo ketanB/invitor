@@ -1,0 +1,181 @@
+<table cellspacing="0" cellpadding="0" border="0" width="100%" height="100%" style="font-family: Verdana,Arial,Helvetica,sans-serif; font-size: 14px; background-color:#e4eff9">
+  <tbody>
+    <tr>
+      <td align="center" valign="top" style="background-repeat: repeat-x;">
+        <table cellspacing="0" cellpadding="0" border="0" style="table-layout: fixed; width: 600px;">
+          <tbody>
+            <tr>
+              <td align="left" style="width: 600px; background-color: #93d1e7; background-repeat: no-repeat; padding: 5px 5px 0px 10px;">
+                <a target="_blank" href="http://invitar.com/">
+                  <img src="http://invitar.com/images/invitar-logo.png" title="Site Logo" style="border: medium none; margin: 0px 0px 5px;"/>
+                </a>
+              </td>
+            </tr>
+            <tr valign="top">
+              <td align="center" style="background-color: rgb(255, 255, 255); padding: 15px;">
+
+                <table style="border: 1px solid rgb(221, 221, 221); border-spacing: 0px; border-collapse: collapse; background-color: rgb(246, 246, 246); table-layout: fixed; width: 570px;">
+                  <tbody><tr>
+                      <td align="left" style="font-size: 14px; color: rgb(51, 51, 51); padding: 15px;">
+                        <h3 style="color: rgb(51, 51, 51); margin: 0px 0px 8px;">You're Invited to "<%= @event.name %>"</h3>
+                        <p>Dear <%= @guest.name %>,</p>
+                        <p><%= @invited_by %> invited you to <strong>"<%= @event.name %>"</strong>.</p>
+                        <center style="margin: 15px 0px 5px;">
+                          <table border="0" style="border-spacing: 0px; border-collapse: collapse; table-layout: fixed; width: 200px; background-color: rgb(255, 255, 204); border: 1px solid rgb(255, 204, 102);">
+                            <tbody><tr>
+                                <td style="width: 200px; text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                                  <%= link_to 'View the Invitation', event_url(@event, :g_id=> @guest.g_id), :target=> '_blank', :style =>  'color: rgb(78, 92, 116); text-decoration: underline; font-weight: bold; font-size: 12px; padding-top: 5px; padding-bottom: 5px; display: block;' %>
+                                </td>
+                              </tr>
+                            </tbody></table>
+                        </center>
+
+
+                      </td>
+                    </tr>
+                  </tbody></table>
+                <br/>
+                <table border="0" style="background-color: rgb(255, 255, 255); border: 1px solid rgb(221, 221, 221); border-spacing: 0px; border-collapse: collapse; table-layout: fixed; width: 570px;">
+                  <tbody><tr>
+                      <td align="left" style="background-color: rgb(249, 249, 249); border-bottom: 1px solid rgb(221, 221, 221); border-right: 1px solid rgb(221, 221, 221); width: 395px;">
+                        <p style="font-size: 14px; font-weight: bold; color: rgb(51, 51, 51); margin: 3px 15px;">Invitation Details</p>
+                      </td>
+                      <td align="left" style="background-color: rgb(249, 249, 249); border-bottom: 1px solid rgb(221, 221, 221); width: 175px;">
+                        <p style="font-size: 14px; font-weight: bold; color: rgb(51, 51, 51); margin: 3px 10px;">RSVP</p>
+                      </td>
+
+                    </tr>
+                    <tr>
+                      <td valign="top" style="font-size: 14px; border-right: 1px dotted rgb(221, 221, 221); color: rgb(51, 51, 51);">
+                        <div style="width: 365px; margin: 10px 15px 15px; text-align: left;">
+                          <h2 style="color: rgb(51, 51, 51); margin: 5px 0px; padding: 0px;"><%= @event.name %></h2>
+                          <p style="margin: 0px; padding: 0px;">
+                            <%= raw @event.description %>
+                            <br/>
+                          </p>
+
+                        </div>
+
+                        <table border="0" style="table-layout: fixed; width: 100%; border-spacing: 0px; border-collapse: collapse;">
+                          <tbody><tr>
+                              <td align="left" style="width: 100%; background-color: rgb(246, 246, 246); border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); font-weight: bold; margin: 3px 15px;">Date &amp; Time</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); margin: 5px 15px 15px;">
+                                  <%= @event.date %> &nbsp;<%= @event.time.strftime('%H:%M') if @event.time%> <br/>
+                                  <%= @event.time_zone %>
+                                </p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left" style="background-color: rgb(246, 246, 246); border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); font-weight: bold; margin: 3px 15px;">Location</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); margin: 5px 15px 15px;">
+                                  <%=  @event.location_address.to_s > ''? @event.location_address : 'TBD' %>
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody></table>
+
+                      </td>
+
+                      <td valign="top" style="width: 175px;">
+                        <table border="0" style="border-spacing: 0px; border-collapse: collapse; width: 175px; table-layout: fixed;">
+
+
+                          <tbody><tr>
+                              <td align="center" valign="top" style="width: 175px;">
+
+
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); font-weight: bold; text-align: left; margin: 5px 10px;">Please Respond:</p>
+
+                                <center>
+                                  <table border="0" style="border-spacing: 0px; border-collapse: collapse; table-layout: fixed; width: 150px; background-color: rgb(233, 251, 230); border: 1px solid rgb(100, 147, 100);">
+                                    <tbody><tr>
+                                        <td style="width: 150px; text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                                          <%= link_to 'Yes', update_response_event_url(@event, :g_id => @guest.g_id, :g_response => 1), :target=>"_blank", :style=>"color: rgb(100, 147, 100); text-decoration: underline; font-weight: bold; font-size: 12px; display: block; padding-top: 5px; padding-bottom: 5px;" %>
+                                        </td>
+                                      </tr>
+                                    </tbody></table>
+                                  <br/>
+                                  <% if @event.setting.allow_guest_maybe? %>
+                                    <table border="0" style="border-spacing: 0px; border-collapse: collapse; table-layout: fixed; width: 150px; background-color: rgb(221, 238, 255); border: 1px solid rgb(78, 92, 114);">
+                                      <tbody><tr>
+                                          <td style="width: 150px; text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                                            <%= link_to 'Maybe', update_response_event_url(@event, :g_id => @guest.g_id, :g_response => 2), :target=>"_blank", :style=>"color: rgb(78, 92, 114); text-decoration: underline; font-weight: bold; font-size: 12px; display: block; padding-top: 5px; padding-bottom: 5px;" %>
+                                          </td>
+                                        </tr>
+                                      </tbody></table>
+                                    <br/>
+                                  <% end %>
+                                  <table border="0" style="border-spacing: 0px; border-collapse: collapse; table-layout: fixed; width: 150px; background-color: rgb(251, 230, 242); border: 1px solid rgb(167, 58, 53);">
+                                    <tbody><tr>
+                                        <td style="width: 150px; text-align: center; padding-top: 5px; padding-bottom: 5px;">
+                                          <%= link_to 'No', update_response_event_url(@event, :g_id => @guest.g_id, :g_response => 3), :target=>"_blank", :style=>"color: rgb(167, 58, 53); text-decoration: underline; font-weight: bold; font-size: 12px; display: block; padding-top: 5px; padding-bottom: 5px;" %>
+                                        </td>
+                                      </tr>
+                                    </tbody></table>
+                                  <br/>
+                                </center>
+
+                                <br/>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left" style="width: 175px; background-color: rgb(246, 246, 246); border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); font-weight: bold; margin: 3px 10px;">Invite More Guests</p>
+                              </td>
+                            </tr>
+                            <%if  @event.setting.allow_guest_to_invite_friends? %>
+                              <tr>
+                                <td align="left" style="width: 175px;">
+                                  <p style="font-size: 12px; color: rgb(51, 51, 51); margin: 5px 10px 10px;">This email is customized for you.  Please do not forward it.</p>
+                                  <p style="font-size: 12px; color: rgb(51, 51, 51); margin: 3px 10px 10px;">Instead,
+
+                                    <%= link_to raw('invite guests using <b>Invitar</b>'), login_path(:event_id => @event.id, :invite_friend => 1, :g_id => @guest.g_id), :target=>"_blank", :style=>"color: rgb(78, 92, 116); text-decoration: underline; font-weight: bold; font-size: 12px;" %>
+                                  </p>
+                                </td>
+                              </tr>
+                            <% end %>
+                            <tr>
+                              <td align="left" style="width: 175px; background-color: rgb(246, 246, 246); border-top: 1px solid rgb(221, 221, 221); border-bottom: 1px solid rgb(221, 221, 221);">
+                                <p style="font-size: 14px; color: rgb(51, 51, 51); font-weight: bold; margin: 3px 10px;">Unsubscribe</p>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td align="left" style="width: 175px;">
+                                <p style="font-size: 12px; color: rgb(51, 51, 51); margin: 5px 10px;">
+                                  <%= link_to 'Remove Yourself from this Invitation', unsubscribe_event_url(@event, :g_id => @guest.g_id), :method => :post, :target=>"_blank", :style=>"color: rgb(78, 92, 114); text-decoration: underline; font-weight: bold; font-size: 12px;" %>
+                                </p>
+                                <p style="font-size: 12px; color: rgb(51, 51, 51); margin: 5px 10px 10px;">
+                                  <%= link_to raw('Change your <b>Invitar</b> Notifications'), notification_settings_users_url(@event, :g_id => @guest.g_id), :method => :post, :target=>"_blank", :style=>"color: rgb(78, 92, 114); text-decoration: underline; font-weight: bold; font-size: 12px;" %>
+                                </p>
+                              </td>
+                            </tr>
+                          </tbody></table>
+                      </td>
+                    </tr>
+                  </tbody></table>
+              </td>
+            </tr>
+            <tr>
+              <td align="center" style="font-size: 12px; color: #ffffff; background-color: #72c1e0; padding: 5px;">
+                <a target="_blank" style="color: #ffffff; text-decoration: underline;" href="http://invitar.com/"><span class="il">Invitar</span>.com</a>							&nbsp;&nbsp;&nbsp;&nbsp;
+                <%= link_to 'Unsubscribe', notification_settings_users_url(@event, :g_id => @guest.g_id), :method => :post, :target=>"_blank", :style=>"color: #ffffff; text-decoration: underline;" %>
+						For support, please contact <a target="_blank" style="color: #ffffff; text-decoration: underline;" href="mailto:support@invitar.com">support@<span class="il">invitar</span>.com</a>.
+              </td>
+            </tr>
+          </tbody></table>
+      </td>
+    </tr>
+  </tbody>
+</table
+
+<%=image_tag @tracking_link, :height=>1 if @tracking_link%>

@@ -1,0 +1,212 @@
+<%= form_for :new_message, :url => { :controller => "users", :action => "create_message" }, :html => {:method => "post"} do |f| %>
+  <% if @quote.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@message.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% @message.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="dashbord">
+    <div class="dashbord_tCrv">
+      <!---->
+    </div>
+    <div class="dashbord_mRepeat">
+      <div class="midshade">
+        <ul class="language">
+          <li>
+            <span class="english">English</span>
+          </li>
+          <li>
+            <a href="#" class="spanish">Espanol</a>
+          </li>
+        </ul>
+        <ul>
+          <li class="first">
+            <div class="profileBox">
+
+
+              <div style="background-image: url('/images/topcrv.png'); width: 924px; height: 10px; margin-top: 33px;"></div>
+
+              <div class="tab_container">
+
+
+
+                <div id="tab1" class="tab_content">
+                  <div style="margin-bottom: 8px;"><strong>New quote for: <%= @event.name %> - <%= @solicitude.solicitude %>  </strong></div>
+                  <div style="margin-bottom: 8px;"><strong>From: <%= @company.name %></strong></div>
+                  <div class="message">
+                    <div style="margin-top: 5px; margin-bottom: 5px;">
+                      <div style="margin-bottom: 5px; font-weight: bold;">Subject: <%= @message.title %></div>
+                      <div style="width: 884px; margin-bottom: 10px;"><p style="font-size: 16px;"><%=  @message.description %></p></div>
+                    </div>
+                  </div>
+
+                  <div style="margin-top: 10px;">
+                    <div class="row">
+                      <label>Title</label>
+                      <%= f.text_field :title, :class => "text" %>
+                    </div>
+                    <div class="row" style="margin-left: 41px; margin-top: 5px;">
+                      <%= f.text_area :description, :style => "height: 50px; " %>
+                    </div>
+                      <%= f.hidden_field :from, :value => @quote.user_id   %>
+                      <%= f.hidden_field :to, :value => @user_company.user_id %>
+                      <%= f.hidden_field :parent, :value => @message.id %>
+                      <%= f.hidden_field :is_new, :value => true %>
+                      <%= f.hidden_field :csolicitude_id, :value => @message.csolicitude_id %>
+                    <div class="row" style="margin-left: 41px; margin-top: 5px;">
+                      <%= f.submit "Reply", :style => "margin-left: 550px"%>
+                    </div>
+
+                  </div>
+                  <%end%>
+                </div>
+
+              </div>
+            </div>
+
+          </li>
+          <li>
+            <div class="separator"></div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+
+  <style type="text/css">
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul span{
+      float: left;
+      width: 60px;
+      padding: 5px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul.weather_forecast li {
+      width: 120px;
+      list-style: none;
+      display: inline;
+      float: left;
+      height: auto;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .profileBox {
+      float:left;
+      /*border:  #666699 solid 1px;
+      /*background:url(/images/profileBox.png) no-repeat;*/
+      width: 924px;
+      margin-right: 37px;
+      height: auto;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .profileBox .message {
+      
+      border-bottom: #61C2FF solid 1px;
+      height: auto;
+      width: 884px;
+
+    }
+
+   
+    strong{
+      color: #033366;
+      font-size: large;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .separator{
+      /*border-bottom: #666699 solid 1px;
+      margin-top: 28px;
+      margin-bottom: 28px;*/
+      background-image: url('/images/botcrv.png');
+      width: 924px;
+      height: 10px;
+      margin-bottom: 10px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul li {
+      padding-bottom: 0px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details{
+      width: 904px;
+      padding-left: 20px;
+
+    }
+
+    .tab_container
+    {
+
+      float: none;
+      /*border: 1px solid #999;
+      border-top: none;*/
+      overflow: hidden;
+      clear: both;
+      float: left; width: 100%;
+      background-image: url('/images/midRep.png');
+      width: 924px;
+
+    }
+    .tab_content
+    {
+      padding-left: 20px;
+      padding-bottom: 20px;
+      padding-top: 10px;
+      font-size: 1.2em;
+
+    }
+
+    .row input[type="text"]{
+    width: 400px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    font-size: 18px;
+  }
+
+   .row textarea{
+    width: 600px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    height: 200px !important;
+    font-size: 18px;
+  }
+
+  </style>
+
+  <script language="JavaScript">
+
+    $(document).ready(function() {
+
+      //Cuando el sitio carga...
+      $(".tab_content").hide(); //Esconde todo el contenido
+
+      $("ul.tabs li:first").addClass("active").show(); //Activa la primera tab
+
+      $(".tab_content:first").show(); //Muestra el contenido de la primera tab
+
+
+      //On Click Event
+      $("ul.tabs li").click(function() {
+
+        $("ul.tabs li").removeClass("active"); //Elimina las clases activas
+
+        $(this).addClass("active"); //Agrega la clase activa a la tab seleccionada
+
+        $(".tab_content").hide(); //Esconde todo el contenido de la tab
+
+        var activeTab = $(this).find("a").attr("href"); //Encuentra el valor del atributo href para identificar la tab activa + el contenido
+
+        $(activeTab).fadeIn(); //Agrega efecto de transición (fade) en el contenido activo
+
+        return false;
+
+      });
+
+
+    });
+
+
+  </script>

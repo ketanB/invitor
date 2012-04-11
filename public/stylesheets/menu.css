@@ -1,0 +1,40 @@
+#sddm
+{	
+    z-index: 30
+}
+
+
+#sddm li a:hover
+{	background: #49A3FF}
+
+#sddm div
+{	position: absolute;
+  visibility: hidden;
+  margin-top:  30px;
+  padding: 0;
+  width: 270px;
+}
+
+#frame .navigation ul#sddm  li div.sub_nav a
+{
+    float: left;
+    width: 250px;
+    display: block;
+    margin: 0;
+    padding: 10px !important;
+    text-align: left;
+    line-height: 16px !important;
+    height: 20px !important;
+    text-decoration: none;
+    background: #5d5f5a;
+    color: #ffffff;
+    font-weight: bold;
+    font: 14px;
+    border-bottom: 2px solid #cccccc;
+}
+
+#frame .navigation ul#sddm div.sub_nav a:hover
+{
+    background: #49A3FF;
+    color: #FFF;
+}

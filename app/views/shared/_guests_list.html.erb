@@ -1,0 +1,48 @@
+
+<li>
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+    <div class="module">
+      <h4>Guest List
+        <%if current_user and current_user.id == @event.user_id%>
+          <div style="float:right;" class="invitefriends"><a href="javascript:void(0)" id="invite_friends"><img alt="" src="/images/inviteFriends.png" /></a></div>
+        <%else%>
+          <%=render :partial=>"/shared/plaxo_files"%>
+          <span style="float: right;">
+            <a href="javascript:;" onclick="$('#invite_contacts').toggle('slow');" ><img alt="" src="/images/inviteFriends.png" /></a>
+          </span>
+
+
+
+          <div id="invite_contact_lb"  class="lb_content" style="display: none;"  >
+            <%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_invite_contact_lb', :title => 'close' %>
+            <h2>Invite Guests</h2>
+            <%= form_tag guests_invite_invitation_path() , :id=>'invite_guests_form' do %>
+              <%=hidden_field_tag "event_id", @event.id%>
+              <%=hidden_field_tag "guest_g_id", params[:g_id]%>
+
+              <div class="email_box">
+                <div class="emailblock"><strong>Type in Email:</strong></div>
+                <div class="english"><strong>English</strong></div>
+                <div class="spanish"><strong>Spanish</strong></div>
+
+                <div id="contacts_to_invite">
+                </div>
+              </div>
+              <p style="text-align: center; margin-top: 10px">
+                <%= submit_tag "Invite"%>
+              </p>
+            <% end %>
+          </div>
+          <textarea cols="35" rows="5" id="recipient_list" name="recipients"></textarea>
+
+          <a href="#" onclick="showPlaxoABChooser('recipient_list', '/contacts_invitation'); return false"><img src="http://www.plaxo.com/images/abc/buttons/add_button.gif" alt="Add from my address book" /></a>
+          <%= image_tag 'invitebtn.png', :id => 'invitebtn', :style=> 'cursor: pointer' %>
+        <%end%>
+      </h4>
+      <div class="link" id="guests_portion">
+      </div>
+    </div>
+  </div>
+  <div class="box_bot"><!----></div>
+</li>

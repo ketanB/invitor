@@ -1,0 +1,234 @@
+<%= content_for :javascript_include do  %>
+  <%= javascript_include_tag 'jquery.easing.1.3', 'jquery.galleryview-1.1', 'jquery.timers-1.1.2' %>
+<% end %>
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li> <span class="english">English</span> </li>
+        <li> <a class="spanish" href="#">Espanol</a> </li>
+      </ul>
+      <ul>
+        <li class="first">&nbsp;</li>
+        <li>
+          <div class="events">
+            <ul>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="adboxes">
+                    <div class="leftbox">
+                      <h4><%= @company.name %></h4><br/>
+                      <p>Category: <%= @company.business_categories %>
+                        <!--<a href="#">[Edit]</a>-->
+                        <br/>
+                        <% if  @company.street1.to_s > '' %>
+                          <%= @company.street1 %><br/>
+                        <% end %>
+                        <% if  @company.street2.to_s > '' %>
+                          <%= @company.street2 %><br/>
+                        <% end %>
+
+                          <%= @company.location %>
+                        <br/>
+
+                        <%= @company.phone %>
+                        <br/>
+                        <%= link_to @company.website, "http://#{@company.website.gsub('http://', '')}"  if @company.website%>
+                      </p>
+
+                      <p>
+                        <%= @company.detail %>
+                      </p>
+                    </div>
+
+                    <div class="rightbox" style="overflow: hidden">
+                      <div class="imgblock">
+                        <div id="photo_gallery" class="galleryview">
+                          <% @company.assets.each do |asset| %>
+                            <div class="panel" >
+                              <%= image_tag(asset.photo.url(:thumb), :class=> 'panel_image', :photo_id =>asset.id, :company_id => @company.id ,:width => 104, :height => 84) %>
+                              <!--<div class="panel-overlay">
+
+                                <p>sample description</p>
+                              </div> -->
+
+                            </div>
+                          <% end %>
+                          <ul class="filmstrip">
+                            <% @company.assets.each do |asset| %>
+                              <li style="width: 28px">
+                                <%= image_tag(asset.photo.url(:thumb),:class=> 'panel_image', :photo_id =>asset.id, :company_id => @company.id , :width => 28, :height => 28) %>
+                              </li>
+                            <% end %>
+                          </ul>
+                        </div>
+                        <p><a href="#">Add Image</a></p>
+                      </div>
+
+
+
+                    </div>
+
+                    <div class="linkbtnlist">
+                      <ul class="listlink">
+
+                        <li class="lt">
+                          <!-- MY CODE --->
+                            <%=  link_to "Edit Business Info", :action => 'edit_info'  %>
+                          <!-- END MY CODE --->
+                        </li>
+                        <li class="rt">
+                          <%= link_to "Photos of#{truncate(@company.name, :length => 20)}", photos_company_path(@company)%>
+                        </li>
+                        <li class="lt"><a href="#">Is this your business?</a></li>
+                        <% if @company.reviews_count == 0 %>
+                          <li class="rt"><a href="#add_review">First to Review</a></li>
+                        <% end %>
+                      </ul>
+
+                      <div class="btnboxes">
+                        <div class="face">
+                          <a href="#"><img alt="facebook" src="/images/facebook.png"/></a><br/>
+                          <a href="#">share</a>
+                        </div>
+                        <div class="btns">
+                          <a href="#"><img width="94" height="18" src="/images/sendtofriend.png"/></a>
+                          <a href="#"><img width="94" height="18" src="/images/bookmark.png"/></a><br/>
+                          <a href="#"><img width="94" height="18" src="/images/sendtophone.png" /></a>
+                          <a href="#review"><img width="94" height="18" src="/images/writeReview.png"/></a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+              <li>
+                <div class="reviewbtn"> <a href="#review"><img width="116" height="24" alt="Add Reviews " src="/images/adreviewsBtn.png"/></a> </div>
+              </li>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+
+                  <h3><%= pluralize(@company.reviews_count, 'review') %> for <%= @company.name %></h3>
+
+                  <% unless @company.reviews.empty? %>
+                    <ul class="blocks1">
+                      <% for review in @company.reviews %>
+                        <li class="review"> <span class="img"><img width="50" height="50" src="/images/test.jpg"/> </span>
+                          <div class="para">
+                            <h5 style="padding: 0pt;">
+                              <%= review.user.full_name %>
+                            </h5>
+
+                            <p class="comment">
+                              <span class="stars">
+                                <span style=" float: left; width: <%= review.rating*17 %>px ; overflow: hidden">
+                                  <%= image_tag 'stars.png'%>
+                                </span>
+                              </span>
+                              <!-- <img align="absmiddle" src="/images/stars_ash.png"/>-->
+                              &nbsp;
+                              <span><%= review.created_at.strftime('%b %d, %Y at %H:%M') %></span><br/>
+                            <p class="review_content">
+
+                              <%= review.comment %>
+                            </p>
+                            </p>
+                          </div>
+                        </li>
+                      <% end %>
+                    </ul>
+                  <% end %>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="postcomment" id="add_review">
+                    <h3>Add Review</h3>
+                    <%= render 'reviews/form' %>
+
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="right1">
+            <ul>
+              <li>
+
+              </li>
+
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<style type="text/css">
+  p.comment span.stars{
+    width: 83px;
+    float: left;
+  }
+
+  p.comment{
+    background:url('/images/stars_ash.png') no-repeat;
+  }
+
+  .panel img{margin: 0px 50px; cursor: pointer}
+</style>
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('#photo_gallery').galleryView({
+      panel_width: 204,
+      panel_height: 84,
+      frame_width: 28,
+      frame_height: 28,
+      //overlay_height: 30,
+      //overlay_color: '#222',
+      //overlay_text_color: 'white',
+      caption_text_color: '#222',
+      background_color: 'transparent',
+      border: 'none',
+      nav_theme: 'light',
+      easing: 'easeInOutQuad',
+      pause_on_hover: true
+
+    });
+
+    $('img.panel_image').click(function(){
+      location.href = '/companies/'+$(this).attr('company_id')+'/photos?photo='+$(this).attr('photo_id');
+    });
+
+
+  });
+
+
+</script>
+
+

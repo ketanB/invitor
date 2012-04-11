@@ -1,0 +1,160 @@
+<%= stylesheet_link_tag "stylejv" %>
+
+<div id="bodycontainer">
+
+  <div class="dircoleft">
+
+    <div class="leftcolheader">
+
+
+    </div><!--leftcolheader-->
+
+    <div id="directory_frame">
+      <%@business_categories.each do |bc|%>
+        <div class="dirlisting">
+          <div class="catheadings"><%=truncate(bc.title, :length=>20)%></div><!--cat heading end -->
+          <div class="catimage"><img src="/images/new/cat_03.jpg" alt="cat1"></div>
+          <div class="catlinks">
+            <ol>
+              <%bc.top_companies.each do |company|%>
+                <li><%=link_to truncate(company.name, :length=>15), company_path(:id=>company.id)%></li>
+              <%end%>
+            </ol>
+          </div>
+          <div class="catfooter"><a href="http://www.virkson.net/invitar/1">...See more</a></div>
+        </div>
+      <%end%>
+
+    </div><!--directory_frame -->
+    <div id="categories_frame">
+
+      <div class="boxes">
+        <ul>
+          <li>
+
+
+            <div class="topcrv">
+              <ul class="linkthumb">
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox bakery"></span><span class="footlinks">Bakeries</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox boat"></span><span class="footlinks">Boat Charters</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox card"></span><span class="footlinks">Cards &amp; Stationery</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox caterers"></span><span class="footlinks">Caterers</span>
+                  <% end %>
+                  </a>          </li>
+                <li>        <%= link_to search_categories_path do  %>
+                    <span class="iconBox djs"></span><span class="footlinks">DJ'S</span>
+                  <%end%>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox hotels"></span><span class="footlinks">HOTELS</span>
+                  <%end%>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox party_plan"></span><span class="footlinks">Party &amp; Event Planning</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox party_suply"></span><span class="footlinks">Party Supplies</span>
+                  <%end%>
+
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox chefs"></span><span class="footlinks">Personal Chefs</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox photographs"></span><span class="footlinks">Photographers</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox venue"></span><span class="footlinks">Venues &amp; Event Spaces</span>
+                  <% end %>
+
+                  </a>          </li>
+
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox wedding"></span><span class="footlinks">Wedding Planning</span>
+                  <% end %>
+                  </a>          </li>
+                <li><%= link_to search_categories_path do  %>
+                    <span class="iconBox limo"></span><span class="footlinks">Limo services</span>
+                  <% end %>
+                  </a>          </li>
+
+              </ul>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+
+    </div><!--categories_frame -->
+
+  </div><!--end dircol -->
+  <div class="dircoright">
+    <div class="facebk_login">
+
+    </div><!--facebook end -->
+    <div class="banners">
+
+      <%= link_to :controller => "quotes", :action => "new"  do%>
+        <%= image_tag('/images/new/banner_01.jpg') %>
+      <% end %>
+
+    </div><!--banner1 end -->
+    <div class="banners">
+      <%= link_to new_event_path  do%>
+        <%= image_tag('/images/new/banner_02.jpg') %>
+      <% end %>
+
+    </div><!--banner2 end -->
+  </div><!--end dircolright -->
+</div><!--End bodycontainer -->
+<script type="text/javascript">
+
+
+  $(document).ready(function(){
+    $('#search_field').focus(function(){
+      if($(this).val() == 'enter keyword')
+        $(this).val('');
+    });
+
+    $('#search_field').blur(function(){
+      if($.trim($(this).val()) == '')
+        $(this).val('enter keyword');
+    });
+
+    /*
+    $('#search_field').autocomplete({
+      url : "/companies/autocomplete_tags",
+      mustMatch : false
+    }
+  );
+    $("#search_field").autocomplete('result', function(event, data, formatted) {
+      if (data)
+        alert(data[1]);
+    });
+
+     */
+
+  });
+</script>
+
+<style>
+  .get_quote
+  {
+    background-image: url('/images/new/banner_01.jpg');
+    width: 200px;
+    height: 200px;
+  }
+</style>

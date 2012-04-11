@@ -1,0 +1,25 @@
+<%= render :partial => "tab_menus", :locals => {:event => @event} %>
+
+<br/>
+<br/>
+<table border="1">
+  <thead>
+    <tr>
+      <th><%= check_box_tag "all" %></th>
+      <th>Name</th>
+      <th>Email Address</th>
+      <th>RSVP</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= check_box_tag "list" %></td>
+      <td></td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+<br/>
+
+<%= link_to "Resend Invitation", "#" %> | <%= link_to "Remove Guest(s)", "#" %>

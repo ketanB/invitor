@@ -1,0 +1,97 @@
+<!--PERFIL CATEGORIA-->
+
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <span class="english">English</span>
+        </li>
+        <li>
+          <a href="#" class="spanish">Espanol</a>
+        </li>
+      </ul>
+      <ul>
+        <li class="first">
+          <div class="details">
+              <p><strong>Title:<%= " #{@quote.title}" %></strong></p>
+              <p><strong>Solicitude:<%= " #{@company_quote.solicitude}" %></strong></p>
+              <p><strong>Description:<%= " #{@quote.description}" %></strong></p>
+              <p><strong>State:<%= " #{@state.code}" %></strong></p>
+              <p><strong>City:<%= " #{@city.name}" %></strong></p>
+          </div>
+          <div class="response_quote">
+            <%= form_for :quote_response, :url => "create_response", :html => {:method => "post"} do |f| %>
+              <% if @quote_response.errors.any? %>
+                <div id="error_explanation">
+                  <h2><%= pluralize(@quote_response.errors.count, "error") %> prohibited this business_category from being saved:</h2>
+
+                  <ul>
+                    <% @quote_response.errors.full_messages.each do |msg| %>
+                      <li><%= msg %></li>
+                    <% end %>
+                  </ul>
+                </div>
+              <% end %>
+
+              <div class="field">
+                <%= f.label :reply_to %>:<br />
+                <%= f.text_area :description %>
+              </div>
+                <%= f.hidden_field :company_id, :value => @company_quote.company_id %>
+                <%= f.hidden_field :id_quote, :value => @company_quote.quote_id %>
+              <div class="actions">
+                <%= f.submit :value => "Resply" %>
+              </div>
+            <% end %>
+          </div>
+        </li>
+        <li>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+<style type="text/css">
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .wheather{
+    border: none;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul.weather_forecast li img{
+    vertical-align: middle;
+    float: left;
+    margin-top: 10px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul span{
+    float: left;
+    width: 60px;
+    padding: 5px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul.weather_forecast li {
+    width: 120px;
+    list-style: none;
+    display: inline;
+    float: left;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details{
+    float: none;
+    color: #394367;
+
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li {
+    width: 359px;
+  }
+
+  textarea{
+    width: 400px;
+    height: 100px;
+}
+
+</style>

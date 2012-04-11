@@ -1,0 +1,37 @@
+<div class="header">
+  <div class="logo"> <img src="/images/logo.png" width="300" height="88" /> </div>
+  <span class="beta">
+    <span>Save time. Sav</span>e money.
+  </span>
+
+
+
+  <ul>
+    <%- unless logged_in? %>
+      <li> <%= link_to I18n.t('layout.menu.sign_in'), login_path %>&nbsp;|&nbsp;<%= link_to I18n.t('layout.menu.sing_up'), new_user_path %> </li>
+    <%- else %>
+      <li> <%= link_to I18n.t('layout.menu.logout'), logout_path %> </li>
+    <%- end %>
+  </ul>
+  
+</div>
+
+<div class="navigation">
+  <ul>
+    <li><%= link_to raw("<span><span>Home</span></span>"), "/" %></li>
+    <%- unless logged_in? %>
+      <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.about')+'</span></span>'), "#" %></li>
+      <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.try_it')+'</span></span>'), new_event_path %></li>
+      <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.local_search')+'</span></span>'), "#" %></li>
+    <%- else %>
+      <% if current_user.role_id != 1 %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), "/dashboard" %></li>
+                <% else %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), :controller => "companies", :action => "dashboard"  %></li>
+                <% end %>
+
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.address_book')+'</span></span>'), contacts_user_path(current_user) %></li>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.settings')+'</span></span>'), user_path(current_user) %></li>
+    <%- end %>
+  </ul>
+</div>

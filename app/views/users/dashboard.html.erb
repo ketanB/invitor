@@ -1,0 +1,367 @@
+<div id="bodycont_quote">
+  <div class="outer_tCrv">
+    <!---->
+  </div>
+  <div class="outer_mRepeat">
+    <div class="midshade">
+      <div class="langselect">English | Espanol</div>
+      <div class="dashMainHd">
+        <div class="dashMianHdtxt">Welcome</div>
+        <div class="dashuser_nav">Main | <a href="events.html">Upcoming Events</a> | <a href="quotes.html">Your Quotes</a> |  <%=link_to "Get a Quote", new_quote_path%> | <a href="#">Send Invitation</a></div>
+        <!--user nav -->
+
+      </div><!--end dashHd -->
+      <div class="listingfrmqt">
+        <div class="listings">
+          <div class="contnav"><div class="contnavtxt">
+	  Service Provider (2) Messages &nbsp;&nbsp;
+              Invites (4) Messages &nbsp;&nbsp;&nbsp;&nbsp;
+              Favorites
+            </div>
+          </div>
+
+          <div class="rdbox">
+
+            <div class="allquo_topcrv">
+              <!---->
+            </div>
+            <div class="allquo_midRep">
+              <div class="indetquo">
+                <ul>
+                  <li><span class="qtitle">Notifications</span></li>
+                  <li><span class="ntxt">(3- New Messages Received)</span></li>
+                  <% @messages_new.each do |nm| %>
+                    <li><span class="notifitxt"><%=nm.from%>: <%=nm.description%></span></li>
+                  <%end%>
+                </ul>
+                <br/>
+                <div class="indentquoft">| View All Messages (<%=@messages.count%>) | Message Settings | Send Message | </div>
+              </div>
+            </div>
+            <div class="allquo_botcrv">
+              <!---->
+            </div>
+          </div><!--listinf left -->
+
+
+        </div><!--listingg -->
+
+
+        <!--ENDS HERE LISTING REPEATING-->
+
+
+        <div class="listings">
+
+          <div class="rdboxquo">
+
+            <div class="allquo_topcrv">
+              <!---->
+            </div>
+            <div class="allquo_midRep">
+              <div class="indetquo">
+                <ul>
+                  <li><span class="qtitle">My Service Providers</span></li>
+                  <%@quote_confirm.each do |qc|%>
+                    <li><span class="qsubtitle"><%=qc.solicitude.to_s%></span><span class="ntxt">+<%=qc.amount.to_s%></span></li>
+                  <%end%>
+
+                </ul>
+                <div class="indentquoft">View Details | Get a quote | Search</div>
+              </div>
+              <div class="indetquo2">
+                <ul>
+                  <li><span class="qtitle">My Events</span></li>
+                  <%@events.each do |event|%>
+                    <li><span class="qsubtitle"><%=link_to "#{event.name}", event_path(:id=>event.id)%></span><span class="ntxt"> on <%= " #{event.date}" %></span></li>
+                  <%end%>
+                </ul>
+              </div>
+            </div>
+            <div class="allquo_botcrv">
+              <!---->
+            </div>
+
+          </div><!--listinf left -->
+        </div><!--listingg -->
+
+        <!--Listing box ends here -->
+
+
+
+      </div><!--listingfrm -->
+    </div><!--midshade-->
+  </div><!-- mrepeat-->
+  <div class="outer_bCrv">
+    <!---->
+  </div>
+</div>
+
+<%if false%>
+
+                  <li><a href="#tab1"> Service Provider<strong>
+                        <% if(@messages_new.length > 0) %>
+                          <%= " (#{@messages_new.length})" %>
+                        <%end%>
+                      </strong></a></li>
+
+              <div class="tab_container">
+
+                <div id="tab1" class="tab_content">
+
+                  <div style="margin-bottom: 8px;"><strong>Notifications</strong></div>
+                  <div style="color: #2B59A7; font-size: medium; margin-bottom: 10px;">
+                    <label>
+                      <% if(@messages_new.length > 0) %>
+
+                        <%= "( #{@messages_new.length}-"  %> New Quotes Received )
+                      <% else %>
+                        <label style="color: #006633;">Not have received new quote</label>
+                      <% end %>
+                    </label>
+                  </div>
+
+                  <div style="margin-top: 20px; margin-left: 35%">
+                    |
+                    <% if @messages.length > 0 && @company_solicitude != nil  %>
+                      <%= link_to "View all Quotes (#{@messages.length})", "dashboard/quotes"%>
+                    <% else %>
+                      View all Quotes
+                    <%end%>
+                    | Message Settings | Send Message |</div>
+
+                </div>
+
+                
+
+            <div class="details" style=" background-image: url('images/midRep.png')">
+              <div class="my_contractor" style="float: left;">
+                <strong>My Service Provider</strong>
+                <br />
+                <br />
+
+                <%- @quote_confirm.each do |qc| %>
+
+                  <div class="event">
+                    <div style="margin-bottom: 5px;">
+                      <label><%= qc.solicitude.to_s + " " + qc.amount.to_s%></label>
+                    </div>
+
+                  </div>
+
+                <%- end %>
+              </div>
+
+              <div class="my_events">
+
+                <strong>My Events</strong>
+                <br />
+                <br />
+                <%- @events.each do |event| %>
+                  <% if event.name? %>
+                    <div class="event">
+                      <div style="margin-bottom: 5px;">
+                        <h3 style="display: inline;"><%= link_to "#{event.name}: ", event %></h3><label>on<%= " #{event.date}" %></label>
+                      </div>
+                    </div>
+                  <%- end %>
+                <%- end %>
+
+              </div>
+            </div>
+
+          </li>
+          <li>
+            <div class="separator"></div>
+          </li>
+        </ul>
+
+      </div>
+
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+
+  <style type="text/css">
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul span{
+      float: left;
+      width: 60px;
+      padding: 5px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul.weather_forecast li {
+      width: 120px;
+      list-style: none;
+      display: inline;
+      float: left;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .profileBox {
+      float:left;
+      /*border:  #666699 solid 1px;
+      /*background:url(/images/profileBox.png) no-repeat;*/
+      width: 924px;
+      height:auto;
+      margin-right: 37px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .notification{
+      color: #394367;
+      font-size: large;
+      padding-top: 18px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .notification .n_content{
+      overflow: scroll;
+      height: 140px;
+      margin-bottom: 10px;
+    }
+
+    strong{
+      color: #033366;
+      font-size: large;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .separator{
+      /*border-bottom: #666699 solid 1px;
+      margin-top: 28px;
+      margin-bottom: 28px;*/
+      background-image: url('images/botcrv.png');
+      width: 924px;
+      height: 10px;
+      margin-bottom: 10px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul li {
+      padding-bottom: 0px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details{
+      width: 904px;
+      padding-left: 20px;
+
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details .my_contractor{
+      width: 60%;
+      height: 200px;
+      border-right: #E2E2E2 solid 1px;
+      margin-right: 10px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details .my_events{
+      height: 200px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li {
+      width: 200px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs
+    {
+      margin: 0;
+      padding: 0;
+      /*-moz-border-radius:30px;
+      /*    float: left;*/
+      list-style: none;
+      height: 32px; /*--Define el ancho de las tabs--*/
+      /*border-bottom: 1px solid #999;*/
+      /*border-left: 1px solid #999;*/
+      width: 100%;
+
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs li
+    {
+      -moz-border-radius:20px;
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 31px; /*--Sustrae 1px de la altura de la lista desordenada--*/
+      line-height: 31px; /*--Alineamiento vertical del texto dentro de la tabla--*/
+      /*border: 1px solid #999;*/
+      border-left: none;
+      margin-bottom: -1px; /*--Desplaza los item de la lista abajo 1px--*/
+      overflow: hidden;
+      position: relative;
+      background: #61C2FF;
+      width: auto;
+
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs li a
+    {
+      -moz-border-radius:20px;
+      text-decoration: none;
+      color: #000;
+      display: block;
+      font-size: 1.2em;
+      padding: 0 20px;
+      border: 1px solid #fff;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li  ul.tabs li a:hover
+    {
+      background: #ccc;
+    }
+
+    html ul.tabs li.active, html ul.tabs li.active a:hover
+    { /*--Estate seguro de que a la tab activa no se le aplicarán estas propiedades hover--*/
+      background: #fff;
+      border-bottom: 1px solid #fff; /*--Esto hace que la tab activa esté conectada con respecto a su contenido--*/
+    }
+
+    .tab_container
+    {
+
+      float: none;
+      /*border: 1px solid #999;
+      border-top: none;*/
+      overflow: hidden;
+      clear: both;
+      float: left; width: 100%;
+      background-image: url('images/midRep.png');
+      width: 924px;
+    }
+    .tab_content
+    {
+      padding-left: 20px;
+      padding-bottom: 20px;
+      padding-top: 10px;
+      font-size: 1.2em;
+
+    }
+
+  </style>
+
+  <script language="JavaScript">
+
+    $(document).ready(function() {
+
+      //Cuando el sitio carga...
+      $(".tab_content").hide(); //Esconde todo el contenido
+
+      $("ul.tabs li:first").addClass("active").show(); //Activa la primera tab
+
+      $(".tab_content:first").show(); //Muestra el contenido de la primera tab
+
+  
+      //On Click Event
+      $("ul.tabs li").click(function() {
+
+        $("ul.tabs li").removeClass("active"); //Elimina las clases activas
+
+        $(this).addClass("active"); //Agrega la clase activa a la tab seleccionada
+
+        $(".tab_content").hide(); //Esconde todo el contenido de la tab
+
+        var activeTab = $(this).find("a").attr("href"); //Encuentra el valor del atributo href para identificar la tab activa + el contenido
+
+        $(activeTab).fadeIn(); //Agrega efecto de transición (fade) en el contenido activo
+
+        return false;
+
+      });
+ 
+
+    });
+
+ 
+  </script>
+<%end%>

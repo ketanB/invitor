@@ -1,0 +1,290 @@
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <span class="english">English</span>
+        </li>
+        <li>
+          <a href="#" class="spanish">Espanol</a>
+        </li>
+      </ul>
+      <ul>
+        <li class="first">
+          <div class="profileBox"> 
+            <div>
+
+              <ul class="tabs">
+                <li><a href="#tab1">Service Provider<strong><%if(@company_solicitudes_new.length > 0) %><%=" (#{@company_solicitudes_new.length})" %><%end%></strong></a></li>
+                <li><a href="#tab2">Invites</a></li>
+                <li><a href="#tab3">Favorites</a></li>
+              </ul>
+            </div>
+
+            <div style="background-image: url('/images/topcrv.png'); width: 924px; height: 10px; margin-top: 33px;">
+
+            </div>
+
+            <div class="tab_container">
+
+              <div id="tab1" class="tab_content">
+
+                <div style="margin-bottom: 8px;"><strong>Notifications</strong></div>
+                <div style="color: #2B59A7; font-size: medium; margin-bottom: 10px;">
+                  <label>
+
+                    <% if(@company_solicitudes_new.length > 0 || @messages_new.length > 0) %>
+
+                      <%= "( #{@company_solicitudes_new.length + @messages_new.length}-"  %> New Messages Received )
+                      <% else %>
+                      <label style="color: #006633;">Not have received message</label>
+                      <% end %>
+                  </label>
+                </div>
+                <%- @company_solicitudes_new.each do |solicitudes|  %>
+                  <%  solicitude = QuoteSolicitations.find(solicitudes.solicitude_id) %>
+                  <div><%= link_to "You have receieved a new quote for: #{solicitude.solicitude}", :action => "message", :id => solicitudes.id%></div>
+                <%end%>
+                  <%- @messages_new.each do |message|  %>
+                    <% csolicitude = CompanySolicitude.find(message.csolicitude_id) %>
+                    <% solicitude = QuoteSolicitations.find(csolicitude.solicitude_id) %>
+                  <div><%= link_to "You have receieved a reply quote for: #{solicitude.solicitude}", :action => "message", :id => csolicitude.id, :msg => message.id %></div>
+                <%end%>
+
+
+                  <div style="margin-top: 20px; margin-left: 35%">| <%= link_to "View all Messages (#{@company_solicitudes.length + @messages.length})", :action => "messages"%> | Message Settings | Send Message |</div>
+
+              </div>
+
+              <div id="tab2" class="tab_content">
+                Invites
+                <!--Contenido del bloque de texto-->
+              </div>
+
+              <div id="tab3" class="tab_content">
+                Favorites
+                <!--Contenido del bloque de texto-->
+              </div>
+            </div>
+          </div>
+
+        </li>
+        <li>
+          <div class="separator"></div>
+
+          <div style="background-image: url('/images/topcrv.png'); width: 924px; height: 10px; margin-top: 20px;">
+          </div>
+
+          <div class="details" style=" background-image: url('/images/midRep.png')">
+            <div class="my_contractor" style="float: left;">
+              <strong>My Service Provider</strong>
+            </div>
+
+            <div class="my_events">
+
+              <strong>My Events</strong>
+              <br />
+              <br />
+
+
+            </div>
+          </div>
+
+        </li>
+        <li>
+          <div class="separator"></div>
+        </li>
+      </ul>
+
+    </div>
+
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<style type="text/css">
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul span{
+    float: left;
+    width: 60px;
+    padding: 5px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul.weather_forecast li {
+    width: 120px;
+    list-style: none;
+    display: inline;
+    float: left;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .profileBox {
+    float:left;
+    /*border:  #666699 solid 1px;
+    /*background:url(/images/profileBox.png) no-repeat;*/
+    width: 924px;
+    height:auto;
+    margin-right: 37px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .notification{
+    color: #394367;
+    font-size: large;
+    padding-top: 18px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .notification .n_content{
+    overflow: scroll;
+    height: 140px;
+    margin-bottom: 10px;
+  }
+
+  strong{
+    color: #033366;
+    font-size: large;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .separator{
+    /*border-bottom: #666699 solid 1px;
+    margin-top: 28px;
+    margin-bottom: 28px;*/
+    background-image: url('/images/botcrv.png');
+    width: 924px;
+    height: 10px;
+    margin-bottom: 10px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li {
+    padding-bottom: 0px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details{
+    width: 904px;
+    padding-left: 20px;
+
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details .my_contractor{
+    width: 60%;
+    height: 200px;
+    border-right: #E2E2E2 solid 1px;
+    margin-right: 10px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details .my_events{
+    height: 200px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li {
+    width: 200px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs
+  {
+    margin: 0;
+    padding: 0;
+    /*-moz-border-radius:30px;
+    /*    float: left;*/
+    list-style: none;
+    height: 32px; /*--Define el ancho de las tabs--*/
+    /*border-bottom: 1px solid #999;*/
+    /*border-left: 1px solid #999;*/
+    width: 100%;
+
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs li
+  {
+    -moz-border-radius:20px;
+    float: left;
+    margin: 0;
+    padding: 0;
+    height: 31px; /*--Sustrae 1px de la altura de la lista desordenada--*/
+    line-height: 31px; /*--Alineamiento vertical del texto dentro de la tabla--*/
+    /*border: 1px solid #999;*/
+    border-left: none;
+    margin-bottom: -1px; /*--Desplaza los item de la lista abajo 1px--*/
+    overflow: hidden;
+    position: relative;
+    background: #61C2FF;
+    width: auto;
+
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li ul.tabs li a
+  {
+    -moz-border-radius:20px;
+    text-decoration: none;
+    color: #000;
+    display: block;
+    font-size: 1.2em;
+    padding: 0 20px;
+    border: 1px solid #fff;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li  ul.tabs li a:hover
+  {
+    background: #ccc;
+  }
+
+  html ul.tabs li.active, html ul.tabs li.active a:hover
+  { /*--Estate seguro de que a la tab activa no se le aplicarán estas propiedades hover--*/
+    background: #fff;
+    border-bottom: 1px solid #fff; /*--Esto hace que la tab activa esté conectada con respecto a su contenido--*/
+  }
+
+  .tab_container
+  {
+
+    float: none;
+    /*border: 1px solid #999;
+    border-top: none;*/
+    overflow: hidden;
+    clear: both;
+    float: left; width: 100%;
+    background-image: url('/images/midRep.png');
+    width: 924px;
+  }
+  .tab_content
+  {
+    padding-left: 20px;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    font-size: 1.2em;
+
+  }
+
+</style>
+
+<script language="JavaScript">
+
+  $(document).ready(function() {
+
+    //Cuando el sitio carga...
+    $(".tab_content").hide(); //Esconde todo el contenido
+
+    $("ul.tabs li:first").addClass("active").show(); //Activa la primera tab
+
+    $(".tab_content:first").show(); //Muestra el contenido de la primera tab
+
+  
+    //On Click Event
+    $("ul.tabs li").click(function() {
+
+      $("ul.tabs li").removeClass("active"); //Elimina las clases activas
+
+      $(this).addClass("active"); //Agrega la clase activa a la tab seleccionada
+
+      $(".tab_content").hide(); //Esconde todo el contenido de la tab
+
+      var activeTab = $(this).find("a").attr("href"); //Encuentra el valor del atributo href para identificar la tab activa + el contenido
+
+      $(activeTab).fadeIn(); //Agrega efecto de transición (fade) en el contenido activo
+
+      return false;
+
+    });
+ 
+
+  });
+
+ 
+</script>

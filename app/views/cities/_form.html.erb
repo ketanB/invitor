@@ -1,0 +1,59 @@
+<%= form_for(@city) do |f| %>
+  <% if @city.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@city.errors.count, "error") %> prohibited this city from being saved:</h2>
+
+      <ul>
+      <% @city.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :country_id %><br />
+    <%= f.select :country_id, Country.active.all.collect{|c| [c.name, c.id]} %>
+  </div>
+ <div class="field">
+    <%= f.label :state_id %><br />
+    <span id="state_ajax">
+      <%= f.select :state_id, @states.collect{|c| [c.name, c.id]}, :prompt=> 'Select State' %>
+    </span>
+    <%= image_tag('loading.gif', :id=> 'loading_state', :style => 'display: none') %>
+  </div>
+  <div class="field">
+    <%= f.label :active %><br />
+    <%= f.check_box :active %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('select#city_country_id').change(function(){
+      //load comments
+      $('#city_city_id, #loading_state').toggle();
+      $.ajax({
+        url: '/cities/load_states?country_id='+$(this).val(),
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('#city_city_id').show();
+          $('#loading_state').hide();
+        }
+      });
+    });
+
+
+  });
+
+
+</script>

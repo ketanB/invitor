@@ -1,0 +1,406 @@
+<% title 'Preview' %>
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <span class="english">English</span>
+        </li>
+        <li>
+          <a class="spanish" href="#">Espanol</a>
+        </li>
+      </ul>
+      <ul>
+        <li class="first">
+          <%= render :partial => 'shared/step_progress' %>
+        </li>
+        <li>
+          <div class="leftpanel">
+            <ul>
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <h2><%= @event.name %></h2>
+                  <p><strong>Hosted By:</strong>&nbsp;<%= @event.hosted_by %> </p>
+                  <div class="prev">
+                    <% if @event.fg_image_url %>
+                      <%= image_tag @event.fg_image_url , :width=>"414", :height=>"310"%>
+                    <% else %>
+                      <%= image_tag 'default_main_image.jpg' , :width=>"414", :height=>"310"%>
+                    <% end %>
+                  </div>
+                  <div class="desc">
+                    <%= raw @event.description %>
+                  </div>
+                  <div class="location">
+                    <div class="tit">
+                                    	Date &amp; Time:
+                    </div>
+                    <div class="text1">
+                      <div class="bt">
+                        <div class="tp">
+                          <span class="tp_span">
+                            <%= @event.date %> &nbsp;<%= @event.time.strftime('%H:%M') if @event.time%> <br/>
+                            <%= @event.time_zone %>
+                          </span>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tit">
+                                    	Location:
+                    </div>
+                    <div class="text">
+                      <div class="bt">
+                        <div class="tp">
+                          <span class="tp_span">
+                            <%= @event.location_name %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+              <% if @setting.show_comment_board? %>
+                <li>
+
+                  <div class="box_top"><!----></div>
+                  <div class="box_mid">
+                    <div class="postcomment">
+                      <%= form_for :comment, :url => comments_path , :remote => true,  :id => 'comment_form' do |f|%>
+
+                        <h3>Post A Comment</h3>
+                        <%= f.text_area :comment, :rows=>1, :cols =>1, :class => 'comment' %>
+                        <%= f.hidden_field :user_id, :value=> current_user.id if current_user%>
+                        <%= f.hidden_field :event_id , :value => @event.id %>
+                        <%= f.hidden_field :guest_id, :value =>@guest.id %>
+
+                        <div class="buttonBox">
+                          <a class="emotions" href="#">Emotions</a>
+                          <span class="submitBtn">
+                            <%= image_submit_tag '/images/submitBtn.png' %>
+                          </span>
+                        </div>
+                      <% end %>
+                      <ul class="comments" id="event_comments">
+
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box_bot"><!----></div>
+
+                </li>
+              <% end %>
+            </ul>
+          </div>
+          <% if current_user %>
+            <%= form_tag contacts_user_path(current_user), :id => 'add_guest_event_form' do |f| %>
+              <%= hidden_field_tag :g_id, params[:g_id] %>
+              <%= hidden_field_tag :event_id, @event.id %>
+            <% end %>
+          <% else %>
+            <%= form_tag login_path, :id => 'add_guest_event_form' do |f| %>
+              <%= hidden_field_tag :g_id, params[:g_id] %>
+              <%= hidden_field_tag :event_id, @event.id %>
+              <%= hidden_field_tag :invite_friend, 1 %>
+            <% end %>
+          <% end %>
+          <div class="rightpanel">
+            <ul>
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <span class="profileimg"><img width="54" height="54" alt=" " src="images/profileImg.png"/></span>
+                  <div class="details">
+                    <p>Welcome
+                      <% if current_user %>
+                        <%= current_user.email %>
+                      <% else %>
+                        <%= link_to 'Your Name', 'javascript:void(0)',:id => 'your_name' %>
+                      <% end %>
+                    </p>
+                    <p class="email">&nbsp;</p>
+                  </div>
+
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+
+
+
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <div class="module">
+                    <% if authenticated_event_user? %>
+                      <h4>Your Response</h4>
+                      <%= form_tag guest_response_event_path(@event), :remote => true,  :id => 'guest_response_form' do %>
+
+                        <div id="guest_response">
+                          <%= render :partial => 'guest_response' %>
+                        </div>
+                        <div style="text-align: center">
+                          <%= submit_tag 'Change RSVP or Number of Guests', :id => 'change_rsvp_button' %>
+                        </div>
+                      <% end %>
+                    <% else %>
+                      <p>You are not invited to this event</p>
+                    <% end %>
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+
+
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <div class="module">
+                    <h4>Guest List  <div class="invitefriends"><a href="javascript:void(0)" id="invite_friends"><img alt="" src="/images/inviteFriends.png" /></a></div></h4>
+                    <div class="link" id="guests_portion">
+
+                    </div>
+
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+
+
+
+
+
+
+
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <div class="module">
+                    <h4>Google Map</h4>
+                    <div class="googlemap" id="googlemap">
+
+                    </div>
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+            </ul>
+          </div>
+
+
+
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<%= form_tag launch_event_path(@event),  :id => 'launch_event_form' do %>
+
+
+<% end %>
+<div id="preview_bottom">
+  <div class="preview_left">
+
+    <h2>This is a Preview of your Invitation</h2>
+    <p>Click the button to send the invitation to any guests that you have invited.</p>
+
+  </div>
+
+  <div class="send_button">
+    <p>
+      <%= link_to 'Finish & Send it Now', 'javascript:void(0)', :id => 'send_invitation' %>
+    </p>
+  </div>
+</div>
+<div id="something_loading" style="text-align: center; display: none">
+  <div style="margin-top: 50px; width: 100%; text-align: center">
+    <%= image_tag('loading.gif') %>
+  </div>
+</div>
+
+<style>
+  span.tp_span{
+    width: 120px;
+    height: 45px;
+    padding: 5px;
+    float: left;
+  }
+  #send_invitation{
+    width:200px;
+    height: 28px;
+    padding-top: 5px;
+    -moz-border-radius: 5px;
+    float: left;
+    background-color:#64c8e9;
+  }
+
+  #preview_bottom{
+    background:url("/images/preview_bottom.png") repeat scroll center top transparent;
+    bottom:0;
+    position:fixed;
+    text-align:center;
+    width:1000px;
+    height: 100px;
+    z-index:11;
+
+  }
+
+  div.cercularback {
+    float:left;
+    width:100%;
+<%#*background: url("<%=@event.bg_image_url%>") 0px 145px repeat-x;%>
+
+  }
+
+  #preview_bottom .preview_left{
+    width: 700px;
+    float: left;
+    margin-top: 25px;
+  }
+  #preview_bottom .preview_left h2, #preview_bottom .preview_left p , #preview_bottom .send_button p{ text-align: center;}
+  #preview_bottom .send_button {
+    width: 300px;
+    float: left;
+    margin-top: 35px;
+  }
+
+  p a.change{
+    -moz-border-radius: 5px;
+    background-color:#cccccc;
+    padding: 3px 10px;
+    float: left;
+    margin-left: 57px;
+  }
+  div.invitefriends{
+    float: right;
+  }
+  .googlemap{
+    width: 330px;
+    height: 235px;
+  }
+
+  div.desc {
+    width: 524px;
+    margin: 10px;
+    float: left;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .leftpanel ul li .box_mid .desc p {text-align: left}
+</style>
+<script  src="http://maps.google.com/maps?file=api&v=2&key=<%=GMAP_API_KEY%>" type="text/javascript"></script>
+<script type="text/javascript">
+  $.fn.loadGuests = function(event_id) {
+    if(event_id){
+      $('#guests_portion').html($('#something_loading').html());
+      $.ajax({
+        url: '/events/'+event_id+'/render_guests',
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('input#guest_response_3').click(function(){
+            $("#guest_additional_guests").val(0);
+          });
+
+        }
+      });
+    }
+    
+  };
+  var geocoder;
+  var map;
+  $.fn.displayGMap = function(address, title, lat, lon) {
+    
+
+    // Create new google map object
+    map = new GMap2(document.getElementById("googlemap"));
+
+    //Adds the zoom function on the map
+    map.addControl(new GSmallMapControl());
+
+    // Create new geocoding object
+    geocoder = new GClientGeocoder();
+
+    // Gets the information from geocode and send it to addAddressToMap
+    geocoder.getLocations(address, addAddressToMap);
+
+  };
+
+  var addAddressToMap = function(response){
+    
+    // Retrieve the object
+    place = response.Placemark[0];
+
+    // Retrieve the latitude and longitude. Important to get everything in one map
+    point = new GLatLng(place.Point.coordinates[1],place.Point.coordinates[0]);
+
+    // Center the map on this point
+    map.setCenter(point, 15);
+
+    // Create a marker
+    marker = new GMarker(point);
+
+    // Add the marker to map
+    map.addOverlay(marker);
+
+    // Add address information to marker
+    marker.openInfoWindowHtml(place.address);
+	
+  }
+
+  var loadGuests = function(){
+
+    $(this).loadGuests($('#event_id').val());
+    $('input#guest_response_3').click(function(){
+      $("#guest_additional_guests").val(0);
+      $("#guest_additional_guests").attr('disabled', 'disabled');
+    });
+
+    $('input#guest_response_1, input#guest_response_2').click(function(){
+      $("#guest_additional_guests").removeAttr('disabled');
+    });
+  };
+
+  $(document).ready(function() {
+    var event_id = <%=@event.id%>;
+    $("#guest_response_form").bind("ajax:complete", loadGuests);
+    $(this).loadGuests($('#event_id').val());
+    $('input#guest_response_3').click(function(){
+      $("#guest_additional_guests").val(0);
+      $("#guest_additional_guests").attr('disabled', 'disabled');
+    });
+
+    $('input#guest_response_1, input#guest_response_2').click(function(){
+      $("#guest_additional_guests").removeAttr('disabled');
+    });
+    $(this).loadGuests(event_id);
+
+    //load comments
+    $('#event_comments').html($('#something_loading').html());
+    $.ajax({
+      url: '/comments/by_event?event_id='+event_id,
+      type: 'get',
+      dataType: 'script',
+      success: function(results) {
+        
+      }
+    });
+
+    $(this).displayGMap('<%= @event.location_address %>');
+    $('#invite_friends').click(function(){
+      $('#add_guest_event_form').submit();
+    });
+
+    $('a#send_invitation, a#finish_send').click(function(){
+      $('#launch_event_form').submit();
+    });
+
+  });
+
+
+</script>

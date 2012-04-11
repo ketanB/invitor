@@ -1,0 +1,28 @@
+<li>
+
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+    <div class="postcomment">
+      <%= form_for :comment, :url => comments_path , :remote => true, :html=> { :id => 'comment_form'} do |f|%>
+
+        <h3>Post A Comment</h3>
+        <%= f.text_area :comment, :rows=>1, :cols =>1, :class => 'comment' %>
+        <%= f.hidden_field :user_id, :value=> current_user.id if current_user%>
+        <%= f.hidden_field :event_id , :value => @event.id %>
+        <%= f.hidden_field :guest_id, :value =>@guest.id %>
+
+        <div class="buttonBox">
+          <a class="emotions" href="#">Emotions</a>
+          <span class="submitBtn">
+            <%= image_submit_tag '/images/submitBtn.png' %>
+          </span>
+        </div>
+      <% end %>
+      <ul class="comments" id="event_comments">
+
+      </ul>
+    </div>
+  </div>
+  <div class="box_bot"><!----></div>
+
+</li>

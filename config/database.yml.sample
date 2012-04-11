@@ -1,0 +1,20 @@
+default: &default
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  pool: 5
+  username: root
+  password: stein
+  socket: /var/run/mysqld/mysqld.sock
+
+development:
+  <<: *default
+  database: invitar_development
+
+test:
+  <<: *default
+  database: invitar_test
+
+production:
+  <<: *default
+  database: invitar_production

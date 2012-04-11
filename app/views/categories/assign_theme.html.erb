@@ -1,0 +1,32 @@
+<%= form_for(@category) do |f| %>
+  <% if @category.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@category.errors.count, "error") %> prohibited this category from being saved:</h2>
+
+      <ul>
+        <% @category.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :category%> : 
+    <%= @category.name%>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :available_themes %><br />
+  </div>
+  <% for theme in @themes %>
+    <div>
+      <%= check_box_tag "category[theme_ids][]", theme.id, @category.themes.include?(theme) %>
+      <%= theme.name %>
+    </div>
+  <% end %>
+  <div class="actions">
+    <%= hidden_field_tag 'assign_theme', true %>
+    <%= f.submit 'Assign Theme' %>
+  </div>
+<% end %>

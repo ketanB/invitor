@@ -1,0 +1,69 @@
+<h1 style="margin-bottom: 20px;">Companies Info</h1>
+
+<div style="overflow: scroll; height: 360px;">
+  <% @company_info.each do |c| %>
+    <div style="padding-bottom: 10px; margin-bottom: 10px; border-bottom-color: #71B8D8; border-bottom-width: 1px; border-bottom-style: solid;">
+      <span class="title">ID</span>
+      <span class="content"><%= c.company_id%> </span>
+      <% if(!c.name.blank?) %>
+        <span class="title">Name:</span>
+        <span class="content"><%= c.name%> </span>
+
+      <%end%>
+      <% if(!c.city_id.blank?) %>
+        <span class="title">City id:</span>
+        <span class="content"><%= c.city_id%> </span>
+      <%end%>
+      <% if(!c.country_id.blank?) %>
+        <span class="title">Country id:</span>
+        <span class="content"><%= c.country_id%> </span>
+      <%end%>
+      <% if(!c.fax.blank?) %>
+        <span class="title">Fax:</span>
+        <span class="content"><%= c.fax%> </span>
+      <%end%>
+      <% if(!c.phone.blank?) %>
+        <span class="title">Phone:</span>
+        <span class="content"><%= c.phone%> </span>
+      <%end%>
+      <% if(!c.state_id.blank?) %>
+        <span class="title">State id:</span>
+        <span class="content"><%= c.state_id%> </span>
+      <%end%>
+      <% if(!c.street1.blank?) %>
+        <span class="title">Street1:</span>
+        <span class="content"><%= c.street1%> </span>
+      <%end%>
+        <% if(!c.street2.blank?) %>
+        <span class="title">Street2:</span>
+        <span class="content"><%= c.street2%> </span>
+      <%end%>
+        <% if(!c.website.blank?) %>
+        <span class="title">Website:</span>
+        <span class="content"><%= c.website%> </span>
+      <%end%>
+         <% if(!c.zip.blank?) %>
+        <span class="title">Zip:</span>
+        <span class="content"><%= c.zip%> </span>
+      <%end%>
+        <% if(!c.is_closed.blank?) %>
+        <span class="title">Closed:</span>
+        <span class="content">Yes</span>
+      <%end%>
+        <div style="margin-top: 10px;">
+            <span class="content"><%= link_to 'Edit Company', edit_company_path(c.company_id)%></span>
+            <span class="content"><%= link_to 'Delete Item', edit_company_path(c.id)%></span>
+            <span class="content"><%= link_to 'Destroy', destory_info_company_path(c.id), :confirm => 'Are you sure?'%></span>
+        </div>
+    </div>
+  <%end%>
+</div>
+
+<style type="text/css">
+  span.content{
+    margin-right: 5px;
+  }
+  span.title{
+    font-weight: bold;
+  }
+</style>

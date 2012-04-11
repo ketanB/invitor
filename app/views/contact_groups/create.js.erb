@@ -1,0 +1,2 @@
+$("#contact_groups").append("<%= escape_javascript(render  @contact_group) %>");
+$(".contact_group_select").html("<%= escape_javascript(render_contact_group_select(current_user.contact_groups))%>");

@@ -1,0 +1,134 @@
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <div class="title">
+        <h2><%=link_to @event.name, event_path(@event) %> : Photos</h2>
+      </div>
+      <ul>
+        <li class="first">&nbsp;
+        </li>
+        <li>
+          <div class="leftpanel">
+            <ul>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="adboxes">
+
+                    <div class="prev_photo">
+                      <%= image_tag 'pre_arrow.png', :class => 'prev_photo', :photo_id =>@main_image.id, :event_id => @event.id %>
+                    </div>
+                    <div class="main_photo">
+                      <%= image_tag @main_image.photo.url, :width=> 400  %>
+                    </div>
+                    <div class="next_photo">
+                      <%= image_tag 'next_arrow.png',:class => 'next_photo', :photo_id =>@main_image.id, :event_id => @event.id  %>
+                    </div>
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+
+                  <% @event.assets.each do |asset| %>
+                    <span class="thumb_photo">
+                      <%= image_tag(asset.photo.url(:thumb),:class=> 'thumb_image', :photo_id =>asset.id, :event_id => @event.id , :width => 80, :height => 65) %>
+                    </span>
+                  <% end %>
+
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+
+
+            </ul>
+          </div>
+          <div class="rightpanel">
+            <ul>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="module">
+                    <h4>Photo Information</h4>
+                    
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+<style type="text/css">
+  div.prev_photo, div.next_photo{
+    float: left;
+    width: 50px;
+    vertical-align: middle;
+    text-align: center;
+    margin-top: 130px;
+  }
+
+  div.prev_photo img, div.next_photo img{ cursor: pointer}
+
+  div.main_photo{
+    float: left;
+    width: 450px;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  div.main_photo img {border: 2px solid #cccccc}
+
+  span.thumb_photo {
+    float: left;
+    margin: 10px;
+    padding: 10px;
+    border: 2px solid #cccccc;
+    cursor: pointer;
+  }
+
+  div.title h2 {color: #7DAB13; margin-left: 15px;}
+</style>
+
+<script type="text/javascript">
+
+  $(document).ready(function() {
+    $('img.thumb_image').click(function(){
+      location.href = '/events/'+$(this).attr('event_id')+'/photos?photo='+$(this).attr('photo_id');
+    });
+
+    $('img.prev_photo').click(function(){
+      location.href = '/events/'+$(this).attr('event_id')+'/photos?prev=true&photo='+$(this).attr('photo_id');
+    });
+    $('img.next_photo').click(function(){
+      location.href = '/events/'+$(this).attr('event_id')+'/photos?next=true&photo='+$(this).attr('photo_id');
+    });
+
+  });
+
+
+</script>
+
+

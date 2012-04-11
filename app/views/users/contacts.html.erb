@@ -1,0 +1,606 @@
+<%= content_for :javascript_include do%>
+  <%= javascript_include_tag 'thickbox' %>
+<% end %>
+<%= content_for :stylesheet do%>
+  <%= stylesheet_link_tag 'thickbox' %>
+<% end %>
+
+<script type="text/javascript" src="http://www.plaxo.com/css/m/js/util.js"></script>
+<script type="text/javascript" src="http://www.plaxo.com/css/m/js/basic.js"></script>
+<script type="text/javascript" src="http://www.plaxo.com/css/m/js/abc_launcher.js"></script>
+<script type="text/javascript"><!--
+  function onABCommComplete() {
+
+    // OPTIONAL: do something here after the new data has been populated in your text area
+  }
+  //--></script>
+
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <a class="english" href="javascript:change_Language('en');">English</a>
+        </li>
+        <li>
+          <a class="spanish" href="javascript:change_Language('es');">Espanol</a>
+        </li>
+      </ul>
+      <ul>
+<%#= form_tag '' , :id=>'contact_form_XXX' do %>
+        <li class="first">
+          <div class="title">
+            <h2>Address Book</h2>
+            <div class="creatBtn"><img border="0" usemap="#Map" alt=" " src="/images/newbuttons.png"/>
+              <map id="Map" name="Map">
+                <area id="new_contact" coords="17,3,183,37" shape="rect" title="New Contact"/>
+                <area id="import_contact" coords="198,3,390,37" shape="rect"  title="Import Contact"/>
+              </map>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="leftContact_listings">
+            <div class="box_top"><!----></div>
+            <div class="box_mid">
+              <h3>Contact Lists</h3>
+              <div class="blueCrv">
+                <div class="left"><a id="add_new_list" href="javascript:void(0)" >New List</a></div>
+                <div class="right"><a id="delete_list" href="javascript:void(0)" >Delete Lists</a></div>
+              </div>
+
+              <form method="post" action="<%=add_contatcs_contact_groups_path%>" >
+                <ul id="contact_groups">
+                  <%= render :partial=> 'contact_groups/contact_group', :collection => @contact_groups %>
+                </ul>
+                <%=hidden_field_tag "id"%>
+                <%=hidden_field_tag "event_id", @event ? @event.id : ''%>
+                <h3> Import Contacts </h3>
+
+                <textarea cols="39" rows="5" id="recipient_list" name="recipients" ></textarea>
+                <a href="#" onclick="showPlaxoABChooser('recipient_list', '/contacts_invitation'); return false"><img src="http://www.plaxo.com/images/abc/buttons/add_button.gif" alt="Add from my address book" /></a>
+                <br/>
+                <input type="submit" onclick="if($('.chkbox_contact_group:checked').size() == 0) {return false}else {$('#id').attr('value', $('.chkbox_contact_group:checked').first().val())};" value="Add to Group" ></input>
+              </form>
+
+            </div>
+            <div class="box_bot"><!----></div>
+          </div>
+          <div class="contacts">
+            <ul>
+
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <h3>Contacts</h3>
+
+                  <div class="rightpanel">
+
+                  </div>
+
+                  <div class="contactslink">
+                    <div class="topCv">
+                      <div class="botCv">
+                        <div class="searchbox">
+                          <input type="text" value="" name=""/>
+                        </div>
+                        <div class="all">
+                          <a id="check_all_by_category" href="javascript:void(0)">All</a>&nbsp;|&nbsp;<a  id="uncheck_all_by_category" href="javascript:void(0)">None</a>
+                          <a id="edit_selected_contact" style="margin-left: 77px;" href="javascript:void(0)">Edit</a>
+                          <a id="delete_contacts"   href="javascript:void(0)">Delete</a>
+                        </div>
+                        <ul id="contacts_by_category">
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="contactslist" id="edituser"></div>
+                  <div class="contactslist">
+                    <div class="contactslist" id="showprofile"></div>
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+              <% if @event %>
+                <li>
+                  <div class="box_top"><!----></div>
+                  <div class="box_mid">
+                    <h3>Invite Selected Guests to</h3>
+                    <div class="contactslink" style="width: 524px; padding-left: 0px; margin-left: 10px">
+
+                      Event Name:
+                      <%= link_to @event.name, event_path(@event), :target =>'_blank' %>
+                      <div style="display: none" id="contact_by_lan">
+
+                      </div>
+                    </div>
+                    <div class="contactslink" style="text-align: center; margin-top: 10px; width: 524px; margin-left: 10px">
+
+                      <%= image_tag 'invitebtn.png', :id => 'invitebtn', :style=> 'cursor: pointer' %>
+                    </div>
+
+                  </div>
+                  <div class="box_bot"><!----></div>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </li>
+
+<%# end %>
+      </ul>
+
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<div id="new_contact_group_lb" class="lb_content" >
+  <%= image_tag 'close.jpeg', :class=> 'close_lb', :id => 'close_contact_group_lb', :title => 'close' %>
+  <% form_for :contact_group, :url => contact_groups_path, :remote => true, :html=> { :id => 'contact_group_form'} do |f|%>
+
+    <h2>New Contact Group</h2>
+    <p>
+      <label>
+        Name
+      </label>
+      <%= f.text_field :name, :size =>20 %>
+    </p>
+    <p>
+      <%= submit_tag "Create Group"%>
+    </p>
+  <% end %>
+</div>
+
+<div id="new_contact_lb"  class="lb_content" >
+  <%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_contact_lb', :title => 'close' %>
+  <% form_for :contact, :url => new_contacts_path, :remote => true, :html=> { :id => 'contact_form'} do |f|%>
+
+    <h2>New Contact</h2>
+    <p>
+      <label>
+        Name
+      </label>
+      <%= f.text_field :full_name, :size =>20 %>
+    </p>
+    <p>
+      <label>
+        Email
+      </label>
+      <%= f.text_field :email, :size =>20 %>
+    </p>
+    <p>
+      <label>
+        Contact Group
+      </label>
+      <span class="contact_group_select">
+        <%= render_contact_group_select(@contact_groups) %>
+      </span>
+
+    </p>
+    <p style="text-align: center">
+      <%= submit_tag "Save Contact"%>
+    </p>
+  <% end %>
+</div>
+<div id="edit_contact_lb"  class="lb_content"  >
+  <%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_edit_contact_lb', :title => 'close' %>
+  <% form_for :contact, :url => update_contact_path, :remote => true, :html=> { :id => 'edit_contact_form'} do |f|%>
+    <div id="edit_contact_content">
+
+    </div>
+
+  <% end %>
+</div>
+
+<div id="save_imported_contacts_lb"  class="lb_content"  >
+  <%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_imported_contact_lb', :title => 'close' %>
+  <% form_for :contact, :url => new_contacts_path, :remote => true, :html=> { :id => 'imported_contact_form'} do |f|%>
+
+    <h2>New Contacts</h2>
+    <p>
+      <label  style="vertical-align: top">
+        Contacts
+      </label>
+      <%= text_area_tag :email_addresses, '', :rows=>8, :cols=>35 %>
+    </p>
+
+    <p>
+      <label>
+        Contact Group
+      </label>
+      <span class="contact_group_select">
+        <%= render_contact_group_select(@contact_groups) %>
+      </span>
+
+    </p>
+    <p style="text-align: center">
+      <%= submit_tag "Save Contact"%>
+    </p>
+  <% end %>
+</div>
+
+<div id="import_contact_lb"  class="lb_content" >
+  <%= render 'users/import_contact' %>
+</div>
+
+<div id="invite_contact_lb"  class="lb_content"  >
+  <%= image_tag 'close.jpeg', :class=> 'close_lb',  :id => 'close_invite_contact_lb', :title => 'close' %>
+  <h2>Invite Guests</h2>
+  <%= form_tag invite_guests_event_path(@event) , :id=>'invite_guests_form' do %>
+    <div class="email_box">
+      <div class="emailblock"><strong>Type in Email:</strong></div>
+      <div class="english"><strong>English</strong></div>
+      <div class="spanish"><strong>Spanish</strong></div>
+
+      <div id="contacts_to_invite">
+
+      </div>
+
+    </div>
+
+    <p style="text-align: center; margin-top: 10px">
+      <%= submit_tag "Invite"%>
+    </p>
+  <% end %>
+</div>
+
+<a id="new_contact_group_link" href="#TB_inline?height=110&amp;width=200&amp;inlineId=new_contact_group_lb&amp;modal=true"  class="thickbox"></a>
+<a id="new_contact_link" href="#TB_inline?height=170&amp;width=300&amp;inlineId=new_contact_lb&amp;modal=true"  class="thickbox"></a>
+<a id="import_contact_link" href="#TB_inline?height=510&amp;width=600&amp;inlineId=import_contact_lb&amp;modal=true"  class="thickbox"></a>
+<a id="save_imported_contacts_link" href="#TB_inline?height=250&amp;width=400&amp;inlineId=save_imported_contacts_lb&amp;modal=true"  class="thickbox"></a>
+<a id="edit_contact_link" href="#TB_inline?height=170&amp;width=300&amp;inlineId=edit_contact_lb&amp;modal=true"  class="thickbox"></a>
+<a id="invite_contact_link" href="#TB_inline?a=3&height=250&amp;width=300&amp;inlineId=invite_contact_lb&amp;modal=true"  class="thickbox"></a>
+
+<style type="text/css">
+  #import_contact_lb {
+    float: left;
+    width: 600px;
+    height: 400px;
+
+    display: none;
+  }
+  #new_contact_group_lb {
+    float: left;
+    width: 200px;
+    height: 100px;
+
+    display: none;
+  }
+
+  #new_contact_lb, #edit_contact_lb {
+    float: left;
+    width: 300px;
+    height: 170px;
+    display: none;
+  }
+
+
+  #contact_form h2 {
+    margin-bottom: 10px;
+  }
+  #edit_contact_content label, #contact_form label {
+    width: 95px;
+    font-weight: bold;
+    float: left;
+  }
+
+  #contact_form select{
+    width: 185px;
+    margin-bottom: 10px;
+    float: left;
+  }
+
+  #TB_window {-moz-border-radius: 10px;}
+  #close_contact_group_lb{
+    float: left;
+    position: absolute;
+    left: 199px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #close_contact_lb, #close_edit_contact_lb, #close_invite_contact_lb{
+    float: left;
+    position: absolute;
+    left: 299px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #close_imported_contact_lb{
+    float: left;
+    position: absolute;
+    left: 399px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #save_imported_contacts_lb label {
+    width: 80px;
+    font-weight: bold;
+    float: left
+  }
+  p#not_going_to_save_portion{display: none}
+
+  ul#contacts_by_category li span{
+    font-size: 12px;
+    font-weight: normal;
+  }
+  ul#contacts_by_category{
+    overflow: hidden;
+  }
+
+
+  div.email_box {
+    float:left;
+    width:275px;
+    font-family:"Myriad Pro",Arial, Helvetica, sans-serif;
+    color:#777;
+    padding-top:5px;
+  }
+  div.email_box strong{
+    color:#7DAB13;
+  }
+
+
+  div.email_box .emailblock{
+    float:left;
+    width:150px;
+    height:20px;
+    font-size:12px;
+    padding-left:30px;
+  }
+
+  div.email_box .english{
+    float:left;
+    width:48px;
+    height:20px;
+
+    font-size:12px;
+    text-align:center;
+  }
+  div.email_box .spanish{
+    float:left;
+    width:46px;
+    height:20px;
+    font-size:12px;
+    text-align:center;
+  }
+
+  .lb_content {display: none}
+</style>
+
+<script type="text/javascript" >
+  $(document).ready(function(){
+    $('#edit_selected_contact').click(function(){
+      
+      var checked_id = 0;
+      $('.chkbox_contact').each(function() {
+        if($(this).attr('checked'))
+          checked_id = $(this).val();
+      });
+
+      if(checked_id > 0){
+        $('#edit_contact_link').trigger('click');
+        $.ajax({
+          url: '/users/edit_contact?contact_id='+checked_id,
+          type: 'get',
+          dataType: 'script',
+          success: function(results) {
+
+          }
+        });
+      }
+    });
+    
+    $('#delete_contacts').click(function(){
+      if(confirm('Delete contact?')){
+        var checked_ids = [];
+        $('.chkbox_contact').each(function() {
+          if($(this).attr('checked'))
+            checked_ids.push($(this).val());
+        });
+
+        if(checked_ids.length > 0){
+          $.ajax({
+            url: '/users/destroy_contact?contact_ids='+checked_ids,
+            type: 'post',
+            dataType: 'script',
+            success: function(results) {
+              
+            }
+          });
+        }
+      }
+    });
+    
+    $('#delete_list').click(function(){
+      if(confirm('Delete selected list?')){
+        var checked_ids = [];
+        $('.chkbox_contact_group').each(function() {
+          if($(this).attr('checked'))
+            checked_ids.push($(this).val());
+        });
+
+        if(checked_ids.length > 0){
+          $.ajax({
+            url: '/users/destroy_contact_group?contact_group_ids='+checked_ids,
+            type: 'post',
+            dataType: 'script',
+            success: function(results) {
+
+            }
+          });
+        }
+      }
+    });
+
+    $('#add_new_list').click(function(){
+      $('#new_contact_group_link').trigger('click');
+    });
+
+    $('#new_contact').click(function(){
+      $('#new_contact_link').trigger('click');
+    });
+
+    $('a.importContact').click(function(){
+      $('#source_from').val($(this).attr('vendor'));
+
+    });
+    
+    $('#import_contact').click(function(){
+      $('#import_contact_link').trigger('click');
+    });
+
+    $('img.close_lb').click(function(){
+      tb_remove();
+    });
+    $("#imported_contact_form").bind("ajax:complete", importedContactSaved);
+
+    $("#contact_group_form").bind("ajax:complete", contactGroupSaved);
+
+    $("#contact_form").bind("ajax:complete", contactSaved);
+
+    $("#edit_contact_form").bind("ajax:complete", contactUpdated);
+
+    $("#contact_import_form").bind("ajax:complete", transferMyContacts);
+
+    $('#submit_imported').click(function(){
+      $('#imported_contacts').html($('#loading').html());
+    });
+
+    $('a.importContact').click(function(){
+      $('#source_from').val($(this).attr('vendor'));
+    });
+
+    $('a.contact_group').click(function(){
+      $(this).loadContactsByCategory($(this).attr('group_id'));
+    });
+
+    $('#uncheck_all_by_category').click(function(){
+      $('.chkbox_contact').attr('checked', false);
+    });
+
+    $('#check_all_by_category').click(function(){
+      $('.chkbox_contact').attr('checked', true);
+    });
+
+    $('#invitebtn').click(function(){
+      var something_checked = false;
+      $('input.chkbox_contact').each(function() {
+        if($(this).attr('checked'))
+          something_checked = true;
+      });
+      if(something_checked){
+        $(this).renderEmailsByLanguage();
+        $('#invite_contact_link').trigger('click');
+        //$('#contacts_to_invite').val(checked_contacts.join(','));
+        //$('#invite_guests_form').submit();
+      }
+      else
+        alert('No contacts selected');
+    });
+
+  });
+
+  $.fn.renderEmailsByLanguage = function(){
+    var email_arr = new Array();
+    var contact_id_arr = new Array();
+
+    $('input.chkbox_contact').each(function() {
+      if($(this).attr('checked')){
+        email_arr.push($(this).attr('email'));
+        contact_id_arr.push($(this).val());
+      }
+        
+    });
+
+    var html = '';
+    for(var i=0; i< email_arr.length; i++){
+      html += '<input type="hidden" name="contact_id['+ i +']" value="' + contact_id_arr[i] + '"/>';
+      
+      html += '<div class="emailblock">' + email_arr[i] + '</div>';
+      html += '<div class="english"><input name="rbtn[' + i + ']" type="radio" value="en" checked="checked" /></div>';
+      html += '<div class="spanish"><input name="rbtn[' + i + ']" type="radio" value="es" /></div>';
+        
+    }
+    $('#contacts_to_invite').html(html);
+    
+  };
+  
+  var transferMyContacts = function(){
+    var return_contacts = new Array;
+    $('#uncheck_all').hide();
+    $('#select_contacts').show();
+    $('#select_contacts a#forward_selected').click(function(){
+      $('input.chk_contact').each(function() {
+        if($(this).attr('checked'))
+          return_contacts.push($(this).val());
+      });
+      $('#email_addresses').val($('#email_addresses').val()+return_contacts.join(','));
+
+      $("#TB_window").remove();
+      $("body").append("<div id='TB_window'></div>");
+      tb_show("", "#TB_inline?height=250&amp;width=400&amp;inlineId=save_imported_contacts_lb&amp;modal=true", "");
+
+      //$('#save_imported_contacts_link').trigger('click');
+    });
+
+    $('#uncheck_all').click(function(){
+      $('.chk_contact').attr('checked', false);
+      $(this).hide();
+      $('#check_all').show();
+    });
+
+    $('#check_all').click(function(){
+      $('.chk_contact').attr('checked', true);
+      $(this).hide();
+      $('#uncheck_all').show();
+    });
+  };
+
+  var importedContactSaved = function(){
+    tb_remove();
+    $("#imported_contact_form").get(0).reset();
+    $('a.contact_group').click(function(){
+      $(this).loadContactsByCategory($(this).attr('group_id'));
+    });
+  }
+
+  var contactSaved = function(){
+    tb_remove();
+    $("#contact_form").get(0).reset();
+    $('a.contact_group').click(function(){
+      $(this).loadContactsByCategory($(this).attr('group_id'));
+    });
+  }
+
+  var contactUpdated = function(){
+    tb_remove();
+    $("#edit_contact_form").get(0).reset();
+    $('a.contact_group').click(function(){
+      $(this).loadContactsByCategory($(this).attr('group_id'));
+    });
+  }
+
+  var contactGroupSaved = function(){
+    tb_remove();
+    $("#contact_group_form").get(0).reset();
+    $('a.contact_group').click(function(){
+      $(this).loadContactsByCategory($(this).attr('group_id'));
+    });
+  }
+
+  $.fn.loadContactsByCategory = function(cat_id) {
+    $('#contacts_by_category').html($('#loading').html());
+    $.ajax({
+      url: '/users/contact_by_group?group_id='+cat_id,
+      type: 'get',
+      dataType: 'script',
+      success: function(results) {
+
+      }
+    });
+  };
+</script>

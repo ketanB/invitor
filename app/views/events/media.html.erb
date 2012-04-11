@@ -1,0 +1,68 @@
+<%= render :partial => "tab_menus", :locals => {:event => @event} %>
+
+<br/>
+<br/>
+<div id="innercont">
+
+  <div id="settingsinfo">
+    <h1>Manage Invitation Pictures and Video</h1>
+    <br/>
+    <div class="roundcont left picture_box secondary_box">
+      <div class="roundtop">
+        <div class="roundtop_corner"></div>
+      </div>
+      <div class="roundinnercont">
+        <p>
+          <label for="Upload an Image">
+            <b>Upload an Image</b>
+          </label>
+        </p>
+
+        <input type="file" size="35" name="userfile"></input>
+        <p class="small">Max Size: 3MB (jpg, gif, png)</p>
+        <br/>
+        <p id="loading_bar" style="text-align: center; display: none; font-weight: bold;">
+    											Please wait...<br/>
+        <img src="http://cdn.assets.anyvite.net/static/images/micro/loading_bar_EEE.gif"></img>
+        </p>
+        <input type="hidden" value="true" name="is_submit"></input>
+        <div class="center">
+          <button id="upload_pic_Button" class="submitBtn" type="submit" value="submit"><span>Upload and Save</span></button>
+        </div>
+
+      </div>
+      <div class="roundbottom">
+        <div class="roundbottom_corner"></div>
+      </div>
+    </div>
+
+    <div class="roundcont right video_box secondary_box">
+      <div class="roundtop">
+        <div class="roundtop_corner"></div>
+      </div>
+      <div class="roundinnercont">
+        <form method="post" action="http://anyvite.com/events/media/ds1z7dsxoh"><p>
+            <label for="Upload an Image">
+              <b>Enter the URL of a Video</b>
+            </label>
+          </p>
+
+          <input type="input" size="48" name="video_url"></input>
+          <p class="small">Only youtube and vimeo are supported at this time.</p>
+          <br/>
+          <div class="center">
+            <button class="submitBtn" type="submit" value="submit"><span>Add Video</span></button>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="roundbottom">
+        <div class="roundbottom_corner"></div>
+      </div>
+    </div>
+    <div class="clear"></div>
+
+  </div>
+  <div class="clear"></div>
+</div>

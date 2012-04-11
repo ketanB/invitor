@@ -1,0 +1,86 @@
+<%= form_for @quote do |f| %>
+  <% if @quote.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@quote.errors.count, "error") %> prohibited this user from being saved:</h2>
+      <ul>
+        <% @quote.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+
+  <div class="det_midRep">
+    <div class="row">
+      <label>Title</label>
+      <%= f.text_field :title, :class => "text" %>
+    </div>
+    <div class="row">
+      <label>Category</label>
+      <%= f.select :business_group_id, BusinessGroup.active.all.collect{|c| [c.title.upcase, c.id]} , {:prompt => 'SELECT GROUP' }%>
+    </div>
+    <div class ="row">
+      <label>Keywords</label>
+      <%= select_tag :tags_name%>
+    </div>
+    <div class="row">
+      <label>Description</label>
+      <%= f.text_area :description %>
+    </div>
+    <div class="row">
+      <label>State</label>
+      <%= f.select :state_id, State.active.all.collect{|c| [c.code, c.id]} , { :prompt => 'Select State' }%>
+      <%= image_tag('loading.gif', :id=> 'loading_city', :style => 'display: none; margin-top: 20px; margin-left: 20px;') %>
+    </div>
+    <div class="row">
+      <label>City</label>
+      <span id="city_ajax">
+        <%= f.select :city_id, (@cities||[]).collect{|c| [c.name, c.id]} , {:prompt => 'Select City' }%>
+      </span>
+    
+  <%#= f.text_field :city_id %>
+    </div>
+    <div class="row">
+      <label>Distance</label>
+      <%= f.select(:miles_way, options_for_select([['Bird''s-eye View', 0.5], ['Driving (5 mi.)', 5],
+            ['Biking (2 mi.)', 2], ['Walking (1 mi.)', 1]], params[:month_filter]),
+        :style => "width: 140px;") %>
+    </div>
+    <div class="row">
+      <label>Event</label>
+      <%= f.select :id_event, @event.collect{|c| [c.name, c.id]} , {:prompt => 'SELECT GROUP' }%>
+    </div>
+    <% if current_user %>
+      <%= f.hidden_field :user_id, :value => current_user.id   %>
+    <% end  %>
+
+  </div>
+  <div class="rowBtn" style="margin-left: 170px;">
+    <%= image_submit_tag '/images/submit_signup.png', :name=>'submit' %>
+  </div>
+<% end  %>
+
+<script type="text/javascript">
+  
+  $.fn.handleStateChange = function(){
+    $('select#quote_state_id').change(function(){
+      $('#quote_city_id, #loading_city').toggle();
+      $.ajax({
+        url: '/companies/load_cities?state_id='+$(this).val(),
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('#quote_city_id').show();
+          $('#loading_city').hide();
+        }
+      });
+    });
+  };
+
+  $(document).ready(function() {
+    $(this).handleStateChange();
+  });
+
+
+</script>

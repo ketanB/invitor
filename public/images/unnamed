@@ -1,0 +1,9 @@
+if (window['google'] != undefined && window['google']['loader'] != undefined) {
+if (!window['google']['language']) {
+window['google']['language'] = {};
+google.language.Version = '1.0';
+google.language.JSHash = '62c64af2122d2da7dcb0087852fa7396';
+google.language.LoadArgs = 'file\75language\46v\0751';
+}
+google.loader.writeLoadTag("script", google.loader.ServiceBase + "/api/language/1.0/62c64af2122d2da7dcb0087852fa7396/default+en.I.js", false);
+}

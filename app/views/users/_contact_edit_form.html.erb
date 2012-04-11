@@ -1,0 +1,27 @@
+<h2>Edit Contact</h2>
+<p>
+  <label>
+    Name
+  </label>
+  <%= text_field_tag 'contact[full_name]', @contact.full_name, :size =>20 %>
+</p>
+<p>
+  <label>
+    Email
+  </label>
+  <%= text_field_tag 'contact[email]', @contact.email,  :size =>20 %>
+  <%= hidden_field_tag 'contact[id]', @contact.id%>
+
+</p>
+<p>
+  <label>
+    Contact Group
+  </label>
+  <span class="contact_group_select">
+    <%= render_contact_group_select(@contact_groups, @contact.contact_group_id ) %>
+  </span>
+
+</p>
+<p style="text-align: center">
+  <%= submit_tag "Update Contact"%>
+</p>

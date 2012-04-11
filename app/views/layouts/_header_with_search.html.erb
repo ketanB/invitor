@@ -1,0 +1,94 @@
+<div class="header">
+  <div class="logo"> <img src="/images/logo.png" width="300" height="88" /> </div>
+  <span class="beta">
+    <span>Save time. Sav</span>e money.
+  </span>
+
+
+
+  <ul>
+    <%- unless logged_in? %>
+      <li> <%= link_to I18n.t('layout.menu.sign_in'), login_path %>&nbsp;|&nbsp;<%= link_to I18n.t('layout.menu.sing_up'), new_user_path %> </li>
+    <%- else %>
+      <li> <%= link_to I18n.t('layout.menu.logout'), logout_path %> </li>
+    <%- end %>
+  </ul>
+
+
+  <div class="navigation">
+    <ul>
+      <li><%= link_to raw("<span><span>Home</span></span>"), "/", :class=> 'active' %></li>
+      <%- unless logged_in? %>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.about')+'</span></span>'), "#" %></li>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.try_it')+'</span></span>'), new_event_path %></li>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.local_search')+'</span></span>'), "#" %></li>
+      <%- else %>
+        <% if current_user.role_id != 1 %>
+          <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), "/dashboard" %></li>
+        <% else %>
+          <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), :controller => "companies", :action => "dashboard"  %></li>
+        <% end %>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.address_book')+'</span></span>'), contacts_user_path(current_user) %></li>
+        <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.settings')+'</span></span>'), user_path(current_user) %></li>
+      <%- end %>
+    </ul>
+  </div>
+
+</div>
+
+<div class="search_box">
+  <%= form_tag search_companies_path, :method=> :get do %>
+    <div class="search_box_field">
+      <label><span class="search_label_head"><%= image_tag 'search_for.png' %> </span>(Cakes, Party Rental,Catering)
+      </label>
+      <%= text_field_tag :tag_name,params[:tag_name], :autocomplete => autocomplete_tags_companies_path %>
+    </div>
+
+    <div class="search_box_field_near"><label><span class="search_label_head"><%= image_tag 'near.png' %> </span>(Address, City, State or Zip)
+      </label><%= text_field_tag :csz,  params[:csz]%>
+    </div>
+    <div class="search_box_btn"> <input class="btn_search" type="submit" value=""> </div>
+  <% end %>
+</div>
+
+
+<%if false%>
+  <div class="search_box">
+    <%= form_tag search_companies_path, :method=> :get do %>
+      <div class="search_box_field">
+        <label>
+          <span class="search_label_head"><%= image_tag 'search_for.png' %> </span> (Cakes, Party Rental, Catering)
+        </label>
+        <%= text_field_tag :tag_name,params[:tag_name], :autocomplete => autocomplete_tags_companies_path %>
+      </div>
+
+      <div class="search_box_field">
+        <label>
+          <span  class="search_label_head" ><%= image_tag 'near.png' %> </span> (Address, City, State or Zip)
+        </label>
+        <%= text_field_tag :csz,  params[:csz]%>
+        <input class="btn_search" type="submit" value="" />
+      </div>
+
+
+    <% end %>
+
+  </div>
+<%end%>
+<script type="text/javascript">
+  $.fn.loadLocation = function(){
+//    $.ajax({
+//      url: '/site/populate_location',
+//      type: 'get',
+//      dataType: 'script',
+//      success: function(results) {
+//      }
+//    });
+  };
+
+
+  $(document).ready(function(){
+
+    $(this).loadLocation();
+  });
+</script>

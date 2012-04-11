@@ -1,0 +1,31 @@
+<% if @guests[:guests_y].size > 0 %>
+  <div class="attendes">Attending: <%= @guests[:guests_y].size %></div>
+
+  <ul class="users">
+    <%= render :partial => 'guest', :collection => @guests[:guests_y] %>
+  </ul>
+<% end %>
+<% if @guests[:guests_mb].size > 0 %>
+  <div class="attendes">Said May be: <%= @guests[:guests_mb].size %></div>
+
+  <ul class="users">
+    <%= render :partial => 'guest', :collection => @guests[:guests_mb] %>
+
+  </ul>
+<% end %>
+
+<% if @guests[:guests_n].size > 0 %>
+  <div class="attendes">Said No: <%= @guests[:guests_n].size %></div>
+
+  <ul class="users">
+    <%= render :partial => 'guest', :collection => @guests[:guests_n] %>
+  </ul>
+<% end %>
+
+<% if @guests[:guests_nrp].size > 0 %>
+  <div class="attendes">Not Replied Yet: <%= @guests[:guests_nrp].size %></div>
+
+  <ul class="users">
+    <%= render :partial => 'guest', :collection => @guests[:guests_nrp] %>
+  </ul>
+<% end %>

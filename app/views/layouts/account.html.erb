@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Invitar | <%= @title || "Welcome" %></title>
+    <%= stylesheet_link_tag 'style_register' %>
+    <%= yield :stylesheet %>
+     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+
+    <%= javascript_include_tag  'rails', 'application' %>
+    <%= yield :javascript_include %>
+    <%= yield :javascript_tag %>
+    <%= include_tiny_mce_if_needed %>
+ <script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>
+  </head>
+  <body>
+    <%= fb_connect_javascript_tag %>
+    <%= init_fb_connect "XFBML", :js => :jquery %>
+
+ 
+    <div id="feedback"> <a href="#"><img src="/images/feedback_Btn.png"  /></a> </div>
+    <div class="cercularback">
+      <div class="footerBg">
+        <div id="frame">
+          <div class="header">
+            <div class="logo"> <img src="/images/logo.png" width="300" height="88" /> </div>
+            <span class="beta">
+              beta
+            </span>
+            <ul>
+              <%- unless logged_in? %>
+                <li> <%= link_to I18n.t('layout.menu.sign_in'), login_path %>&nbsp;|&nbsp;<%= link_to I18n.t('layout.menu.sing_up'), new_user_path %> </li>
+              <%- else %>
+                <li> <%= link_to I18n.t('layout.menu.logout'), logout_path %> </li>
+              <%- end %>
+            </ul>
+          </div>
+          <div class="navigation">
+            <ul>
+              <li><%= link_to raw("<span><span>Home</span></span>"), "/" %></li>
+              <%- unless logged_in? %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.about')+'</span></span>'), "#" %></li>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.try_it')+'</span></span>'), new_event_path %></li>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.local_search')+'</span></span>'), "#" %></li>
+              <%- else %>
+                <% if current_user.role_id != 1 %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), "/dashboard" %></li>
+                <% else %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.dashboard')+'</span></span>'), :controller => "companies", :action => "dashboard"  %></li>
+                <% end %>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.invitations')+'</span></span>'), events_path %></li>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.address_book')+'</span></span>'), contacts_user_path(current_user) %></li>
+                <li><%= link_to raw('<span><span>'+I18n.t('layout.menu.settings')+'</span></span>'), user_path(current_user) %></li>
+              <%- end %>
+            </ul>
+          </div>
+          <%= yield %>
+          <div class="footer">
+            <div class="footLeft"> <a href="#">Home</a>&nbsp;::&nbsp;<a href="#">About</a>&nbsp;::&nbsp;<a href="#">Try it</a> </div>
+            <div class="footRight"> copyright &copy; <%=Time.now.year%> invitar.com All right reserved&nbsp;&nbsp; <a href="#">Privacy Policy</a>&nbsp;|&nbsp;<a href="#">Terms of use</a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

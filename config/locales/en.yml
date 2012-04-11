@@ -1,0 +1,236 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See http://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  layout:
+    menu:
+      home: "Home"
+      about: "About"
+      try_it: "Try It"
+      local_search: "Local Search"
+      invitations: "Invitations"
+      address_book: "Address Book"
+      settings: "Settings"
+      logout: "Logout"
+      sign_in: "Sign In"
+      sing_up: "Sign Up"
+      dashboard: "Profile"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  enter_event_name: "Enter event name"
+  hosted_by: "Hosted by"
+  description: "Description"
+  event_date: "Event date"
+  event_time: "Event time"
+  location_name: "Location Name"
+  location_address: "Location Address"
+  who_can_view_invitation: "Who can view my invitation?"
+  just_my_guests: "Just my Guests"
+  guest_must_invited: "Guests must be invited."
+  anyone_open_invitation: "Anyone (Open Invitation)"
+  we_will_provide_you_can_share: "We'll provide you with a link which you can share."
+  guest_list_options: "Guest list options"
+  allow_guest_to_invite_friends: "Allow guests to invite friends"
+  allow_guests_to_bring_people: "Allow guests to bring people"
+  max_no: "Max Number"
+  display_guest_list_to_invite: "Display guest list to invitees"
+  allow_guest_maybe: 'Allow guests to RSVP "Maybe"'
+  cap_attendees_at: "Cap attendees at"
+  event_reminder_options: "Event reminder options"
+  send_event_reminder: "Send an event reminder"
+  who_have_replied: "in advance to guests who have replied"
+  attending: "Attending"
+  maybe: "Maybe"
+  not_yet_replied: "Not Yet Replied"
+  allow_guest_to_add: "Allow guest to add"
+  pictures: "Pictures"
+  videos: "Videos"
+  comment_board: "Comment board"
+  show_comment_board: "Show comment board"
+  profile_pictures: "Profile pictures"
+  show_profile_pictures: "Show profile pictures"

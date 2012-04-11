@@ -1,0 +1,15 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @business_group.title %>
+</p>
+
+<p>
+  <b>Active:</b>
+  <%= @business_group.active %>
+</p>
+
+
+<%= link_to 'Edit', edit_business_group_path(@business_group) %> |
+<%= link_to 'Back', business_groups_path %>

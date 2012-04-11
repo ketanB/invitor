@@ -1,0 +1,104 @@
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag  'style_register' %>
+<% end %>
+<div class="dashbord">
+
+  <div class="dashbord_tCrv_signup">    <!---->
+    <ul class="language">
+      <li>
+        <a class="english" href="javascript:change_Language('en');">English</a>
+      </li>
+      <li>
+        <a class="spanish" href="javascript:change_Language('es');">Espanol</a>
+      </li>
+    </ul>         </div>
+
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+
+      <ul>
+
+        <li>
+          <div class="signup_header">Sign Up for a free account</div>
+          <div class="details">
+
+            <ul>
+              <li>
+                <div class="det_topcrv">
+                  <!---->
+                </div>
+                <%= render :partial => 'form' %>
+                <div class="det_botcrv">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <div class="or_signup"></div>
+          <div class="in_between_signup">
+            <b style="font-size: 16pt; padding: 0pt 0pt 5px 10px; color: rgb(92, 146, 171);">Already a member?</b>
+
+            <b>
+              <%= link_to 'Sign In', login_path, :class => 'sign_in_link' %>
+            </b>
+          </div>
+          <div class="or_signup"></div>
+          <div class="sidelink">
+            <div style="padding: 117px 0pt 0pt; font-size: 14pt;">Have a Facebook account? </div>
+            <div class="facebook_btn">
+              <%= fb_login_button('window.location = "/users/facebook_login";') %>
+<%#= fb_login_and_redirect(facebook_login_users_path, :onlogin => "document.location.href=document.location.href;") %>
+            </div>
+            <div class="bellow_txt">Create a new account or link your<br>
+              current <span style="color: rgb(0, 0, 0);">invitar</span> account with<br>
+					your Facebook account.</div>
+          </div>
+
+        </li></ul></div>
+
+
+  </div>
+
+
+  <div class="dashbord_bCrv"></div>
+  <div style="clear: both;"></div>
+</div>
+
+<style type="text/css">
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details {width: 450px;}
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep{
+    width: 450px;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .rowBtn,
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row{
+    width: 450px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row input,
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row input[type="text"]{
+    width: 400px;
+    border:1px solid #7CA8B9;
+    padding: 5px;
+    font-size: 22px;
+  }
+  .signup_header{
+    font-size: 22px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row label {
+    font-size:18px;
+    height:24px;
+    line-height:24px;
+  }
+
+  .in_between_signup {
+    padding:136px 0 0;
+    width:208px;
+  }
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .sidelink {
+    width:196px;
+  }
+
+
+</style>

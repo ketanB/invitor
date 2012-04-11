@@ -1,0 +1,29 @@
+<div class="rightpanel" style="float: left; width: 223px;">
+  <ul>
+    <li>
+      <div class="box_top">
+        <!---->
+      </div>
+      <div class="box_mid">
+
+        <div class="module">
+          <label>Browse Category</label>
+        </div>
+        <% @business_groups.each do |business| %>
+          <div class="browse_category">
+            <tr>
+              <td>
+                <p><%= link_to business.title.upcase, :action => 'detail', :id => business.id %></p>
+              </td>
+            <%  end %>
+
+          </tr>
+        </div>
+
+      </div>
+      <div class="box_bot">
+        <!---->
+      </div>
+    </li>
+  </ul>
+</div>

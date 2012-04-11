@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+
+  <head>
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Invitar | <%= @title || "Welcome" %></title>
+    <%= stylesheet_link_tag "style" , 'jquery-ui', 'autocomplete' %>
+    <%= yield :stylesheet %>
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
+<%#= javascript_include_tag 'jquery','jquery.min', 'jquery-ui', 'rails', 'application' %>
+    <%= javascript_include_tag  'jquery','rails', 'application', 'jquery.min', 'jquery-ui.min' %>
+    <%= yield :javascript_include %>
+    <%= yield :javascript_tag %>
+    <%= include_tiny_mce_if_needed %>
+    <!--<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>-->
+
+  </head>
+  <body>
+<%#= fb_connect_javascript_tag %>
+<%#= init_fb_connect "XFBML", :js => :jquery %>
+
+    <div id="feedback"> <a href="#"><img src="/images/feedback_Btn.png"  /></a> </div>
+    <div class="cercularback">
+      <div class="footerBg">
+        <div id="frame">
+         
+          <%= yield %>
+         
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

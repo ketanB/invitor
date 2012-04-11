@@ -1,0 +1,512 @@
+<% title 'Informations & Options' %>
+<% current_lang = I18n.locale %>
+<%#= render 'shared/step_progress' %>
+
+<%= form_for(@event, :html =>{:id => 'event_form'}) do |f| %>
+  <% if @event.errors.any? %>
+    <div id="errorExplanation">
+      <h2><%= pluralize(@event.errors.count, "error") %> prohibited this event from being saved:</h2>
+      <ul>
+        <% @event.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <%#= render :partial => 'form_fields', :locals => {:f => f} %>
+
+
+
+  <div class="dashbord">
+    <div class="dashbord_tCrv">
+      <!---->
+    </div>
+    <div class="dashbord_mRepeat">
+      <div class="midshade">
+        <ul class="language">
+          <li>
+            <span class="english">English</span>
+          </li>
+          <li>
+            <a href="#" class="spanish">Espanol</a>
+          </li>
+        </ul>
+        <ul>
+          <li class="first">
+            <%#= render :partial => 'shared/step_progress' %>
+            <div class="title">
+              <h2>Edit Invitation Details</h2>
+              
+            </div>
+          </li>
+          <li>
+
+            <div class="tabs">
+              <div class="tab1">
+                <span class="tableft"><a id="en_event_info" href="javascript:void(0)">English</a>&nbsp;|&nbsp;<a id="es_event_info" href="javascript:void(0)">Spanish</a></span>
+                <span class="tabright">
+                </span>
+
+              </div>
+            </div>
+            <div class="emailDet">
+              <div class="emailTp"><!----></div>
+              <div class="email_midRep">
+                <div class="row row_en">
+                  <% I18n.locale =  :en%>
+                  <label><%= t('enter_event_name') %></label>
+                  <%= text_field_tag 'en[name]', @event.name %>
+                </div>
+                <% I18n.locale =  :es%>
+                <div class="row row_es">
+                  <label><%= t('enter_event_name') %></label>
+                  <%= text_field_tag 'es[name]', @event.name  %>
+                </div>
+
+                <% I18n.locale = :en %>
+                <div class="row row_en">
+                  <label><%= t('hosted_by') %></label>
+                  <%= text_field_tag 'en[hosted_by]', @event.hosted_by  %>
+                </div>
+
+                <% I18n.locale = :es %>
+                <div class="row row_es">
+                  <label><%= t('hosted_by') %></label>
+                  <%= text_field_tag 'es[hosted_by]', @event.hosted_by %>
+                </div>
+
+                <% I18n.locale = :en %>
+                <div class="row row_en">
+                  <label><%= t('description') %></label>
+                  <%= text_area_tag 'en[description]', @event.description, :class => "mceEditor" %>
+                </div>
+
+                <% I18n.locale = :es %>
+                <div class="row row_es">
+                  <label><%= t('description') %></label>
+                  <%= text_area_tag 'es[description]', @event.description, :class => "mceEditor" %>
+                </div>
+
+                <div class="row">
+                  <% I18n.locale = :en %>
+                  <label class="label_en"><%= t('event_date') %></label>
+                  <% I18n.locale = :es %>
+                  <label class="label_es"><%= t('event_date') %></label>
+                  <%= f.text_field 'date' %>
+                </div>
+                <div class="row">
+                  <% I18n.locale = :en %>
+                  <label class="label_en"><%= t('event_time') %></label>
+                  <% I18n.locale = :es %>
+                  <label class="label_es"><%= t('event_time') %></label>
+                  <%= text_field_tag 'event[time]', @event.time ? @event.time.strftime('%H:%M') : '', :style => 'width:150px' %>
+
+                </div>
+
+                <div class="row">
+                  <%= f.time_zone_select( "time_zone", nil, :default => "Pacific Time (US & Canada)" )%>
+                </div>
+
+                <% I18n.locale = :en %>
+                <div class="row row_en">
+                  <label><%= t('location_name') %></label>
+                  <%= text_field_tag 'en[location_name]', @event.location_name %>
+                </div>
+
+                <% I18n.locale = :es %>
+                <div class="row row_es">
+                  <label><%= t('location_name') %></label>
+                  <%= text_field_tag 'es[location_name]',@event.location_name  %>
+                </div>
+
+                <% I18n.locale = :en %>
+                <div class="row row_en">
+                  <label><%= t('location_address') %></label>
+                  <%= text_area_tag 'en[location_address]',@event.location_address  %>
+                </div>
+
+                <% I18n.locale = :es %>
+                <div class="row row_es">
+                  <label><%= t('location_address') %></label>
+                  <%= text_area_tag 'es[location_address]',@event.location_address  %>
+                </div>
+
+              </div>
+              <div class="emailBt"><!----></div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+
+  <div class="boxes">
+    <ul>
+      <li>
+        <div class="topcrv">
+
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('who_can_view_invitation') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('who_can_view_invitation') %></label></h3>
+          <ul>
+            <li>
+              <div class="radio"><%= radio_button_tag "settings[public_event]", false, @event_setting.public_event? ? false : true %></div>
+              <div class="text">
+                <% I18n.locale = :en %>
+                <label  class="label_en"><%= t('just_my_guests') %><br/><span class="smltxt"><%= t('guest_must_invited') %></span></label>
+                <% I18n.locale = :es %>
+                <label  class="label_es"><%= t('just_my_guests') %><br/><span class="smltxt"><%= t('guest_must_invited') %></span></label>
+              </div>
+            </li>
+
+            <li>
+              <div class="radio"><%= radio_button_tag "settings[public_event]", true, @event_setting.public_event? ? true : false %></div>
+              <div class="text">
+                <% I18n.locale = :en %>
+                <label  class="label_en"><%= t('anyone_open_invitation') %><br/><span class="smltxt"><%= t('we_will_provide_you_can_share') %></span></label>
+                <% I18n.locale = :es %>
+                <label  class="label_es"><%= t('anyone_open_invitation') %><br/><span class="smltxt"><%= t('we_will_provide_you_can_share') %></span></label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+      <li>
+        <div class="topcrv">
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('guest_list_options') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('guest_list_options') %></label></h3>
+
+          <ul>
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[allow_guest_to_invite_friends]', true, @event_setting.allow_guest_to_invite_friends ? true : false %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('allow_guest_to_invite_friends') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('allow_guest_to_invite_friends') %></label>
+              </div>
+            </li>
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[allow_guests_to_bring_people]', true, @event_setting.allow_guests_to_bring_people ? true : false   %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('allow_guests_to_bring_people') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('allow_guests_to_bring_people') %></label>
+              </div>
+            </li>
+            <li class="chk">
+              <div class="check">&nbsp;</div>
+              <div class="chkTxt">
+                <p style="font-size:11px;">
+                  <% I18n.locale = :en %>
+                  <label class="label_en"><%= t('max_no') %></label>
+                  <% I18n.locale = :es %>
+                  <label class="label_es"><%= t('max_no') %></label>
+                  :
+                  <input id="max_people_to_bring" name="settings[max_people_to_bring]" value="<%=@event_setting.max_people_to_bring%>" style="width:20px;" type="text" />
+                </p>
+              </div>
+            </li>
+
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[display_guest_list]', true, @event_setting.display_guest_list ? true : false   %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('display_guest_list_to_invite') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('display_guest_list_to_invite') %></label>
+              </div>
+            </li>
+
+
+
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[allow_guest_maybe]', true, @event_setting.allow_guest_maybe ? true : false   %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('allow_guest_maybe') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('allow_guest_maybe') %></label>
+              </div>
+            </li>
+
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[max_guests]', true, @event_setting.max_guests ? true : false   %></div>
+              <div class="chkTxt">
+                <p>
+                  <% I18n.locale = :en %>
+                  <label class="label_en"><%= t('cap_attendees_at') %></label>
+                  <% I18n.locale = :es %>
+                  <label class="label_es"><%= t('cap_attendees_at') %></label>
+                  <input name="settings[max_guests_num]" value="<%=@event_setting.max_guests_num%>" style="width:20px;" type="text" />
+                </p>
+              </div>
+            </li>
+
+
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+      <li class="last">
+        <div class="topcrv">
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('event_reminder_options') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('event_reminder_options') %></label></h3>
+          <ul>
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[event_reminder]', true, @event_setting.event_reminder? ? true : false   %></div>
+              <div class="chkTxt w_250">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('send_event_reminder') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('send_event_reminder') %></label>
+
+                <select id="reminder_days" name="settings[reminder_days]" >
+                  <%= options_for_select([['1 Day', '1'],['2 Days','2'], ['3 Days','3']], @event_setting.reminder_days)  %>
+
+                </select>
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('who_have_replied') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('who_have_replied') %></label>
+                :
+              </div>
+            </li>
+
+            <li class="chk ">
+              <div class="check">&nbsp;</div>
+              <div class="check"><%= check_box_tag 'settings[reminder_yes]', true, @event_setting.reminder_yes? ? true : false   %></div>
+              <div class="chkTxt w_230">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('attending') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('attending') %></label>
+              </div>
+            </li>
+            <li class="chk">
+              <div class="check">&nbsp;</div>
+              <div class="check"><%= check_box_tag 'settings[reminder_maybe]', true, @event_setting.reminder_maybe? ? true : false   %></div>
+              <div class="chkTxt w_230">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('maybe') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('maybe') %></label>
+              </div>
+            </li>
+            <li class="chk">
+              <div class="check">&nbsp;</div>
+              <div class="check"><%= check_box_tag 'settings[reminder_no_reply]', true, @event_setting.reminder_no_reply? ? true : false   %></div>
+              <div class="chkTxt w_230">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('not_yet_replied') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('not_yet_replied') %></label>
+              </div>
+
+
+              <% I18n.locale = current_lang %>
+            </li>
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="boxes">
+    <ul>
+      <li>
+        <div class="topcrv">
+
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('allow_guest_to_add') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('allow_guest_to_add') %></label></h3>
+          <ul>
+            <li>
+              <div class="check"><%= check_box_tag 'settings[allow_pictures]', true, @event_setting.allow_pictures? ? true : false   %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('pictures') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('pictures') %></label>
+              </div>
+            </li>
+
+            <li>
+              <div class="radio"><%= check_box_tag "settings[allow_videos]", true, @event_setting.allow_videos? ? true : false   %></div>
+              <div class="text">
+                <% I18n.locale = :en %>
+                <label  class="label_en"><%= t('videos') %></label>
+                <% I18n.locale = :es %>
+                <label  class="label_es"><%= t('videos') %></label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+      <li>
+        <div class="topcrv">
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('comment_board') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('comment_board') %></label></h3>
+
+          <ul>
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[show_comment_board]', true, @event_setting.show_comment_board? ? true : false   %></div>
+              <div class="chkTxt">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('show_comment_board') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('show_comment_board') %></label>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+      <li class="last">
+        <div class="topcrv">
+          <% I18n.locale = :en %>
+          <h3><label class="label_en"><%= t('profile_pictures') %></label></h3>
+          <% I18n.locale = :es %>
+          <h3><label class="label_es"><%= t('event_reminder_options') %></label></h3>
+          <ul>
+            <li class="chk">
+              <div class="check"><%= check_box_tag 'settings[show_profile_pictures]', true , @event_setting.show_profile_pictures? ? true : false   %></div>
+              <div class="chkTxt w_250">
+                <% I18n.locale = :en %>
+                <label class="label_en"><%= t('show_profile_pictures') %></label>
+                <% I18n.locale = :es %>
+                <label class="label_es"><%= t('show_profile_pictures') %></label>
+                <% I18n.locale = :en %>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <div class="botcrv"><!----></div>
+      </li>
+    </ul>
+  </div>
+  <div class="dashbord">
+    <div class="dashbord_tCrv">
+      <!---->
+    </div>
+    <div class="dashbord_mRepeat">
+      <div class="midshade">
+        <ul>
+          <li class="first">
+
+
+            <div class="title" align="center">
+              <a href="javascript:void(0)" id="update_info"><img src="/images/updateyouin.png"  alt=" " align="middle" /></a>
+
+            </div>
+          </li>
+
+        </ul>
+      </div>
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+  <%= hidden_field_tag 'skip_step_2' %>
+<% end %>
+<style type="text/css">
+  span.smltxt{
+    font-size: 12px;
+  }
+  #frame .boxes ul li .topcrv ul li div.w_230{width: 230px}
+  #frame .boxes ul li .topcrv ul li div.w_250{width: 250px}
+  .mceEditor{float: left}
+
+  div.cercularback {
+    float:left;
+    width:100%;
+    background: url("<%=@event.bg_image_url%>") 0px 145px repeat-x;
+
+  }
+</style>
+<script type="text/javascript" >
+  $(document).ready(function(){
+    var cur_lan = '<%=current_lang.to_s%>';
+
+    $('#settings_allow_guests_to_bring_people').click(function(){
+       $(this).disableMaxGuest($(this).attr('checked'));
+    });
+
+    $('#settings_event_reminder').click(function(){
+       $(this).disableReminderOptions($(this).attr('checked'));
+    });
+
+    $(this).disableMaxGuest($('#settings_allow_guests_to_bring_people').attr('checked'));
+
+    $(this).disableReminderOptions($('#settings_event_reminder').attr('checked'));
+
+    $(this).showHideLangOption(cur_lan);
+    $('a#en_event_info').click(function(){
+      $(this).showHideLangOption('en');
+    });
+
+    $('a#es_event_info').click(function(){
+      $(this).showHideLangOption('es');
+    });
+
+    $('#skip_step').click(function(){
+      $('#skip_step2').val(1);
+      $('#event_form').submit();
+    });
+
+    $('#save_n_continue, #update_info').click(function(){
+      $('#event_form').submit();
+    });
+
+    $('#event_date').datepicker();
+
+
+  });
+
+  $.fn.disableMaxGuest = function(state){
+    if(state)
+      $('#max_people_to_bring').removeAttr('disabled');
+    else
+      $('#max_people_to_bring').attr('disabled', 'disabled');
+  }
+
+  $.fn.disableReminderOptions = function(state){
+    if(state)
+      $('#reminder_days, #settings_reminder_yes, #settings_reminder_maybe, #settings_reminder_no_reply').removeAttr('disabled');
+    else
+      $('#reminder_days, #settings_reminder_yes, #settings_reminder_maybe, #settings_reminder_no_reply').attr('disabled', 'disabled');
+  }
+
+  $.fn.showHideLangOption = function(p_cur_lan){
+    if(p_cur_lan == 'en'){
+      $('.row_es').hide();
+      $('.label_es').hide();
+      $('.label_es p').hide();
+      $('.row_en').show();
+      $('.label_en').show();
+      $('.label_en p').show();
+    }
+    else{
+      $('.row_en').hide();
+      $('.label_en').hide();
+      $('.label_en p').hide();
+      $('.row_es').show();
+      $('.label_es').show();
+      $('.label_es p').show();
+    }
+  };
+</script>

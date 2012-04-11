@@ -1,0 +1,12 @@
+<%= form_tag change_language_path, {:method => 'POST', :class => 'locale', :id => "form-tab"} do %>
+  <%= hidden_field_tag "locale" %>
+  <%= link_to_function "English", "changeLanguage('en');" %> |
+  <%= link_to_function "Spanish", "changeLanguage('es');" %>
+<% end %>
+<br/>
+<br/>
+
+<%= link_to I18n.t('layout.menu.home'), "/" %> |
+<%= link_to I18n.t('layout.menu.about'), "#" %> |
+<%= link_to I18n.t('layout.menu.try_it'), "#" %> |
+<%= link_to I18n.t('layout.menu.local_search'), "#" %>

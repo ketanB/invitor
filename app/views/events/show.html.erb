@@ -1,0 +1,651 @@
+<%= content_for :javascript_include do%>
+  <%= javascript_include_tag 'thickbox' %>
+  <%= javascript_include_tag 'jquery.form.js' %>
+<% end %>
+<%= content_for :stylesheet do%>
+  <%= stylesheet_link_tag 'thickbox' %>
+<% end %>
+
+<% title @event.name %>
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <div class="langselect">English | Espanol</div>      <ul>
+        <br/>
+        <li class="first">
+<%#= render :partial => 'shared/step_progress' %>
+        </li>
+        <li>
+          <div class="leftpanel">
+            <ul>
+              <li>
+                <div class="box_top"><!----></div>
+                <div class="box_mid">
+                  <h2><%= @event.name %></h2>
+                  <p><strong>Hosted By:</strong>&nbsp;<%= @event.hosted_by %> </p>
+                  <div class="prev">
+                    <% if @event.fg_image_url %>
+                      <%= image_tag @event.fg_image_url , :width=>"414", :height=>"310"%>
+                    <% else %>
+                      <%= image_tag 'default_main_image.jpg' , :width=>"414", :height=>"310"%>
+                    <% end %>
+                  </div>
+                  <div class="desc">
+                    <%=raw @event.description %>
+                  </div>
+                  <div class="location">
+                    <div class="tit">
+                                    	Date &amp; Time:
+                    </div>
+                    <div class="text1">
+                      <div class="bt">
+                        <div class="tp">
+                          <span class="tp_span">
+                            <%= @event.date %> &nbsp;<%= @event.time.strftime('%H:%M') if @event.time%> <br/>
+                            <%= @event.time_zone %>
+                          </span>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tit">
+                                    	Location:
+                    </div>
+                    <div class="text">
+                      <div class="bt">
+                        <div class="tp">
+                          <span class="tp_span">
+                            <%= @event.location_name %>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="box_bot"><!----></div>
+              </li>
+              <% if (current_user and current_user.id == @event.user_id) || @setting.show_comment_board? %>
+                <li>
+
+                  <div class="box_top"><!----></div>
+                  <div class="box_mid">
+                    <div class="postcomment">
+                      <%= form_for :comment, :url => comments_path , :remote => true, :html=> { :id => 'comment_form'} do |f|%>
+
+                        <h3>Post A Comment</h3>
+                        <%= f.text_area :comment, :rows=>1, :cols =>1, :class => 'comment' %>
+                        <%= f.hidden_field :user_id, :value=> current_user.id if current_user%>
+                        <%= f.hidden_field :event_id , :value => @event.id %>
+                        <%= f.hidden_field :guest_id, :value =>@guest.id %>
+
+                        <div class="buttonBox">
+                          <a class="emotions" href="#">Emotions</a>
+                          <span class="submitBtn">
+                            <%= image_submit_tag '/images/submitBtn.png' %>
+                          </span>
+                        </div>
+                      <% end %>
+                      <ul class="comments" id="event_comments">
+
+                      </ul>
+                    </div>
+                  </div>
+                  <div class="box_bot"><!----></div>
+
+                </li>
+              <% end %>
+              <%=render :partial=>"/shared/upload_photos" if (current_user and current_user.id == @event.user_id) || @setting.allow_pictures? %>
+              <%=render :partial=>"/shared/upload_videos" if (current_user and current_user.id == @event.user_id) || @setting.allow_videos? %>
+            </ul>
+          </div>
+
+          <% if current_user %>
+            <%= form_tag contacts_user_path(current_user), :id => 'add_guest_event_form' do |f| %>
+              <%= hidden_field_tag :g_id, params[:g_id] %>
+              <%= hidden_field_tag :event_id, @event.id %>
+            <% end %>
+          <% else %>
+            <%= form_tag login_path, :id => 'add_guest_event_form' do |f| %>
+              <%= hidden_field_tag :g_id, params[:g_id] %>
+              <%= hidden_field_tag :event_id, @event.id %>
+              <%= hidden_field_tag :invite_friend, 1 %>
+            <% end %>
+          <% end %>
+
+          <div class="rightpanel">
+            <ul>
+              <%=render :partial=>"/shared/current_user_info" if (current_user and current_user.id == @event.user_id) or (@vent.event_setting.show_profile_pictures) %>
+              <%=render :partial=>"/shared/guests_list" if (@guest and (@guest.event_host? or @setting.display_guest_list?) or (current_user and current_user.id == @event.user_id))%>
+              <%=render :partial=>"/shared/guest_action" if !current_user and @guest.no_of_people_to_bring == 0%>
+              <%=render :partial=>"/shared/google_map"%>
+            </ul>
+          </div>
+
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="dashbord_bCrv"></div>
+</div>
+
+<div id="something_loading" style="text-align: center; display: none">
+  <div style="margin-top: 50px; width: 100%; text-align: center">
+    <%= image_tag('loading.gif') %>
+  </div>
+</div>
+<% if @guest %>
+  <div id="change_guest_name_lb"  style="display: none">
+    <%= render :partial => 'users/change_guest_name', :locals=> {:g_id=> @guest.id} %>
+  </div>
+<% end %>
+<a id="change_guest_name_link" href="#TB_inline?dd=4&width=300&height=150&inlineId=change_guest_name_lb&modal=true"  class="thickbox"></a>
+
+<div id="reply_comment_lb"  style="display: none">
+  <%= render 'comments/reply_form' %>
+</div>
+<a id="reply_comment_link" href="#TB_inline?dd=4&width=400&height=200&inlineId=reply_comment_lb&modal=true"  class="thickbox"></a>
+
+<div id="edit_reply_comment_lb"  style="display: none">
+  <%= render 'comments/edit_reply_form' %>
+</div>
+<a id="edit_reply_comment_link" href="#TB_inline?dd=4&width=400&height=200&inlineId=edit_reply_comment_lb&modal=true"  class="thickbox"></a>
+
+
+<style type="text/css">
+  body {background: none}
+
+  div.footerBg {background: none}
+
+  #frame .dashbord .dashbord_mRepeat .midshade ul.language {
+    margin-bottom: 10px;
+  }
+
+  span.tp_span{
+    width: 120px;
+    height: 45px;
+    padding: 5px;
+    float: left;
+  }
+  #send_invitation{
+    width:200px;
+    height: 28px;
+    padding-top: 5px;
+    -moz-border-radius: 5px;
+    float: left;
+    background-color:#64c8e9;
+  }
+
+
+  div.cercularback {
+    float:left;
+    width:100%;
+    background: url("<%=@event.bg_image_url%>") 0px 0px repeat;
+    background-attachment: fixed;
+
+  }
+
+
+  p a.change{
+    -moz-border-radius: 5px;
+    background-color:#cccccc;
+    padding: 3px 10px;
+    float: left;
+    margin-left: 57px;
+  }
+  div.invitefriends{
+    float: right;
+  }
+  .googlemap{
+    width: 330px;
+    height: 235px;
+  }
+
+
+  #change_guest_name_lb {
+    float: left;
+    width: 300px;
+    height: 200px;
+
+    display: none;
+  }
+
+  #change_guest_name_form h2 {
+    margin-bottom: 10px;
+  }
+
+  #change_guest_name_form label {
+    width: 95px;
+    font-weight: bold;
+    float: left;
+  }
+
+  #TB_window {-moz-border-radius: 10px;}
+  #close_reply_comment_lb, #close_change_guest_name_lb, #close_edit_reply_comment_lb{
+    float: left;
+    position: absolute;
+    left: 299px;
+    top: 2px;
+    cursor: pointer;
+  }
+
+  #close_reply_comment_lb, #close_edit_reply_comment_lb {left: 399px;}
+  #change_your_name{
+    font-size: 8px;
+  }
+  p.comment{
+    margin-top: 5px;
+    padding: 10px 0;
+  }
+  p.comment_reply{
+    margin-left: 10px;
+    margin-top: 5px;
+    padding: 10px;
+    border: 2px solid #cccccc;
+  }
+  .profileimg img {
+    width: 54px; height: 54px;
+    overflow: hidden;
+  }
+  #event_photos {
+    float: left;
+    width: 524px;
+  }
+
+  #event_photos .loading {
+    float: left;
+    margin-left: 250px;
+  }
+  #event_photos img {
+    float: left;
+    margin: 9px;
+    -moz-border-radius: 5px;
+    border: 2px solid #cccccc;
+    cursor: pointer;
+  }
+
+  div.desc {
+    width: 524px;
+    margin: 10px;
+    float: left;
+  }
+  #frame .dashbord .dashbord_mRepeat .midshade ul li .leftpanel ul li .box_mid .desc p {text-align: left}
+</style>
+<script  src="http://maps.google.com/maps?file=api&v=2&key=<%=GMAP_API_KEY%>" type="text/javascript"></script>
+<script type="text/javascript">
+  
+  var geocoder;
+  var map;
+  $.fn.displayGMap = function(address, title, lat, lon) {
+
+    // Create new google map object
+    map = new GMap2(document.getElementById("googlemap"));
+
+    //Adds the zoom function on the map
+    map.addControl(new GSmallMapControl());
+
+    // Create new geocoding object
+    geocoder = new GClientGeocoder();
+
+    // Gets the information from geocode and send it to addAddressToMap
+    geocoder.getLocations(address, addAddressToMap);
+
+  };
+
+  var addAddressToMap = function(response){
+
+    // Retrieve the object
+
+    place = response.Placemark[0];
+
+    // Retrieve the latitude and longitude. Important to get everything in one map
+    point = new GLatLng(place.Point.coordinates[1],place.Point.coordinates[0]);
+
+    // Center the map on this point
+    map.setCenter(point, 15);
+
+    // Create a marker
+    marker = new GMarker(point);
+
+    // Add the marker to map
+    map.addOverlay(marker);
+
+    // Add address information to marker
+    marker.openInfoWindowHtml(place.address);
+
+  }
+  var event_id = <%=@event.id%>;
+  
+  var loadGuests = function(){
+
+    $(this).loadGuests($('#event_id').val());
+    $('input#guest_response_3').click(function(){
+      $("#guest_additional_guests").val(0);
+      $("#guest_additional_guests").attr('disabled', 'disabled');
+    });
+
+    $('input#guest_response_1, input#guest_response_2').click(function(){
+      $("#guest_additional_guests").removeAttr('disabled');
+    });
+  };
+  var resetCommentForm = function(){
+    $("#comment_form").get(0).reset()
+    $(this).bindCommentEvents();
+  };
+
+  var resetCommentReplyForm = function(){
+    $("#reply_comment_form").get(0).reset()
+    tb_remove();
+    $(this).bindCommentEvents();
+  };
+
+  var resetEditCommentReplyForm = function(){
+    $("#edit_reply_comment_form").get(0).reset()
+    tb_remove();
+    $(this).bindCommentEvents();
+  };
+  
+  var resetGuestNameForm = function(){
+    $("#change_guest_name_form").get(0).reset()
+    tb_remove();
+  };
+
+  $.fn.loadGuests = function(event_id) {
+    if(event_id){
+      $('#guests_portion').html($('#something_loading').html());
+      $.ajax({
+        url: '/events/'+event_id+'/render_guests',
+        type: 'get',
+        dataType: 'script',
+        success: function(results) {
+          $('input#guest_response_3').click(function(){
+            $("#guest_additional_guests").val(0);
+          });
+
+        }
+      });
+    }
+
+  };
+  
+  $.fn.bindCommentEvents = function() {
+    $('a.comment_reply').click(function(){
+      $('#reply_comment_link').trigger('click');
+      $('#comment_parent_id').val($(this).attr('comment_id'));
+    });
+
+    $('a.edit_reply').click(function(){
+      $('#edit_reply_comment_link').trigger('click');
+      $('#edit_comment_id').val($(this).attr('comment_id'));
+      $('#edit_comment').val($('#reply_content_'+$(this).attr('comment_id')).html());
+    });
+
+    $('a.reply_delete, a.comment_delete').click(function(){
+      $.ajax({
+        url: '/comments/'+$(this).attr('comment_id'),
+        type: 'delete',
+        dataType: 'script',
+        success: function(results) {
+          //$('div#comment_reply_'+$(this).attr('parent_id')).html('');
+        }
+      });
+    });
+
+  };
+
+  $.fn.bindPhotoEvents = function(){
+    $('img.event_uploaded_photo').click(function(){
+      location.href = '/events/'+$(this).attr('event_id')+'/photos?photo='+$(this).attr('photo_id');
+    });
+
+  };
+
+  $.fn.uploadPhoto = function(){
+    $('#uploadPhotoForm #upload_photo').click(function(){
+      if($('#event_photo').val() > ''){
+        //$('#user_bg_images').html($('#category_loading').html());
+        $('#uploadPhotoForm').ajaxSubmit({
+          beforeSubmit: function(a,f,o) {
+            o.dataType = 'json';
+          },
+          complete: function(XMLHttpRequest, textStatus) {
+            var regex = /<[\/]{0,1}(head|body)[^><]*>/g;
+            var body = XMLHttpRequest.responseText;
+            var result = body.replace(regex, '');
+            $('#event_photos').append(result);
+            $('#uploadPhotoForm').get(0).reset();
+            $(this).bindPhotoEvents();
+          }
+        });
+      }
+      return false;
+    });
+  };
+
+  
+
+  $.fn.loadPhotos = function(){
+    $.ajax({
+      url: '/events/'+event_id+'/thumb_photos',
+      type: 'get',
+      dataType: 'script',
+      complete: function(results) {
+        $(this).bindPhotoEvents();
+      }
+    });
+  };
+
+  
+
+  $(document).ready(function() {
+    
+    $("#guest_response_form").bind("ajax:complete", loadGuests);
+    $("#comment_form").bind("ajax:complete", resetCommentForm);
+    $("#reply_comment_form").bind("ajax:complete", resetCommentReplyForm);
+    $("#edit_reply_comment_form").bind("ajax:complete", resetEditCommentReplyForm);
+    $("#change_guest_name_form").bind("ajax:complete", resetGuestNameForm);
+
+
+
+    $(this).loadGuests($('#event_id').val());
+    $('input#guest_response_3').click(function(){
+      $("#guest_additional_guests").val(0);
+      $("#guest_additional_guests").attr('disabled', 'disabled');
+    });
+
+    $('input#guest_response_1, input#guest_response_2').click(function(){
+      $("#guest_additional_guests").removeAttr('disabled');
+    });
+    $(this).loadGuests(event_id);
+    $('#event_photos').html('<span class="loading"> '+$('#something_loading').html()+'</span>');
+    $(this).loadPhotos();
+    $(this).uploadPhoto();
+
+    //$(this).bindPhotoEvents();
+    //load comments
+    $('#event_comments').html($('#something_loading').html());
+    $.ajax({
+      url: '/comments/by_event?event_id='+event_id,
+      type: 'get',
+      dataType: 'script',
+      success: function(results) {
+        $(this).bindCommentEvents();
+        $(this).bindPhotoEvents();
+      }
+    });
+
+    $(this).displayGMap('<%= @event.location_address %>');
+
+    $('#invite_friends').click(function(){
+      $('#add_guest_event_form').submit();
+    });
+
+    $('a#change_your_name').click(function(){
+      $('#change_guest_name_link').trigger('click');
+    });
+
+    $('img.close_lb').click(function(){
+      tb_remove();
+    });
+
+    
+
+  });
+
+
+</script>
+
+<a id="invite_contact_link" href="#TB_inline?a=3&height=250&amp;width=300&amp;inlineId=invite_contact_lb&amp;modal=true"  class="thickbox"></a>
+
+
+
+<script>
+  $('#invitebtn').click(function(){
+    var something_checked = false;
+    if($('recipient_list').val() != "")
+      something_checked = true;
+
+    if(something_checked){
+      $(this).renderEmailsByLanguage();
+      $('#invite_contact_link').trigger('click');
+      //$('#contacts_to_invite').val(checked_contacts.join(','));
+      //$('#invite_guests_form').submit();
+    }
+    else
+      alert('No contacts selected');
+  });
+
+  $.fn.renderEmailsByLanguage = function(){
+    var email_arr = new Array();
+    var emails = $('#recipient_list').val().split(",")
+    $.each(emails, function(index, value) {
+      email_arr.push(value);
+    });
+
+    var html = '';
+    for(var i=0; i< email_arr.length; i++){
+      html += '<div class="emailblock">' + email_arr[i] + '</div>';
+      html += '<input type="hidden" name="email['+i+']" value="'+ email_arr[i] +'"/>';
+      html += '<div class="english"><input name="rbtn[' + i + ']" type="radio" value="en" checked="checked" /></div>';
+      html += '<div class="spanish"><input name="rbtn[' + i + ']" type="radio" value="es" /></div>';
+    }
+    $('#contacts_to_invite').html(html);
+
+  };
+
+</script>
+
+<style type="text/css">
+  #import_contact_lb {
+    float: left;
+    width: 600px;
+    height: 400px;
+
+    display: none;
+  }
+  #new_contact_group_lb {
+    float: left;
+    width: 200px;
+    height: 100px;
+
+    display: none;
+  }
+
+  #new_contact_lb, #edit_contact_lb {
+    float: left;
+    width: 300px;
+    height: 170px;
+    display: none;
+  }
+
+
+  #contact_form h2 {
+    margin-bottom: 10px;
+  }
+  #edit_contact_content label, #contact_form label {
+    width: 95px;
+    font-weight: bold;
+    float: left;
+  }
+
+  #contact_form select{
+    width: 185px;
+    margin-bottom: 10px;
+    float: left;
+  }
+
+  #TB_window {-moz-border-radius: 10px;}
+  #close_contact_group_lb{
+    float: left;
+    position: absolute;
+    left: 199px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #close_contact_lb, #close_edit_contact_lb, #close_invite_contact_lb{
+    float: left;
+    position: absolute;
+    left: 299px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #close_imported_contact_lb{
+    float: left;
+    position: absolute;
+    left: 399px;
+    top: 2px;
+    cursor: pointer;
+  }
+  #save_imported_contacts_lb label {
+    width: 80px;
+    font-weight: bold;
+    float: left
+  }
+  p#not_going_to_save_portion{display: none}
+
+  ul#contacts_by_category li span{
+    font-size: 12px;
+    font-weight: normal;
+  }
+  ul#contacts_by_category{
+    overflow: hidden;
+  }
+  div.email_box {
+    float:left;
+    width:275px;
+    font-family:"Myriad Pro",Arial, Helvetica, sans-serif;
+    color:#777;
+    padding-top:5px;
+  }
+  div.email_box strong{
+    color:#7DAB13;
+  }
+
+
+  div.email_box .emailblock{
+    float:left;
+    width:150px;
+    height:20px;
+    font-size:12px;
+    padding-left:30px;
+  }
+
+  div.email_box .english{
+    float:left;
+    width:48px;
+    height:20px;
+
+    font-size:12px;
+    text-align:center;
+  }
+  div.email_box .spanish{
+    float:left;
+    width:46px;
+    height:20px;
+    font-size:12px;
+    text-align:center;
+  }
+
+</style>

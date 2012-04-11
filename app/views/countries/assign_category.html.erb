@@ -1,0 +1,32 @@
+<%= form_for(@country) do |f| %>
+  <% if @country.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@country.errors.count, "error") %> prohibited this country from being saved:</h2>
+
+      <ul>
+        <% @country.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <div class="field">
+    <%= f.label :country%> :
+    <%= @country.name%>
+  </div>
+
+
+  <div class="field">
+    <%= f.label :available_categories %><br />
+  </div>
+  <% for category in @categories %>
+    <div>
+      <%= check_box_tag "country[category_ids][]", category.id, @associated_cats.include?(category.id) %>
+      <%= category.name %>
+    </div>
+  <% end %>
+  <div class="actions">
+    <%= hidden_field_tag 'assign_category', true %>
+    <%= f.submit 'Update categories' %>
+  </div>
+<% end %>

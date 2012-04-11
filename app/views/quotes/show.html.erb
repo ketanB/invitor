@@ -1,0 +1,40 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Title:</b>
+  <%= @quote.title %>
+</p>
+
+<p>
+  <b>Category:</b>
+  <%= @quote.business_group_id %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @quote.description %>
+</p>
+
+<p>
+  <b>Zip:</b>
+  <%= @quote.state_id %>
+</p>
+
+<p>
+  <b>City:</b>
+  <%= @quote.city_id %>
+</p>
+
+<p>
+  <b>Miles way:</b>
+  <%= @quote.miles_way %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @quote.user_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_quote_path(@quote) %> |
+<%= link_to 'Back', quotes_path %>

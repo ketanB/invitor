@@ -1,0 +1,8 @@
+<% if contact %>
+  <li >
+    <%= check_box_tag "contact_#{contact.id}", contact.id, false, :class=> 'chkbox_contact', :email => contact.email %>
+    <span>
+      <%= contact.email  %>
+    </span>
+  </li>
+<% end %>

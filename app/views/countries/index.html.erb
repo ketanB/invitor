@@ -1,0 +1,26 @@
+<h1>Listing countries</h1>
+
+<table>
+  <tr class="evenRow">
+    <th>Code</th>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @countries.each do |country| %>
+  <tr class="<%= cycle('oddRow', 'evenRow') %>">
+    <td><%= country.code %></td>
+    <td><%= country.name %></td>
+    <td><%= link_to 'Show', country %></td>
+    <td><%= link_to 'Assign Categories', assign_category_country_path(country) %></td>
+    <td><%= link_to 'Edit', edit_country_path(country) %></td>
+    <td><%= link_to 'Destroy', country, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+<%= will_paginate  @countries%><br/>
+<%= link_to 'New Country', new_country_path %>

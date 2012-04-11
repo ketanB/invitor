@@ -1,0 +1,25 @@
+<%= form_for(@contact, :url => add_contacts_path) do |f| %>
+  <% if @contact.errors.any? %>
+  <div id="errorExplanation">
+    <h2><%= pluralize(@contact.errors.count, "error") %> prohibited this user from being saved:</h2>
+    <ul>
+    <% @contact.errors.full_messages.each do |msg| %>
+      <li><%= msg %></li>
+    <% end %>
+    </ul>
+  </div>
+  <% end %>
+  <%= hidden_field_tag "contact[provider]", @provider %>
+  <p>
+    <%= f.label :email %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.label :password %><br />
+    <%= f.password_field :password %>
+  </p>
+
+  <div class="actions">
+    <%= f.submit "Import Contact" %>
+  </div>
+<% end %>

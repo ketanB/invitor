@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
+
+  <head>
+<meta name="google-site-verification" content="a-CJk02SvsLrMDSFDviolUpxrsA9ik7odfm_XY-CRqg" />
+    <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+    <title>Invitar | <%= @title || "Welcome" %></title>
+    <%= stylesheet_link_tag "style" , 'jquery-ui', 'autocomplete', 'stylejv' %>
+    <%= yield :stylesheet %>
+
+    <%= javascript_include_tag  'jquery','jquery.min', 'jquery-ui.min','rails', 'application', 'autocomplete-rails','markerclusterer' %>
+    
+   <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
+   <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>-->
+
+    
+
+    <%= yield :javascript_include %>
+    <%= yield :javascript_tag %>
+    <%= include_tiny_mce_if_needed %>
+    <%= content_for :javascript_include  do%>
+   
+    <% end %>
+    <!--<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>-->
+
+  </head>
+  <body>
+<%#= fb_connect_javascript_tag %>
+<%#= init_fb_connect "XFBML", :js => :jquery %>
+
+    <div id="feedback"> <a href="#"><img src="/images/feedback_Btn.png"  /></a> </div>
+    <div>
+      <div class="footerBg">
+        <div id="frame">
+          <%= render 'layouts/header_with_search' %>
+          <%= render 'layouts/flash_messages' %>
+          <%= yield %>
+          <div class="footer">
+            <div class="footLeft"> <a href="#">Home</a>&nbsp;::&nbsp;<a href="#">About</a>&nbsp;::&nbsp;<a href="#">Try it</a> </div>
+            <div class="footRight"> copyright &copy; <%=Time.now.year%> invitar.com All right reserved&nbsp;&nbsp; <a href="#">Privacy Policy</a>&nbsp;|&nbsp;<a href="#">Terms of use</a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

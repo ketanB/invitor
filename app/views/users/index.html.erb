@@ -1,0 +1,23 @@
+<h1>Listing users</h1>
+
+<table>
+  <tr class="evenRow">
+    <th>Name</th>
+    <th>Role</th>
+    
+  </tr>
+
+<% @users.each do |user| %>
+ <tr class="<%= cycle('oddRow', 'evenRow') %>">
+    <td><%= user.full_name %></td>
+    <td><%= user.role.name  if user.role%></td>
+    <td><%= link_to 'Show', user %></td>
+    <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    <td><%= link_to 'Destroy', user, :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New User', new_user_path %>

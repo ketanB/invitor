@@ -1,0 +1,20 @@
+<li id="comment_<%=comment.id%>">
+  <span class="profileImg"><img width="30" height="30" src="images/smll_profile.png"/> </span>
+  <div class="commenting">
+    <p><strong><%= comment.comment_by %> </strong> <span> &nbsp; </span><span style="padding: 0px 10px"><%= time_ago_in_words comment.created_at %> Ago</span></p>
+    <p class="comment"><%= comment.comment %></p>
+
+    <div id="comment_reply_<%=comment.id%>">
+      <% if comment.reply %>
+        
+          <%= render :partial =>'reply', :locals => {:reply => comment.reply}%>
+        
+      <% end %>
+    </div>
+
+    <% if current_user && comment.event.user_id == current_user.id%>
+    <p>
+      <a style="display: <%= 'none' if comment.reply %>" id="reply_link_<%=comment.id%>" class="comment_reply" comment_id ="<%=comment.id%>" href="javascript:void(0)">reply</a>&nbsp;&nbsp;<a class="comment_delete" comment_id ="<%=comment.id%>" href="javascript:void(0)">delete</a></p>
+    <% end %>
+  </div>
+</li>

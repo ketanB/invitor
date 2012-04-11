@@ -1,0 +1,9 @@
+<% @contacts.each do |contact| %>
+<li>
+  <span class="checkbox">
+    <%= check_box_tag 'contacts[]', "#{contact[1]}[#{contact[0]}]", false , :class => 'chk_contact' %>
+  </span>
+  <span class="email"><%= contact[1] %></span>
+  <span class="name"><%= contact[0] %></span>
+</li>
+<% end %>

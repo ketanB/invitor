@@ -1,0 +1,29 @@
+<% form_for [@reviewable, Review.new] do |f| %>
+  <% if @review && @review.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@review.errors.count, "error") %> prohibited this review from being saved:</h2>
+
+      <ul>
+        <% @review.errors.full_messages.each do |msg| %>
+          <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= f.text_area :comment, :class=> 'comment' %>
+  </p>
+  <p>
+    <b> Rating </b> &nbsp;&nbsp;&nbsp;<%= f.select :rating, 1..5 %><br/>
+    <b> Usefulness </b> &nbsp;&nbsp;&nbsp;
+    <%= f.radio_button(:status, 1) %> Useful
+    <%= f.radio_button(:status, 2) %> Cool
+    <%= f.radio_button(:status, 3) %> Funny
+  </p>
+  <div class="buttonBox"><a name="review"></a>
+    <span class="submitBtn">
+      <%= image_submit_tag 'submitBtn.png' %>
+    </span>
+  </div>
+
+<% end %>

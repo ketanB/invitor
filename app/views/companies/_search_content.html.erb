@@ -1,0 +1,139 @@
+          <div class="leftpanel">
+            <ul>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="postcomment">
+                    <ul class="comments">
+                      <li style="border:none;">
+                        <% tmp_params = params.clone %>
+                        <ul class="sort">
+                          <li class="tit">Sort By</li>
+                          <li class="<%= 'selected' if params[:hr].blank? && params[:mr].blank?  %>" ><%= raw '<span>» </span> ' if params[:hr].blank? && params[:mr].blank? %><%= link_to 'Best Match', url_for(tmp_params.merge(:action => :remote_search, :hr => nil, :mr => nil)), :class=> "remote-search" %> </li>
+                          <li class="<%= 'selected' if !params[:hr].blank? && params[:mr].blank? %>" ><%= raw '<span>» </span> ' if !params[:hr].blank? && params[:mr].blank? %><%= link_to 'Highest Rated', url_for(tmp_params.merge(:action => :remote_search, :hr=>1, :mr => nil)), :class=> "remote-search" %> </li>
+                          <li class="<%= 'selected' if params[:hr].blank? && !params[:mr].blank?  %>"><%= raw '<span>» </span> ' if params[:hr].blank? && !params[:mr].blank? %><%= link_to 'Most Reviewed', url_for(tmp_params.merge(:action => :remote_search, :hr=>nil, :mr => 1)), :class=> "remote-search" %> </li>
+                        </ul>
+
+                        <ul class="sort">
+                          <li class="tit">Cities</li>
+                          <% @cities.each_with_index do |city, index| %>
+                            <li><span class="chk"><input class="input-remote-search" name="city" type="checkbox" value="<%= city[0] %>" <%= "checked" if (",#{params[:cities]},".index(",#{city[0]},")) %> /></span><span class="txt"><%= city[1] %></span></li>
+                          <% end %>
+                          <input type="hidden" id="current_url" value="<%= url_for(params.merge(:action => :remote_search).delete_if{|k,v| k == "cities"}) %>"/>
+                        </ul>
+
+                        <ul class="sort">
+                          <li class="tit">Distance</li>
+                          <li class="<%= "selected" if params[:dsn] == "15" %>"><a href="<%= url_for(params.merge(:action => :remote_search, :dsn => 15)) %>" class="remote-search">Bird's-eye View</a></li>
+                          <li class="<%= "selected" if params[:dsn] == "5" %>"><a href="<%= url_for(params.merge(:action => :remote_search, :dsn => 5)) %>" class="remote-search">Driving (5 mi.)</a></li>
+                          <li class="<%= "selected" if params[:dsn] == "2" %>"><a href="<%= url_for(params.merge(:action => :remote_search, :dsn => 2)) %>" class="remote-search">Biking (2 mi.)</a></li>
+                          <li class="<%= "selected" if params[:dsn] == "1" %>"><a href="<%= url_for(params.merge(:action => :remote_search, :dsn => 1)) %>" class="remote-search">Walking (1 mi.)</a></li>
+                        </ul>
+
+                      </li>
+
+                    </ul>
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+              <% if @companies.size > 0 %>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="postcomment">
+                    <ul class="comments">
+                      <% @companies.each_with_geodist do |company, distance| %>
+                        <% cache "search/company/#{company.id}" do %>
+                        <li>
+                          <div class="ratelist">
+                            <div class="leftlist">
+                              <p><strong><%= link_to company.name, company_path(company) %></strong><br />
+                                <span class="cat">Categories: <%= raw category_list_link(company.categories, :remote_search) %></span></p>
+                            </div>
+                            <div class="rightlist">
+                              <span class="stars">
+                                <span class="frame">
+                                  <span style=" float: left; width: <%= company.rating.to_i*17 %>px ; overflow: hidden">
+                                    <%= image_tag 'stars.png'%>
+                                  </span>
+                                </span>
+                                <span class="reviews_count"><%= pluralize(company.reviews_count, 'review')%></span>
+                              </span>
+                              <p> <%= company.address %><br/>
+                                <%= company.location %><br/>
+                                <%= company.phone %>
+                                <!--
+                                <% if distance %>
+                                  <br/>Distance <%= sprintf('%.2f', distance/Company::METERS_PER_MILE) %> miles from <%= params[:csz] %>
+                                <% end %>
+                                -->
+                              </p>
+                            </div>
+                          </div>
+                          <span class="profileImg"><img src="/images/smll_profile.png" width="30" height="30" /> </span>
+                          <div class="commenting">
+                            <p><%= company.detail %> </p>
+                          </div>
+                        </li>
+                        <% end %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+              <% end %>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="paging">
+                    <div class="leftnum">
+                      <div class="total_entries"><strong><%= page_entries_info @companies %></strong> <%= raw '&nbsp;|&nbsp;Go to Page'  if @companies.total_pages > 1 %> </div>
+                      <%= will_paginate @companies,:previous_label => '',:next_label => '', :inner_window => 5 %>
+
+                    </div>
+                    <div class="rightnum">
+                      <%= will_paginate @companies, :previous_label => 'Prev',:next_label => 'Next', :separator =>'::', :page_links => false if @companies%>
+
+                    </div>
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+<div class="rightpanel">
+            <ul>
+              <li>
+                <div class="box_top">
+                  <!---->
+                </div>
+                <div class="box_mid">
+                  <div class="module">
+                    <h4>Google Map</h4>
+                    <%= raw @map.to_html %>
+                    <div class="googlemap" style="width:330px;height:232px;" id="map" >[Map]</div>
+                  </div>
+                </div>
+                <div class="box_bot">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+<script type="text/javascript">
+  var cities = <%= params[:cities].to_s.split(",").inspect %>;
+</script>

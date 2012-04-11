@@ -1,0 +1,44 @@
+<li>
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+    <div class="module">
+      <h4>Guest Action</h4>
+
+      <%if @event.setting.allow_guests_to_bring_people%>
+        <div id="g_action_1">
+          <table>
+            <tr>
+              <td>Number of Guests</td>
+              <td><%=text_field_tag "no_of_guests"%></td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <input id="persons_with_guests_btn" type="submit" value="Update"/>
+              </td>
+            </tr>
+          </table>
+        </div>
+      <%end%>
+    </div>
+  </div>
+  <div class="box_bot"><!----></div>
+</li>
+
+<script>
+  
+  $('#persons_with_guests_btn').click(function(){
+
+    if( $('#no_of_guests').val() > <%=@event.setting.max_people_to_bring%>)
+    alert("Not allowed, only <%=@event.setting.max_people_to_bring%> guests are allowed.");
+    else{
+      $.ajax({
+        url: '/guests/guest_bringing_people/?no_of_guests=' + $('#no_of_guests').val() + '&id=100',
+        success: function(results) {
+          $('#g_action_1').attr('innerHTML', results)
+        }
+      });
+    }
+
+  });
+
+</script>

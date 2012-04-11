@@ -1,0 +1,137 @@
+
+<div class="banner">
+  <div class="invitation_block">
+    <h1>&nbsp;</h1>
+    <%= link_to '', new_event_path, :class => 'btn_try'  %>
+  </div>
+  <div class="business_block">
+    <h1>&nbsp;</h1>
+    
+    <div style="clear:both"></div>
+    <%= link_to '', {:controller => "quotes", :action => "new" }, :class => 'btn_get' %>
+  </div>
+</div>
+<div class="thumb">
+  <ul>
+
+    <li><%= link_to('', new_step_1_path, :title => 'Choose A Design', :class =>'choose_design' ) %></li>
+    <li><%= link_to('', new_step_2_path, :title => 'Pick A Date', :class =>'send_invitation' ) %></li>
+    <li><%= link_to('', new_step_3_path, :title => 'Share With Your Friends', :class =>'share' ) %></li>
+    <li><%= link_to('', new_step_4_path, :title => 'Look At Who Is Going To The Event', :class =>'search' ) %></li>
+  </ul>
+</div>
+
+<div class="boxes">
+  <ul>
+    <li>
+
+
+      <div class="topcrv">
+        <ul class="linkthumb">
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox bakery"></span><span class="footlinks">Bakeries</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox boat"></span><span class="footlinks">Boat Charters</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox card"></span><span class="footlinks">Cards &amp; Stationery</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox caterers"></span><span class="footlinks">Caterers</span>
+            <% end %>
+          </li>
+
+
+        </ul>
+      </div>
+      <div class="botcrv"><!----></div>
+    </li>
+
+    <li>
+      <div class="topcrv">
+
+        <ul class="linkthumb">
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox djs"></span><span class="footlinks">DJS</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox hotels"></span><span class="footlinks">HOTELS</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox party_plan"></span><span class="footlinks">Party &amp; Event Planning</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox party_suply"></span><span class="footlinks">Party Supplies</span>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div class="botcrv"><!----></div>
+    </li>
+    <li class="last">
+
+      <div class="topcrv">
+        <ul class="linkthumb">
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox chefs"></span><span class="footlinks">Personal Chefs</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox photographs"></span><span class="footlinks">Photographers</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox venue"></span><span class="footlinks">Venues &amp; Event Spaces</span>
+            <% end %>
+          </li>
+
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox wedding"></span><span class="footlinks">Wedding Planning</span>
+            <% end %>
+          </li>
+          <li><%= link_to search_categories_path do  %>
+              <span class="iconBox limo"></span><span class="footlinks">Limo services</span>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div class="botcrv"><!----></div>
+    </li>
+  </ul>
+</div>
+<script type="text/javascript">
+  
+
+  $(document).ready(function(){
+    $('#search_field').focus(function(){
+      if($(this).val() == 'enter keyword')
+        $(this).val('');
+    });
+
+    $('#search_field').blur(function(){
+      if($.trim($(this).val()) == '')
+        $(this).val('enter keyword');
+    });
+    
+    /*
+    $('#search_field').autocomplete({
+      url : "/companies/autocomplete_tags",
+      mustMatch : false  
+    }
+  );
+    $("#search_field").autocomplete('result', function(event, data, formatted) {
+      if (data)
+        alert(data[1]);
+    });
+  
+     */
+
+  });
+</script>

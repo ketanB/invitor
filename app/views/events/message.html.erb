@@ -1,0 +1,33 @@
+<%= render :partial => "tab_menus", :locals => {:event => @event} %>
+
+<br/>
+<br/>
+<h1>Send a message to Guests</h1>
+<div class="roundinnercont">
+  <label for="to">Send To:</label>
+  <div class="left event_message_options">
+    <p><%= check_box_tag "attending" %>	Attending (1)</p>
+    <p><%= check_box_tag "may_be" %> Maybe (0)</p>
+    <p><%= check_box_tag "not_attending" %> Not Attending (0)</p>
+    <p><%= check_box_tag "no_response" %> Not Yet Replied (1)</p>
+  </div>
+  <div class="clear"></div>
+  <br/>
+  <!--TITLE-->
+  <p>
+    <label for="title">Subject:</label>
+  </p>
+  <input type="text" class="text" size="45" maxlength="255" id="title" value="" name="title"></input><br/>
+  <p>
+    <label for="message">Message:</label>
+  </p>
+  <textarea class="desc" id="message" rows="4" cols="65" name="message"></textarea>
+
+  <p>
+    <input type="checkbox" id="include_event_details" checked="checked" value="1" name="include_event_details"></input> &nbsp;Include the invitation details in the message
+  </p>
+  <br/>
+  <div class="center">
+    <button class="submitBtn" type="submit" value="submit"><span>Send Message</span></button>
+  </div>
+</div>

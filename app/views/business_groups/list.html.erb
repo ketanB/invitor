@@ -1,0 +1,143 @@
+<div class="dashbord">
+  <div class="dashbord_tCrv">
+    <!---->
+  </div>
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+      <ul class="language">
+        <li>
+          <a class="english" href="javascript:change_Language('en');">English</a>
+        </li>
+        <li>
+          <a class="spanish" href="javascript:change_Language('es');" >Espanol</a>
+        </li>
+      </ul>
+      <ul>
+        <li class="first">
+
+
+          <div class="title">
+          </div>
+        </li>
+        <li>
+          <div class="details" style="float: left; margin-left: 25px; ">
+            <ul>
+              <li>
+                <div class="det_topcrv">
+                  <!---->
+                </div>
+                <div class="det_midRep">
+                  <div class="title">
+                    <label style="margin-left: 20px; margin-right: 340px;">Category</label>
+                    <label style="margin-left: 10px; font-size: small;">More Categories >></label>
+                  </div>
+                  <div style="">
+
+                  </div>
+                  <div class="quote">
+                    <input class="get_quote" type="button" value="" />
+                  </div>
+
+                  <%= render :partial => 'categories' %>
+
+                </div>
+                <div class="det_botcrv">
+                  <!---->
+                </div>
+              </li>
+            </ul>
+          </div>
+          <%= render :partial => 'browse_category' %>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+  <style type="text/css">
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_mid .module {
+      color:#05678E;
+      background-color: #7FC9E4;
+      font-family:Verdana,Geneva,sans-serif;
+      font-size:18px;
+      height:24px;
+      width: 217px;
+      margin-left: 3px;
+      margin-bottom: 5px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_mid .browse_category {
+      margin-top: 5px;
+    }
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_mid .browse_category p {
+      margin-left: 15px;
+      font-size: 11px;
+      margin-bottom: 1px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_top {
+      background: url("/images/rp1_topcrv.png") no-repeat scroll 0 0 transparent;
+      float: left;
+      height: 9px;
+      width: 232px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_mid {
+      background: url("/images/rp1_midRep.png") repeat-y scroll 0 0 transparent;
+      float: left;
+      font-family: "Myriad Pro",Arial,Helvetica,sans-serif;
+      width: 232px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .rightpanel ul li .box_bot {
+      background: url("/images/rp1_botcrv.png") no-repeat scroll 0 0 transparent;
+      float: left;
+      height: 9px;
+      width: 232px;
+    }
+
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .row label {
+      color:#777777;
+      float:left;
+      font-family:Verdana,Geneva,sans-serif;
+      font-size:22px;
+      font-weight:bold;
+      height:28px;
+      line-height:28px;
+      width:550px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .title {
+      color:#05678E;
+      background-color: #7FC9E4;
+      font-family:Verdana,Geneva,sans-serif;
+      font-size:18px;
+      height:24px;
+      width: 606px;
+    }
+
+    #frame .dashbord .dashbord_mRepeat .midshade ul li .details ul li .det_midRep .quote {
+      color:#05678E;
+      background-color: #E5F0F4;
+      font-family:Verdana,Geneva,sans-serif;
+      font-size:18px;
+      width: 601px;
+      margin-bottom: 20px;
+      margin-top: 37px;
+      margin-left: 2px;
+
+    }
+
+    .get_quote {
+      width: 154px;
+      height: 43px;
+      border: none;
+      background:url(/images/get_quote_btn.png) no-repeat;
+      margin-left: 435px;
+    }
+
+
+
+  </style>

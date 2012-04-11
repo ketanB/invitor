@@ -1,0 +1,32 @@
+<li>
+  <div class="box_top"><!----></div>
+  <div class="box_mid">
+
+    <span class="profileimg">
+      <% if @guest && @setting.show_profile_pictures? %>
+        <%= image_tag  @guest.avatar, :width=> 54, :height=>54%>
+      <% else %>
+      <%=image_tag "profileImg.png", :width=>54, :height=>54%>        
+      <% end %>
+    </span>
+
+    <div class="details">
+      <p>Welcome
+        <span id="guest_name_span">
+
+          <% if @guest && @guest.name > '' %>
+            <%= @guest.name %>
+          <% elsif current_user %>
+            <%= current_user.email %>
+          <% else %>
+            guest
+          <% end %>
+        </span>
+        <%= link_to 'Change', 'javascript:void(0)',:id => 'change_your_name' if current_user%>
+      </p>
+      <p class="email">&nbsp;</p>
+    </div>
+
+  </div>
+  <div class="box_bot"><!----></div>
+</li>

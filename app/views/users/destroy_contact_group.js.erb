@@ -1,0 +1,2 @@
+$("#contact_groups").html("<%= escape_javascript(render :partial=>'contact_groups/contact_group', :collection => current_user.contact_groups) %>");
+$(".contact_group_select").html("<%= escape_javascript(render_contact_group_select(current_user.contact_groups))%>");

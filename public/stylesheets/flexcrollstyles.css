@@ -1,0 +1,52 @@
+
+#mycustomscroll {
+	/* Typical fixed height and fixed width example */
+width:120px;
+	margin-top:11px;
+	margin-right:20px;
+	height:231px;
+	overflow:auto;
+	/* IE overflow fix, position must be relative or absolute*/
+position: relative;
+}
+.scrollgeneric {
+	line-height: 1px;
+	font-size: 1px;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.vscrollerbase {
+	width: 12px;
+	background:#d6e8f5;
+}
+.vscrollerbar {
+	width: 12px;
+	background: #89ceff;
+}
+.vscrollerbar, .hscrollerbar {
+	padding: 10px;
+	z-index: 2;
+}
+.vscrollerbarbeg {
+	background: #89ceff;
+	width: 12px;
+	height: 12px !important;
+}
+.vscrollerbarend {
+	background: #89ceff;
+	width: 12px;
+	height: 12px;
+}
+.vscrollerbasebeg {
+	background:#89ceff url(../images/flexScroll.png) 0px -12px no-repeat;
+	width: 12px;
+	height: 12px !important;
+}
+.vscrollerbaseend {
+	background:#89ceff url(../images/flexScroll.png) 0px 0px no-repeat;
+	height: 12px;
+	width: 12px;
+}
+
+/* Scroll Bar Master Styling Ends Here */

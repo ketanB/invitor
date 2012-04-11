@@ -1,0 +1,25 @@
+<%= form_for(@business_group) do |f| %>
+  <% if @business_group.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@business_group.errors.count, "error") %> prohibited this business_group from being saved:</h2>
+
+      <ul>
+      <% @business_group.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :title %><br />
+    <%= f.text_field :title %>
+  </div>
+  <div class="field">
+    <%= f.label :active %><br />
+    <%= f.check_box :active %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
