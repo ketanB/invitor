@@ -395,7 +395,7 @@ class CompaniesController < ApplicationController
       if company.latitude && company.longitude
         marker = Cartographer::Gmarker.new(
           :name=> "org#{company.id}", :marker_type => "Organization",
-          :position => [company.lat_degree,company.lng_degree],
+          :position => [company.latitude,company.longitude],
           :info_window_url => url_for(:action => :company_location, :id => company.id),
           :icon => icon_org)
         map.markers << marker
@@ -403,15 +403,15 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def center(companies)
+  def center(companies)  
     center = [37.09024, -95.712891]#Set default center on US
     if companies.size > 0
       lats = []
       lngs = []
       companies.each do |company|
         if company.latitude && company.longitude
-          lats << company.lat_degree
-          lngs << company.lng_degree
+          lats << company.latitude
+          lngs << company.longitude
         end
       end
       center = [lats.instance_eval{reduce(:+)/size.to_f}, lngs.instance_eval{reduce(:+)/size.to_f}] unless lats.empty?
