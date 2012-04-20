@@ -1,0 +1,12 @@
+<div>
+  <div class="title">More Cities »</div>
+  <div class="content">
+    <% @cities.each_with_index do |city, index| %>
+      <li><span class="chk"><input class="facebox-remote-search" name="city" type="checkbox" value="<%= city[0] %>" <%= "checked" if (",#{params[:cities]},".index(",#{city[0]},")) %> /></span><span class="txt"><%= city[1] %></span></li>
+    <% end %>
+  </div>
+  <div class="footer-custom">
+    <a href="#" class="cancel" >Cancel</a>
+    <input id="search" type="submit" value="Search" />
+  </div>
+</div>

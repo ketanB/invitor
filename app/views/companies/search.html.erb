@@ -1,8 +1,10 @@
 <% content_for :stylesheet do %>
   <%= stylesheet_link_tag "jquery.loadmask.css"%>
+  <%= stylesheet_link_tag "../javascripts/facebox/facebox" %>
 <% end %>
 <% content_for :javascript_tag do %>
   <%= javascript_include_tag  'jquery.loadmask.js' %>
+  <%= javascript_include_tag "facebox/facebox" %>
 <% end %>
 <style type="text/css">
   span.cat a{padding: 0px 5px;}
@@ -73,9 +75,34 @@
 </div>
 
 <script type="text/javascript">
+  var temp_cities;
+  var cities;
+  var doSearch = false;
   $(document).ready(function() {
     Search.initPage();
     Search.bindSearch();
+    $(document).bind('reveal.facebox', function() {
+      temp_cities = jQuery.extend(true,[] , cities);
+      $("#facebox .cancel").bind("click", function(){
+        $.facebox.close();
+      });
+      $("#facebox #search").bind("click", function(){
+        var url = Search.buildCityUrl();
+        Search.remoteSearch(url);
+        doSearch = true;
+        $.facebox.close();
+      });
+      $("#facebox .facebox-remote-search").bind("click", function(){
+        Search.updateCitiesId(this);
+      });
+    });
+
+    $(document).bind('close.facebox', function() {
+      if(doSearch == true){
+        cities = jQuery.extend(true,[] , temp_cities);
+      }
+      doSearch = false;
+    });
   })
   Search = {
     initPage: function(){
@@ -83,6 +110,7 @@
       $('.leftnum .next_page').remove();
     },
     bindSearch: function(){
+      cities = $("#city_ids").val().split(",");
       $(".remote-search").bind("click", function(){
         var url = $(this).attr("href");
         Search.remoteSearch(url);
@@ -98,6 +126,7 @@
         Search.remoteSearch(url);
         return false;
       });
+      $('a[rel*=facebox]').facebox();
     },
     buildCityUrl: function(){
       var url = $("#current_url").val();

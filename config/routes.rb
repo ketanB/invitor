@@ -54,6 +54,7 @@ Invitar::Application.routes.draw do |map|
       get :search
       get :remote_search
       get :company_location
+      get :search_more_cities
       post :create_info
       get :list_info
       get :dashboard

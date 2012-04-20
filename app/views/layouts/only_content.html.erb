@@ -11,8 +11,8 @@
 
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>
-<%#= javascript_include_tag 'jquery','jquery.min', 'jquery-ui', 'rails', 'application' %>
-    <%= javascript_include_tag  'jquery','rails', 'application', 'jquery.min', 'jquery-ui.min' %>
+<%#= javascript_include_tag 'jquery.min', 'jquery-ui', 'rails', 'application' %>
+    <%= javascript_include_tag  'rails', 'application', 'jquery.min', 'jquery-ui.min' %>
     <%= yield :javascript_include %>
     <%= yield :javascript_tag %>
     <%= include_tiny_mce_if_needed %>

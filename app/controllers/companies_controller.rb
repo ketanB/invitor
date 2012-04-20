@@ -346,6 +346,11 @@ class CompaniesController < ApplicationController
     @map = initialize_map(@companies)
     render :partial => "search_content"
   end
+
+  def search_more_cities
+    @cities = Company.ts_search_cities(params, 20)
+    render :partial => "search_more_cities"
+  end
   
   def photos
     @company = Company.where(:id => params[:id]).includes(:assets).first
@@ -383,7 +388,7 @@ class CompaniesController < ApplicationController
     map.marker_clusterer = true
     map.marker_mgr = true
     map.center = center(companies)
-    map.zoom = 4
+    map.zoom = :bound
     set_markers(map, companies)
     return map
   end
@@ -403,14 +408,14 @@ class CompaniesController < ApplicationController
     end
   end
 
-  def center(companies)  
+  def center(companies)
     center = [37.09024, -95.712891]#Set default center on US
     if companies.size > 0
       lats = []
       lngs = []
       companies.each do |company|
         if company.latitude && company.longitude
-          lats << company.latitude
+          lats <<  company.latitude
           lngs << company.longitude
         end
       end

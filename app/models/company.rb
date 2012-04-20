@@ -83,32 +83,20 @@ class Company < ActiveRecord::Base
       hash_conditions = {:geo => near(args), :with => with(args),
           :include => :company, :page => (args[:page] || 1), :per_page => per_page,
           :match_mode => :all, :order => order(args)}
-      results = self.search(key_words(args), hash_conditions)
+      results = self.search(keywords(args), hash_conditions)
       return results
     end
 
-    def ts_search_cities(args)
-      hash_conditions = {:geo => near(args),
-          :include => :company, :limit => 100,
-          :match_mode => :all}
-      results = self.search(key_words(args), hash_conditions)
-      cities = []
-      results.each do|company|
-        city = company.city_id
-        cities << city unless cities.include?(city)
-      end
-      City.limit(4).each do |c|
-        cities << c.id unless cities.include?(c.id)
-      end if cities.size < 4
-      results = []
-      City.find(cities[0..3]).each do |c|
-        results << [c.id, c.name]
-      end
-      return results[0..3]
+    def ts_search_cities(args, limit=4)
+      hash_conditions = {:geo => near(args), :match_mode => :all, :order => "@relevance DESC"}
+      results = self.search(keywords(args), hash_conditions)
+      results = results.map{|x| x.city_id}.uniq[0..limit-1]
+      cities = City.find(results).map{|x| [x.id, x.name]}
+      return cities
     end
 
-    def key_words(args)
-      key_words = args[:tag_name]
+    def keywords(args)
+      key_words = args[:csz]
       unless args[:cat].blank?
         key_words = "#{key_words} #{args[:cat]}"
       end
@@ -131,7 +119,7 @@ class Company < ActiveRecord::Base
       return [args[:lat], args[:lng]]
     end
 
-    def with(args, city = true)
+    def with(args, city = true)    
       with = {}
       if city && !args[:cities].blank?
         with[:city_id] = args[:cities].split(",").map{|x| x.to_i}
@@ -148,7 +136,7 @@ class Company < ActiveRecord::Base
       elsif args[:mr].to_i == 1
         'reviews_count DESC'
       elsif !args[:csz].blank?
-        "@geodist ASC"
+        "@relevance DESC"
       else
         ''
       end

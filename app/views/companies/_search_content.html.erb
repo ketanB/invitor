@@ -21,6 +21,9 @@
                           <% @cities.each_with_index do |city, index| %>
                             <li><span class="chk"><input class="input-remote-search" name="city" type="checkbox" value="<%= city[0] %>" <%= "checked" if (",#{params[:cities]},".index(",#{city[0]},")) %> /></span><span class="txt"><%= city[1] %></span></li>
                           <% end %>
+                          <% if @cities.size == 4 %>
+                            <a href="<%= url_for(params.merge(:action => :search_more_cities)) %>" rel="facebox" style="font-size: 12px;">… More Cities »</a>
+                          <% end %>
                           <input type="hidden" id="current_url" value="<%= url_for(params.merge(:action => :remote_search).delete_if{|k,v| k == "cities"}) %>"/>
                         </ul>
 
@@ -134,6 +137,4 @@
               </li>
             </ul>
           </div>
-<script type="text/javascript">
-  var cities = <%= params[:cities].to_s.split(",").inspect %>;
-</script>
+          <input type="hidden" id="city_ids" value="<%= params[:cities] %>"/>
