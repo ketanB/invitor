@@ -1,17 +1,17 @@
-set :application, "invitar"
-set :repository,  "gull@invitar.com:/opt/invitar"
+set :application, "invitar_demo"
+set :repository,  "git@github.com:ketanB/invitor.git"
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
-set :scm_username, "gull"
-set :runner, "gull"
+set :scm_username, "ketanB"
+set :user, "xiga"
 set :use_sudo, false
 set :branch, "master"
 set :deploy_via, :remote_cache
-set :deploy_to, "/var/rails/apps/invitar"
+set :deploy_to, "/var/rails/apps/ketan/invitar"
 default_run_options[:pty] = true
-set :fragment_cache, "/var/rails/apps/invitar/shared/cache"
+set :fragment_cache, "/var/rails/apps/ketan/invitar/shared/cache"
 
 role :web, "50.16.226.210"                          # Your HTTP server, Apache/etc
 role :app, "50.16.226.210"                          # This may be the same as your `Web` server
@@ -26,7 +26,7 @@ namespace :deploy do
   task :start do ; end
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
-    run "touch #{current_path}/tmp/restart.txt"
+    #run "touch #{current_path}/tmp/restart.txt"
   end
 end
 
@@ -38,14 +38,14 @@ end
 
 
 before "deploy:update", :roles => [:app] do
-  run "cd #{current_path} && RAILS_ENV=production rake ts:stop"
+  #run "cd #{current_path} && RAILS_ENV=production rake ts:stop"
 end
 
 after "deploy:update", :roles => [:app] do
   bundler
   symlink
-  run "cd #{current_path} && RAILS_ENV=production rake ts:index"
-  run "cd #{current_path} && RAILS_ENV=production rake ts:start"
+  #run "cd #{current_path} && RAILS_ENV=production rake ts:index"
+  #run "cd #{current_path} && RAILS_ENV=production rake ts:start"
 end
 
 task :bundler, :roles => [:app] do
