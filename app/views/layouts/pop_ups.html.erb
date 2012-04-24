@@ -3,6 +3,9 @@
     <% stylesheet_link_tag "style" %>
   </head>
   <body style="background:  url('images/cercularbg.png') no-repeat scroll center 164px transparent">
-      <%=yield%>
+    <div class="clear"></div>
+    <%=flash[:message]%>
+    <div class="clear"></div>
+    <%=yield%>
   </body>
 </html>

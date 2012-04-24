@@ -1,0 +1,65 @@
+<%=render :partial=>"header"%>
+<h4>
+  <%= "Create New Design" %>
+</h4>
+<div style="float: left;padding: 10px;width: 100%;">
+
+  <% form_for :theme, :url => new_design_path, :html => {:multipart => true} do |f| %>
+
+    <table>
+      <tr>
+        <td>Country</td>
+        <td><%=select "country", "id", @countries.collect {|p| [ p.name, p.id ] }%></td>
+      </tr>
+
+      <tr>
+        <td>Category</td>
+        <td>
+          <div id="categories_div" >
+            <%= select "category", "id", "<option>New Category</option>" %>
+          </div>
+          <%=text_field_tag "new_cat"%>
+        </td>
+      </tr>
+
+      <tr>
+        <td><%= f.label :tag_list %></td>
+        <td><%= f.text_field :tag_list, :size => 50 %></td>
+      </tr>
+
+      <tr>
+        <td>Back Ground</td>
+        <td><input type="file" name="bg_image"></input></td>
+      </tr>
+
+      <tr>
+        <td>Front Image</td>
+        <td><input type="file" name="main_image"></input></td>
+      </tr>
+
+      <tr>
+        <td colspan="2">
+          <br/><br/><br/>
+          <input type="submit" value="Create Design"></input>
+        </td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+
+<script>
+  $('#country_id').change(function(){
+    $.ajax({
+      type:"get",
+      url:"/admin/categories?c_id=" + $('#country_id').val()      
+    }
+  );
+  });
+
+  $('#category_id').change(function(){
+    $('#new_cat').css('display', 'none');
+    if($('#category_id :selected').val() == "New Category")
+      $('#new_cat').toggle();
+  });
+</script>

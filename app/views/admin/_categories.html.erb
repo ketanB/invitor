@@ -1,0 +1,18 @@
+<%=  select "category", "id", categories.collect {|c| [ c.name, c.id ] }, {:prompt => 'Select Category'}, { :style => "width:320px;"}  %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('#category_id').change(function(){
+      $('#category_loading').show();
+      $.ajax({
+        type:"get",
+        url:"/admin/selected_designs/"+$('#category_id').val(),
+        success: function(results) {
+          $('#category_loading').hide();
+        }
+      });
+    });
+
+  });
+</script>

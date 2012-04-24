@@ -112,25 +112,26 @@
           <% end %>
           <div class="rightpanel">
             <ul>
-              <li>
-                <div class="box_top"><!----></div>
-                <div class="box_mid">
-                  <span class="profileimg"><img width="54" height="54" alt=" " src="images/profileImg.png"/></span>
-                  <div class="details">
-                    <p>Welcome
-                      <% if current_user %>
-                        <%= current_user.email %>
-                      <% else %>
-                        <%= link_to 'Your Name', 'javascript:void(0)',:id => 'your_name' %>
-                      <% end %>
-                    </p>
-                    <p class="email">&nbsp;</p>
+              <% if @setting.show_profile_pictures? %>
+                <li>
+                  <div class="box_top"><!----></div>
+                  <div class="box_mid">
+                    <span class="profileimg"><img width="54" height="54" alt=" " src="/images/profileImg.png"/></span>
+                    <div class="details">
+                      <p>Welcome
+                        <% if current_user %>
+                          <%= current_user.email %>
+                        <% else %>
+                          <%= link_to 'Your Name', 'javascript:void(0)',:id => 'your_name' %>
+                        <% end %>
+                      </p>
+                      <p class="email">&nbsp;</p>
+                    </div>
+
                   </div>
-
-                </div>
-                <div class="box_bot"><!----></div>
-              </li>
-
+                  <div class="box_bot"><!----></div>
+                </li>
+              <% end %>
 
 
               <li>
@@ -156,20 +157,29 @@
                 <div class="box_bot"><!----></div>
               </li>
 
+              <% if @setting.display_guest_list %>
+                <li>
+                  <div class="box_top"><!----></div>
+                  <div class="box_mid">
+                    <div class="module">
+                      <h4>Guest List
+                        <% if @setting.allow_guests_to_bring_people? %>
+                          <div class="invitefriends">
+                            <a href="javascript:void(0)" id="invite_friends">
+                              <img alt="" src="/images/inviteFriends.png" />
+                            </a>
+                          </div>
+                        <% end  %>
+                      </h4>
+                      <div class="link" id="guests_portion">
 
-              <li>
-                <div class="box_top"><!----></div>
-                <div class="box_mid">
-                  <div class="module">
-                    <h4>Guest List  <div class="invitefriends"><a href="javascript:void(0)" id="invite_friends"><img alt="" src="/images/inviteFriends.png" /></a></div></h4>
-                    <div class="link" id="guests_portion">
+                      </div>
 
                     </div>
-
                   </div>
-                </div>
-                <div class="box_bot"><!----></div>
-              </li>
+                  <div class="box_bot"><!----></div>
+                </li>
+              <% end %>
 
 
 

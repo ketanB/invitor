@@ -1,14 +1,8 @@
 <%= form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div id="errorExplanation">
-      <h2><%= pluralize(@user.errors.count, "error") %> prohibited this user from being saved:</h2>
-      <ul>
-        <% @user.errors.full_messages.each do |msg| %>
-          <li><%= msg %></li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
+
+  <div style="margin: 10px;padding: 10px;float: left;">
+    <%= errors_for(@user, "Opps, unable to add user").html_safe %>
+  </div>
 
 
   <div class="det_midRep">

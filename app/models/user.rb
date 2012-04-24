@@ -1,28 +1,3 @@
-# == Schema Info
-# Schema version: 20100628151227
-#
-# Table name: users
-#
-#  id                  :integer(4)      not null, primary key
-#  role_id             :integer(4)
-#  cached_slug         :string(255)
-#  crypted_password    :string(255)     not null
-#  current_login_ip    :string(255)
-#  email               :string(255)     not null
-#  failed_login_count  :integer(4)      not null, default(0)
-#  last_login_ip       :string(255)
-#  login               :string(255)     not null
-#  login_count         :integer(4)      not null, default(0)
-#  password_salt       :string(255)     not null
-#  perishable_token    :string(255)     not null
-#  persistence_token   :string(255)     not null
-#  single_access_token :string(255)     not null
-#  created_at          :datetime
-#  current_login_at    :datetime
-#  last_login_at       :datetime
-#  last_request_at     :datetime
-#  updated_at          :datetime
-
 class User < ActiveRecord::Base
   translates :firstname, :lastname
   belongs_to :role
@@ -108,11 +83,12 @@ class User < ActiveRecord::Base
   #The Facebook registers user method is going to send the users email hash and our account id to Facebook
   #We need this so Facebook can find friends on our local application even if they have not connect through connect
   #We hen use the email hash in the database to later identify a user from Facebook with a local user
+  #facebooker-rails3 refectored to abc
   def register_user_to_fb
-    users = {:email => email, :account_id => id}
-    Facebooker::User.register([users])
-    self.email_hash = Facebooker::User.hash_email(email)
-    save(false)
+#    users = {:email => email, :account_id => id}
+#    Facebooker::User.register([users])
+#    self.email_hash = Facebooker::User.hash_email(email)
+#    save(false)
   end
 
   def facebook_user?

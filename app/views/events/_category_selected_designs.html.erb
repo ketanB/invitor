@@ -1,0 +1,66 @@
+<div class="country" id="keyword_category_loading" style="text-align: center; display: none;margin-left: 30px;">
+  <div style="margin-top: 50px; width: 100%; text-align: center">
+    <%= image_tag('loading.gif') %>
+  </div>
+</div>
+<div id="searched_and_fetched_designs" style="width:100%;float: left;">
+  <% unless designs.blank? %>
+    <% designs.each_with_index do |design, index| %>
+      <% image = design.class.to_s == "Theme" ? design.bg_image_file_name : design.image_file_name %>
+      <% unless image.nil? %>
+        <div class="theme_thumbs">
+          <% case tab %>
+          <% when "design" %>
+            <a href="javascript:void(0);" class="innerThumb design" style="background-image: url('<%= design.bg_image.url(:thumb) %>');" >
+              <%= image_tag(design.main_image.url(:thumb), :size => "40x35",:class => "h_front_image") %>
+            </a>
+          <% when "main_picture" %>
+            <a href="javascript:void(0);" class="innerThumb main_picture" style="background-image: url('<%= design.main_image.url(:medium) %>');" >
+            </a>
+          <% when "wallpaper" %>
+            <a href="javascript:void(0);" class="innerThumb wallpaper" style="background-image: url('<%= design.bg_image.url(:thumb) %>');" >
+            </a>
+          <% when "patterns" %>
+            <a href="#" class="innerThumb pattern"><%=image_tag(design.image.url(:thumb), :size => "80x70") %></a>
+          <% end %>
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div style="padding: 10px;">
+      <i>
+        <b>
+          No Design Found!
+        </b>
+      </i>
+    </div>
+  <% end %>
+</div>
+<script type="text/javascript">
+  $("a.innerThumb").click(function(){
+    var src = ($(this).children("img").attr("src"));
+    var url = $(this).css("background-image");
+
+    if(src){
+      if($(this).attr('class').indexOf("pattern") >= 0){
+        $("#preview_bg").css("background-image", 'url('+src+')');
+        $("#preview_bg").css("background-repeat", 'repeat');
+      }else{
+        url = url.replace("thumb","medium");
+        $("#preview_bg").css("background-image", url);
+        src = src.replace("thumb","medium");
+        $('#preview_image').children("img").attr("src", src);
+      }
+    }else{
+      if($(this).attr('class').indexOf("main_picture") >= 0){
+        var url_src = url.replace(/"/g,"").replace(/url\(|\)$/ig, "");
+        $('#preview_image').children("img").attr("src", url_src);
+      }
+      if($(this).attr('class').indexOf("wallpaper") >= 0){
+        url = url.replace("thumb","medium");
+        $("#preview_bg").css("background-image", url);
+      }
+    }
+    return false;
+  });
+</script>

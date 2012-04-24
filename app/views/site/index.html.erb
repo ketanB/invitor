@@ -1,19 +1,15 @@
-<%= stylesheet_link_tag "stylejv" %>
-
 <div id="bodycontainer">
-
   <div class="dircoleft">
-
     <div class="leftcolheader">
-
-
     </div><!--leftcolheader-->
 
     <div id="directory_frame">
       <%@business_categories.each do |bc|%>
         <div class="dirlisting">
           <div class="catheadings"><%=truncate(bc.title, :length=>20)%></div><!--cat heading end -->
-          <div class="catimage"><img src="/images/new/cat_03.jpg" alt="cat1"></div>
+          <div class="catimage">
+            <%=image_tag bc.icon.url(:thumb)%>
+          </div>
           <div class="catlinks">
             <ol>
               <%bc.top_companies.each do |company|%>
@@ -35,61 +31,61 @@
 
             <div class="topcrv">
               <ul class="linkthumb">
-                <li><%= link_to search_categories_path do  %>
+                <li><%= link_to search_companies_path(:tag_name=>"bakeries", :csz=>@geo_info) do  %>
                     <span class="iconBox bakery"></span><span class="footlinks">Bakeries</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"boat charters", :csz=>@geo_info) do  %>
                     <span class="iconBox boat"></span><span class="footlinks">Boat Charters</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"cars stationery", :csz=>@geo_info) do  %>
                     <span class="iconBox card"></span><span class="footlinks">Cards &amp; Stationery</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"caterers", :csz=>@geo_info) do  %>
                     <span class="iconBox caterers"></span><span class="footlinks">Caterers</span>
                   <% end %>
-                  </a>          </li>
-                <li>        <%= link_to search_categories_path do  %>
+                </li>
+                <li>        <%= link_to search_companies_path(:tag_name=>"djs", :csz=>@geo_info) do  %>
                     <span class="iconBox djs"></span><span class="footlinks">DJ'S</span>
                   <%end%>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"hotels", :csz=>@geo_info) do  %>
                     <span class="iconBox hotels"></span><span class="footlinks">HOTELS</span>
                   <%end%>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"party event planning", :csz=>@geo_info) do  %>
                     <span class="iconBox party_plan"></span><span class="footlinks">Party &amp; Event Planning</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"party supplies", :csz=>@geo_info) do  %>
                     <span class="iconBox party_suply"></span><span class="footlinks">Party Supplies</span>
                   <%end%>
 
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"personal chefs", :csz=>@geo_info) do  %>
                     <span class="iconBox chefs"></span><span class="footlinks">Personal Chefs</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"photographers", :csz=>@geo_info) do  %>
                     <span class="iconBox photographs"></span><span class="footlinks">Photographers</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"venues event spaces", :csz=>@geo_info) do  %>
                     <span class="iconBox venue"></span><span class="footlinks">Venues &amp; Event Spaces</span>
                   <% end %>
 
-                  </a>          </li>
+                </li>
 
-                <li><%= link_to search_categories_path do  %>
+                <li><%= link_to search_companies_path(:tag_name=>"wedding planning", :csz=>@geo_info) do  %>
                     <span class="iconBox wedding"></span><span class="footlinks">Wedding Planning</span>
                   <% end %>
-                  </a>          </li>
-                <li><%= link_to search_categories_path do  %>
+                </li>
+                <li><%= link_to search_companies_path(:tag_name=>"limo services", :csz=>@geo_info) do  %>
                     <span class="iconBox limo"></span><span class="footlinks">Limo services</span>
                   <% end %>
-                  </a>          </li>
+                </li>
 
               </ul>
             </div>

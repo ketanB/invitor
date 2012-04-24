@@ -45,6 +45,7 @@ class QuotesController < ApplicationController
   # GET /quotes/1/edit
   def edit
     @quote = Quote.find(params[:id])
+    @event = Event.where(:user_id => current_user.id).all
   end
 
   def quote_response

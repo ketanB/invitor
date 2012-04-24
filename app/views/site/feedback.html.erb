@@ -1,0 +1,27 @@
+<h1>FeedBack Form</h1>
+<form method="post" >
+  <table>
+    <tr>
+      <th>Your Email</th>
+      <td><%=text_field "fb", "email" %></td>
+    </tr>
+
+    <tr>
+      <th>Your Name</th>
+      <td><%=text_field "fb", "name" %></td>
+    </tr>
+
+    <tr>
+      <th>Message</th>
+      <td><%=text_area "fb", "message", :rows=>10 %></td>
+    </tr>
+
+    <tr>
+      <td colspan="2" >
+        <input type="submit" value="Send"/>
+      </td>
+    </tr>
+
+
+  </table>
+</form>

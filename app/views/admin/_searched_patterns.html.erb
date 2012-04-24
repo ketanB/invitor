@@ -1,0 +1,21 @@
+<div class="thumbox flexcroll" id="mycustomscroll">
+  <% patterns.each_with_index do |pattern, index| %>
+    <% unless pattern.image_file_name.nil? %>
+      <div style="width: 50%;float: left;">
+        <div class="theme_thumbs">
+          <a href="#" class="innerThumb"><%=image_tag(pattern.image.url(:thumb), :size => "80x70") %></a>
+        </div>
+        <div style="float: left;width: 200px;margin-left: 10px;">
+          <%= pattern.category.name %>
+          <br/>
+          <%= pattern.created_at.strftime("Created At %m/%d/%Y") %>
+          <br/>
+          <%= link_to "Edit", edit_pattern_path(:id => pattern.id) %>
+          <br/>
+          <%= link_to "Destroy", delete_pattern_path(:id => pattern.id), :confirm => "Are you sure?" %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>

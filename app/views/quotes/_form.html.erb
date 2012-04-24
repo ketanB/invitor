@@ -38,7 +38,7 @@
       <span id="city_ajax">
         <%= f.select :city_id, (@cities||[]).collect{|c| [c.name, c.id]} , {:prompt => 'Select City' }%>
       </span>
-    
+
   <%#= f.text_field :city_id %>
     </div>
     <div class="row">
@@ -71,7 +71,7 @@
         type: 'get',
         dataType: 'script',
         success: function(results) {
-          $('#quote_city_id').show();
+          <%#*$('#quote_city_id').show();%>
           $('#loading_city').hide();
         }
       });

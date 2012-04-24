@@ -13,5 +13,5 @@ class Country < ActiveRecord::Base
   translates :name
   has_many :categories
 
-   scope :active, where(:active => true)
+  scope :active, where(:active => true)
 end

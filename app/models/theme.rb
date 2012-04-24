@@ -1,8 +1,18 @@
 class Theme < ActiveRecord::Base
+  acts_as_taggable
   translates :name
-  has_attached_file :bg_image, :styles => { :medium => "330x>", :thumb => "80x70>" }
-  has_attached_file :main_image, :styles => { :medium => "160x140>", :thumb => "40x35>" }
+    
+  has_attached_file :bg_image, :styles => { :medium => "320x275>", :thumb => "80x70>" },
+    :url => '/system/:class/bg_image/:id/:style.:extension',
+    :path => ":rails_root/public/system/:class/bg_image/:id/:style.:extension"
+  has_attached_file :main_image, :styles => { :medium => "160x140>", :thumb => "40x35>" },
+    :url => '/system/:class/main_image/:id/:style.:extension',
+    :path => ":rails_root/public/system/:class/main_image/:id/:style.:extension"
   has_and_belongs_to_many :categories
+  belongs_to :category
+
+  
+
 
   scope :defaults, where("`default` = ?", true)
 

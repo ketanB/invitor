@@ -45,7 +45,7 @@
     </div>
 
     <div class="search_box_field_near"><label><span class="search_label_head"><%= image_tag 'near.png' %> </span>(Address, City, State or Zip)
-      </label><%= text_field_tag :csz,  params[:csz]%>
+      </label><%= text_field_tag :csz, ( params[:csz] || "Miami" )%>
     </div>
     <div class="search_box_btn"> <input class="btn_search" type="submit" value=""> </div>
   <% end %>
@@ -66,7 +66,7 @@
         <label>
           <span  class="search_label_head" ><%= image_tag 'near.png' %> </span> (Address, City, State or Zip)
         </label>
-        <%= text_field_tag :csz,  params[:csz]%>
+        <%= text_field_tag :csz,  (params[:csz] || "Miami" )%>
         <input class="btn_search" type="submit" value="" />
       </div>
 

@@ -1,0 +1,17 @@
+<%=render :partial=>"header"%>
+<h1>Business Categories</h1>
+
+<ul>
+  <%-@business_categories.each do |bc|-%>
+    <li>
+      <form action="<%="/admin/business_categories/#{bc.id}"%>" enctype="multipart/form-data" method="post">
+        <%=image_tag bc.icon.url(:thumb) rescue nil%>
+        <%=truncate bc.title, :length=>15%>
+        <%=file_field_tag "icon[#{bc.id}]"%>
+        <%=submit_tag%>
+      </form>
+      ------------------------
+    </li>
+  <%-end%>
+</ul>
+<%=will_paginate @business_categories%>

@@ -1,6 +1,71 @@
-<h1>Editing quote</h1>
+<%= content_for :stylesheet do %>
+  <%= stylesheet_link_tag  'style_register', 'fcbkcomplete' %>
+<% end %>
+<%= content_for :javascript_include  do%>
+  <%= javascript_include_tag  'jquery', 'jquery.fcbkcomplete' %>
+<% end %>
 
-<%= render 'form' %>
+<div class="dashbord">
 
-<%= link_to 'Show', @quote %> |
-<%= link_to 'Back', quotes_path %>
+  <div class="dashbord_tCrv_signup">    <!---->
+    <ul class="language">
+      <li>
+        <a class="english" href="javascript:change_Language('en');">English</a>
+      </li>
+      <li>
+        <a class="spanish" href="javascript:change_Language('es');">Espanol</a>
+      </li>
+    </ul>         </div>
+
+  <div class="dashbord_mRepeat">
+    <div class="midshade">
+
+      <ul>
+
+        <li>
+          <div class="signup_header" style ="margin-bottom: 10px;">Get a Quote</div>
+          <div class="details">
+
+            <ul>
+              <li>
+
+                <%= render :partial => 'form' %>
+
+              </li>
+            </ul>
+          </div>
+
+        </li></ul></div>
+    <div class="dashbord_bCrv"></div>
+  </div>
+
+  <div style="clear: both;"></div>
+</div>
+
+<script language="JavaScript">
+  $(document).ready(function()
+  {
+    $("#tags_name").fcbkcomplete({
+      json_url: "/companies/autocomplete_tags2",
+      cache: true,
+      filter_case: true,
+      filter_hide: true,
+      firstselected: true,
+      //onremove: "testme",
+      //onselect: "testme",
+      filter_selected: true,
+      newel: true
+    });
+  });
+
+  function testme(item)
+  {	if ($.browser.mozilla)
+    {
+      console.log(item);
+    }
+    else
+    {
+      alert(item);
+    }
+  }
+</script>

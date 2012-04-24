@@ -95,7 +95,7 @@ class Event < ActiveRecord::Base
     end
   end
 
-  def bg_image_url
+  def bg_image_url    
     if design && design.bg_image_url.to_s > ''
       design.bg_image_url
     elsif design && !design.theme.nil? && design.theme.bg_image

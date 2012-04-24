@@ -1,4 +1,5 @@
 class ThemesController < ApplicationController
+  autocomplete :tag, :name
   layout 'admin'
   # GET /themes
   # GET /themes.xml

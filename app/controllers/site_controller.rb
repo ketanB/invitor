@@ -1,7 +1,18 @@
 class SiteController < ApplicationController
   layout 'with_search_header'
   def index
+    Mailer.feed_back_email(params).deliver if params[:email]
     @business_categories = BusinessCategory.all(:conditions=>"business_group_id is not null", :limit=>6, :group=>"business_group_id")
+    @geo_info = Geokit::Geocoders::IpGeocoder.geocode request.remote_ip
+    @geo_info = "#{@geo_info.city}, #{@geo_info.state}" if @geo_info
+  end
+
+  def feedback
+    if request.method == "POST"
+      Mailer.feed_back_email(params[:fb]).deliver
+      flash[:message] = "Your message has been sent, Thank You."
+    end
+    render :layout=>"pop_ups"
   end
 
   def help

@@ -1,0 +1,39 @@
+<%=render :partial=>"header"%>
+<h4>
+  <%= link_to "Create New Pattern", new_pattern_path, :style => "text-decoration: none;" %>
+  &nbsp;&nbsp;|&nbsp;&nbsp;
+  <%= link_to_remote "All Patterns", :url => selected_patterns_path(:cat_id => "none"), :html => {:style => "text-decoration: none;", :onclick => "$('#category_loading').show();"}, :success => "$('#category_loading').hide();" %>
+
+</h4>
+
+
+<div id="countries_div" style="padding: 5px;float: left;width: 100%;">
+  <%=  select "country", "id", @countries.collect {|c| [ c.name, c.id ] }, {:prompt => 'Select Country'}, { :style => "width:320px;"}  %>
+</div>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('#country_id').change(function(){
+      $.ajax({
+        type:"get",
+        url:"/admin/categories?c_id=" + $('#country_id').val()
+      });
+    });
+
+  });
+</script>
+
+<div id="categories_div" style="padding: 5px;float: left;width: auto;">
+  <%= select "category", "id", "", {:prompt => 'Select Category'}, { :style => "width:320px;"} %>
+</div>
+
+<div class="country" id="category_loading" style="text-align: center; display: none;float: left;">
+  <div style="width: auto; text-align: center;">
+    <%= image_tag('loading.gif') %>
+  </div>
+</div>
+
+<div id="patterns_div" style="padding: 5px;float: left;width: 100%;">
+</div>
+

@@ -39,5 +39,13 @@ class Mailer < ActionMailer::Base
     mail(:to => "#{guest.contact.full_name} <#{guest.contact.email}>", :subject => @subject, :from => "#{event.hosted_by} <cst@invitar.com>")
   end
 
+
+  def feed_back_email(feed_back_params)
+    @subject    = "FeedBack Email"
+    @from       = "Invitar Notifier <#{feed_back_params[:email]}>"
+    @recipients = "ralph@invitar.com"
+    @sent_on    = Time.now
+    @body       = {:message => feed_back_params[:message]}
+  end
  
 end

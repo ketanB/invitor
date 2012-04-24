@@ -300,6 +300,9 @@ class CompaniesController < ApplicationController
 
   def load_cities
     @cities = City.where(:state_id => params[:state_id]).all
+    render :udpate do  |page|
+      page[:city_ajax].replace_html :partial => "cities", :locals => {:cities => @cities}
+    end
   end
 
   def load_states
@@ -319,10 +322,13 @@ class CompaniesController < ApplicationController
 
   def autocomplete_tags2
 
-     #@companies = Company.where(:business_group_id => 1)
+    #@companies = Company.where(:business_group_id => 1)
     # items = @companies.find_tagged_with(params[:term])
     
     items = Tag.find(:all)
+    puts "=================================="
+    puts json_for_autocomplete(items, :name)
+    puts "=================================="
     
     #items = Tag.where("name like('%#{params[:term]}%')").limit(15)
     render :json => json_for_autocomplete(items, :name)
@@ -334,21 +340,27 @@ class CompaniesController < ApplicationController
   end
 
   def search
+    params[:ip] = request.remote_ip
+    begin
+    location = GeoIp.geolocation(request.remote_ip)
+    params[:csz] =location[:city] if params[:csz].blank?
+    rescue
+    end
     @companies = Company.ts_search(params)
-    @cities = Company.ts_search_cities(params)
+    @cities = Location.ts_search(params[:state], [params[:lat], params[:lng]], params[:dsn])
     @map = initialize_map(@companies)
     render :layout => 'with_search_header'
   end
 
   def remote_search
     @companies = Company.ts_search(params)
-    @cities = Company.ts_search_cities(params)
+    @cities = Location.ts_search(params[:state], [params[:lat], params[:lng]], params[:dsn])
     @map = initialize_map(@companies)
     render :partial => "search_content"
   end
 
   def search_more_cities
-    @cities = Company.ts_search_cities(params, 20)
+    @cities = Location.ts_search(params[:state], [params[:lat].to_f, params[:lng].to_f], params[:dsn], 20)
     render :partial => "search_more_cities"
   end
   
@@ -415,7 +427,7 @@ class CompaniesController < ApplicationController
       lngs = []
       companies.each do |company|
         if company.latitude && company.longitude
-          lats <<  company.latitude
+          lats << company.latitude
           lngs << company.longitude
         end
       end

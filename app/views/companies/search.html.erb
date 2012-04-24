@@ -78,6 +78,7 @@
   var temp_cities;
   var cities;
   var doSearch = false;
+
   $(document).ready(function() {
     Search.initPage();
     Search.bindSearch();
@@ -103,7 +104,8 @@
       }
       doSearch = false;
     });
-  })
+
+  });
   Search = {
     initPage: function(){
       $('.leftnum .previous_page').remove();

@@ -1,9 +1,7 @@
 class UsersController < ApplicationController
-#  layout :choose_layout
+  #  layout :choose_layout
   respond_to :js, :only => [:contacts_new, :contact_by_group, :edit_contact, :update_contact, :destroy_contact, :change_guest_name]
-  # GET /users
-  # GET /users.xml
-
+  
   ## Facebook Connect
 
   def facebook_login
@@ -57,6 +55,7 @@ class UsersController < ApplicationController
   # POST /users.xml
   def create
     @user = User.new(params[:user])
+    @user.role_id = Role.find_by_name("user").id
     
     respond_to do |format|
       if @user.save
@@ -234,14 +233,14 @@ class UsersController < ApplicationController
       solicitude = QuoteSolicitations.find(company_solicitude.solicitude_id)
       solicitude.destroy
 
-     # user_company = UserCompanies.where(:company_id => company_solicitude.company_id).first
+      # user_company = UserCompanies.where(:company_id => company_solicitude.company_id).first
 
       #del_messages = Message.where(:csolicitude_id => company_solicitude.id,
-     #     :conditions => ["from != ?", user_company.user_id]).dest
+      #     :conditions => ["from != ?", user_company.user_id]).dest
       
-     # del_messages.each do |m|
-     #   m.destroy
-     # end
+      # del_messages.each do |m|
+      #   m.destroy
+      # end
 
 
       redirect_to ("/dashboard")

@@ -29,53 +29,41 @@
         </map>
       <% end  %>
     </div>
-
     <div class="country">
       <label>Country:</label>
-      <%= select_tag 'country_id', options_from_collection_for_select(@countries.all, :id, :name, @default_country_id), :id => 'country_for_category' %>
+      <%= select_tag 'country_id', options_from_collection_for_select(@countries.all, :id, :name, @country.id), :id => 'country_for_category' %>
     </div>
     <div class="country" id="category_loading" style="text-align: center; display: none">
       <div style="margin-top: 50px; width: 100%; text-align: center">
         <%= image_tag('loading.gif') %>
       </div>
     </div>
-
-
-
   </div>
   <div class="con_botCrv"></div>
 </div>
-
-
 <div class="innerCont">
   <div class="cont_topCrv">
     <div class="galCont">
-      <!--<ul>
-        <li>
-          <a href="#"><img src="/images/designBtn.png"  /></a>
-        </li>
-        <li>
-          <a href="#"><img src="/images/mainpictureBtn.png" /></a>
-        </li>
-        <li>
-          <a href="#"><img src="/images/wallpaperBtn.png" /></a>
-        </li>
-      </ul>-->
-
       <div id="tabs">
         <ul class="tabs-nav" style="float: left; width: 511px;">
           <li><a href="#tab-1" class="parentLink"> <span>Design</span></a></li>
           <li><a href="#tab-2" class="parentLink"><span>Main Picture</span></a></li>
           <li><a href="#tab-3" class="parentLink"><span>Wallpaper</span></a></li>
         </ul>
-        <div id="tab-1" class="tabs-container">
-          <div class="gal_topCrv">
-            <div class="gal_botCrv">
+        <div style="width:489px;float:left;height:50px;border: 1px solid silver;margin-left:15px;padding-left: 5px;padding-top: 5px;">
+          Search:<br/>
+          <div>
+            <% remote_form_for :theme, :url => search_design_by_keywords_path, :success => "$('#keyword_category_loading').hide();$('#searched_and_fetched_designs').show();" do|f| %>
+              <%= f.autocomplete_field :tag_name, autocomplete_tag_name_themes_path , :style => "width:375px;"%>
+              <%= submit_tag "Search",:onclick => "$('#searched_and_fetched_designs').hide();$('#keyword_category_loading').show();", :style => "width:100px;" %>
+            <% end %>
+          </div>
+        </div>
+        <div id="tab-1" class="tabs-container">          
+          <div class="gal_topCrv">            
+            <div class="gal_botCrv">              
               <div class="thumbox flexcroll" id="mycustomscroll">
-                <div>
-                  <ul style="float:none; " id="theme_thumbs">
-                  </ul>
-                </div>
+                <%= render :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "design" } %>
               </div>
             </div>
           </div>
@@ -91,27 +79,24 @@
                     <li><a href="#tab-23">Upload</a></li>
                   </ul>
                   <div id="tab-21" class="tab2-container flexcroll">
-                    Select Category
+                    <%= render :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "main_picture"  } %>
                   </div>
                   <div id="tab-22" class="tab2-container flexcroll">
                     <%=text_field_tag "flickr_search"%>
                     <input type="button" id="flickr_search_button" value="Search" />
                   </div>
                   <div id="tab-23" class="tab2-container flexcroll">
-                    <%=  form_for(:fg_image, :url => upload_fg_image_events_path, :remote => true ,:html => { :method => :post, :id => 'uploadFgForm', :multipart => true }) do |f| %>
+                    <% form_for(:fg_image, :url => upload_fg_image_events_path, :remote => true,:html => { :method => :post, :id => 'uploadFgForm', :multipart => true }) do |f| %>
                       Upload a file: <%= f.file_field :image %>
                       <%= submit_tag 'Upload', :id => 'upload_main_image' %>
                     <% end %>
                     <div id="user_fg_images">
-
                     </div>
-
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
         </div>
         <div id="tab-3" class="tabs-container">
           <div class="gal_topCrv">
@@ -119,17 +104,21 @@
               <div class="" id="" style="width: 511px; ">
                 <div id="tab3-tabs">
                   <ul class="tab3-tabs-nav">
-                    <li><a href="#tab-31">Pattern</a></li>
-                    <li><a href="#tab-32">Pick Color</a></li>
-                    <li><a href="#tab-33">Upload</a></li>
+                    <li><a href="#tab-31">Images</a></li>
+                    <li><a href="#tab-32">Pattern</a></li>
+                    <li><a href="#tab-33">Pick Color</a></li>
+                    <li><a href="#tab-34">Upload</a></li>
                   </ul>
                   <div id="tab-31" class="tab3-container flexcroll">
-                    patern
+                    <%= render :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "wallpaper"  } %>
                   </div>
                   <div id="tab-32" class="tab3-container flexcroll">
-                    Collor
+                    <%= render :partial => "category_selected_designs", :locals => { :designs => @patterns, :tab => "patterns"  } %>
                   </div>
                   <div id="tab-33" class="tab3-container flexcroll">
+                    Collor
+                  </div>
+                  <div id="tab-34" class="tab3-container flexcroll">
                     <%= form_for(:bg_image, :url => upload_bg_image_events_path, :html => { :method => :post, :id => 'uploadBgForm', :multipart => true }) do |f| %>
                       Upload a file: <%= f.file_field :image %>
                       <%= submit_tag 'Upload', :id => 'upload_bg_image' %>
@@ -143,41 +132,38 @@
             </div>
           </div>
         </div>
-
       </div>
-
-
     </div>
 
     <div class="" id="preview_bg">
-      <div id="preview_image" style=" float: left; margin: 15px; width: 160px; height: 140px; border: 2px solid #aaa">
-
+      <div id="preview_image" style=" float: left; margin: 15px; width: 160px; height: 140px; border: 2px solid #aaa; background:#fff; text-align: center">
+        Your Invitation
+        <img style="width:160px;height:121px;" />
       </div>
-      <ul class="timedate">
+      <ul class="timedate">   
         <li>
           <div class="time">
-                    	time and date
+            time and date
           </div>
           <div class="whitebox">
-
           </div>
         </li>
         <li>
           <div class="time">
-                    	Location
+            Location
           </div>
           <div class="whitebox">
-
           </div>
         </li>
       </ul>
       <div class="textarea">
-
       </div>
     </div>
+
     <div id="preview_bg_bottom">
       Its is the preview of your design
     </div>
+
     <div style="text-align: center; float: left; margin-left: 10px; margin-top: 10px">
       <img src="/images/buttons.png" width="427" height="61" border="0" usemap="#Map" />
     </div>
@@ -185,448 +171,7 @@
   </div>
   <div class="con_botCrv"></div>
 </div>
-<style type="text/css">
 
-  #preview_bg_bottom, #preview_bg{
-    width: 320px;
-    margin-left: 60px;
-    float: left;
-    -moz-border-radius: 5px;
-    border-radius :5px;
-    border: 3px solid #666699;
-  }
-  #preview_bg_bottom{
-    padding: 10px 0px;
-    text-align: center;
-    margin-top: 10px;
-  }
-  #preview_bg ul{
-    float:right;
-    width:96px;
-    padding-right:29px;
-    padding-top:15px;
-  }
-  #preview_bg ul.timedate li {
-    float:right;
-    padding-bottom:4px;
-  }
-  #preview_bg ul.timedate li div.time {
-    float:left;
-    width:98px;
-    font-size:11px;
-    color:#fff;
-    background:#999999;
-    height:20px;
-    text-align:center;
-    text-transform:uppercase;
-    line-height:20px;
-
-  }
-  #preview_bg ul.timedate li div.whitebox {
-    float:left;
-    width:96px;
-    height:60px;
-    background:#fff;
-    border: 1px solid #666699;
-    border-top: none;
-  }
-
-  b1, .b2, .b3, .b4{font-size:1px; overflow:hidden; display:block;}
-  .b1 {height:1px; background:#ddd; margin:0 5px;}
-  .b2 {height:1px; background:#ddd; border-right:2px solid #ddd; border-left:2px solid #ddd; margin:0 3px;}
-  .b3 {height:1px; background:#ddd; border-right:1px solid #ddd; border-left:1px solid #ddd; margin:0 2px;}
-  .b4 {height:2px; background:#ddd; border-right:1px solid #ddd; border-left:1px solid #ddd; margin:0 1px;}
-
-  .roundedInnerBox{
-    border-right:3px solid #ddd; border-left:3px solid #ddd;
-    margin-left: 1px;
-    display:block;
-    float: left;
-  }
-
-  b5, .b6, .b7, .b8{font-size:1px; overflow:hidden; display:block;}
-  .b5 {height:1px; background:#999; margin:0 5px;}
-  .b6 {height:1px; background:#999; border-right:2px solid #999; border-left:2px solid #999; margin:0 3px;}
-  .b7 {height:1px; background:#999; border-right:1px solid #999; border-left:1px solid #999; margin:0 2px;}
-  .b8 {height:2px; background:#999; border-right:1px solid #999; border-left:1px solid #999; margin:0 1px;}
-
-  .roundedInnerBox2{
-    border-right:3px solid #999; border-left:3px solid #999;
-    margin-left: 1px;
-    display:block;
-    float: left;
-  }
-
-  #theme_thumbs li a img{
-    float: left;
-  }
-
-  #theme_thumbs li a div.innerThumb{
-    z-index:10;
-    float: left;
-    margin-top: -60px;
-    margin-left: 21px;
-
-  }
-
-  #preview_theme img.bgImage{
-
-    float: left;
-  }
-
-  #preview_theme .innerThumb{
-    z-index:10;
-    float: left;
-    margin-top: -184px;
-    margin-left: 82px;
-
-  }
-
-
-
-  .tabs-nav li {
-    float:left;
-    margin:0 0 0 1px;
-    min-width:84px;
-  }
-  .tabs-nav a, .tabs-nav a span {
-    background:url("/images/tab.png") no-repeat scroll 0 0 transparent;
-    display:block;
-    padding:0 10px;
-    font-size: 18px;
-  }
-  .tabs-nav a {
-    color:#27537A;
-    font-weight:bold;
-    line-height:24px;
-    padding-left:0;
-
-    text-align:center;
-    text-decoration:none;
-    top:1px;
-    white-space:nowrap;
-
-    width: 154px;
-  }
-
-  .tab2-tabs-nav, .tab3-tabs-nav{
-    float: left; 
-    width: 496px;
-    height: 50px;
-    border-bottom: 2px solid #4E5C72;
-
-  }
-  .tab2-tabs-nav a, .tab3-tabs-nav a{
-    margin-top: 13px;
-    margin-left: 35px; margin-right: 23px;
-    -moz-border-radius:5px 5px 5px 5px;
-    background-color:#4E5C72;
-    border:0 none;
-    color:#FFFFFF;
-    padding:5px 12px;
-    text-decoration:none;
-  }
-
-  .tab2-tabs-nav .tabs-selected a, .tab2-tabs-nav a:hover, .tab2-tabs-nav a:active, .tab3-tabs-nav a:hover, .tab3-tabs-nav a:active{
-    background-color:#FFFFFF;
-    border:2px solid #4E5C72;
-    color:#4E5C72;
-    padding:3px 10px;
-
-  }
-  .tab2-container, .tab3-container{
-    float: left;
-    width: 480px;
-    padding: 10px;
-    padding-left: 15px;
-    height: 182px;
-    overflow: auto;
-  }
-
-  .tabs-nav .tabs-selected a {
-    color:#000000;
-  }
-  .tabs-nav .tabs-selected a, .tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active {
-    background-position:100% -150px;
-    outline:0 none;
-  }
-  .tabs-nav a, .tabs-nav .tabs-disabled a:hover, .tabs-nav .tabs-disabled a:focus, .tabs-nav .tabs-disabled a:active {
-    background-position:100% -100px;
-  }
-  .tabs-nav a span {
-    height:18px;
-    min-height:18px;
-    min-width:64px;
-    padding-right:0;
-    padding-top:6px;
-    width:64px;
-  }
-  * > .tabs-nav a span {
-    height:auto;
-    width:auto;
-  }
-  .tabs-nav .tabs-selected a span {
-    padding-top:7px;
-  }
-  .tabs-nav .tabs-selected a span, .tabs-nav a:hover span, .tabs-nav a:focus span, .tabs-nav a:active span {
-    background-position:0 -50px;
-  }
-  .tabs-nav a span, .tabs-nav .tabs-disabled a:hover span, .tabs-nav .tabs-disabled a:focus span, .tabs-nav .tabs-disabled a:active span {
-    background-position:0 0;
-  }
-  .tabs-nav .tabs-selected a:link, .tabs-nav .tabs-selected a:visited, .tabs-nav .tabs-disabled a:link, .tabs-nav .tabs-disabled a:visited {
-    cursor:text;
-  }
-  .tabs-nav a:hover, .tabs-nav a:focus, .tabs-nav a:active {
-    cursor:pointer;
-  }
-  .tabs-nav .tabs-disabled {
-    opacity:0.4;
-  }
-  .tabs-container {
-    background:none repeat scroll 0 0 #FFFFFF;
-
-    padding:1em 8px;
-  }
-  .tabs-loading em {
-    background:url("/images/loading.gif") no-repeat scroll 0 50% transparent;
-    padding:0 0 0 20px;
-
-  }
-
-  #user_fg_images {
-    text-align: center;
-    padding-top: 10px;
-    float:left;
-    margin-left:175px;
-  }
-  #user_bg_images {padding: 10px;  text-align: center;}
-
-  #user_fg_images a img ,#user_bg_images a img{
-    -moz-border-radius:3px;
-    background-color:#4E5C72;
-    border:0 none;
-    color:#FFFFFF;
-    padding:3px;
-    float: left;
-
-  }
-
-</style>
-<script type="text/javascript">
-  $.fn.loadThemes = function(cat_id, country_id) {
-    if(cat_id == null)
-      return;
-    $('#preview_theme').html($('#category_loading').html());
-    $.ajax({
-      
-      url: '/events/category_changed?category_id='+cat_id+'&country_id='+country_id,
-      type: 'get',
-      dataType: 'script',
-      success: function(results) {        
-        $('a.themeThumbLink').click(function(){
-          $('#preview_theme').html($('#preview_'+$(this).attr('theme_id')).html());
-          
-          $('#event_category_id').val(cat_id);
-
-          $('a.themePreviewLink').click(function(){
-            $('#theme_id').val($(this).attr('theme_id'));
-
-            $(this).renderPreview($(this).attr('bg_image_url'), $(this).attr('fg_image_url'));
-            $('#bg_image_url').val('');
-            $('#fg_image_url').val('');
-          });
-        
-        });
-        $('a.themePreviewLink').click(function(){
-          $('#theme_id').val($(this).attr('theme_id'));
-          $(this).renderPreview($(this).attr('bg_image_url'), $(this).attr('fg_image_url'));
-          $('#bg_image_url').val('');
-          $('#fg_image_url').val('');
-        });
-        
-      }
-    });
-  };
-
-  $.fn.renderPreview = function(bg_image, fr_image){
-    if(bg_image > '')
-      $('#preview_bg').css("background-image", "url("+ bg_image+")");
-    if(fr_image > '')
-      $('#preview_image').html("<img src='"+fr_image+"' width='160' height='140'/>")
-  };
-
-  $(document).ready(function() {
-
-    //for fg image upload
-    $('#uploadFgForm #upload_main_image').click(function(){
-      if($('#fg_image_image').val() > ''){
-        $('#user_fg_images').html($('#category_loading').html());
-        $(this).parent().ajaxSubmit({
-          beforeSubmit: function(a,f,o) {
-            o.dataType = 'json';
-          },
-          complete: function(XMLHttpRequest, textStatus) {
-            var regex = /<[\/]{0,1}(head|body)[^><]*>/g;
-            var body = XMLHttpRequest.responseText;
-            var result = body.replace(regex, '');
-            $('#user_fg_images').html(result);
-            $('#uploadFgForm').get(0).reset();
-            $('a.userFgImage').click(function(){
-              $(this).renderPreview('', $(this).attr('fg_image_url'));
-              $('#fg_image_url').val($(this).attr('fg_image_url'));
-            });
-
-          }
-        });
-      }
-      return false;
-    });
-
-    //end for fg image upload
-    //
-    //for bg image upload
-    $('#uploadBgForm #upload_bg_image').click(function(){
-      if($('#bg_image_image').val() > ''){
-        $('#user_bg_images').html($('#category_loading').html());
-        $(this).parent().ajaxSubmit({
-          beforeSubmit: function(a,f,o) {
-            o.dataType = 'json';
-          },
-          complete: function(XMLHttpRequest, textStatus) {
-            var regex = /<[\/]{0,1}(head|body)[^><]*>/g;
-            var body = XMLHttpRequest.responseText;
-            var result = body.replace(regex, '');
-            $('#user_bg_images').html(result);
-            $('#uploadBgForm').get(0).reset();
-            $('a.userBgImage').click(function(){
-              $(this).renderPreview($(this).attr('bg_image_url'), '');
-              $('#bg_image_url').val($(this).attr('bg_image_url'));
-            });
-          }
-        });
-      }
-      return false;
-    });
-
-    //end for bg image upload
-
-    //tabs
-    $('#tabs div.tabs-container').hide();
-    $('#tabs div.tabs-container:first').show();
-    $('#tabs ul li:first').addClass('tabs-selected');
-
-    $('#tabs ul li a.parentLink').click(function(){
-      
-      $('#tabs ul.tabs-nav li').removeClass('tabs-selected');
-      $(this).parent().addClass('tabs-selected');
-      var currentTab = $(this).attr('href');
-      $('#tabs div.tabs-container').hide();
-      $(currentTab).show();
-      return false;
-    });
-    //end tabs
-
-    //tab2 tabs
-    $('#tab2-tabs div.tab2-container').hide();
-    $('#tab2-tabs div.tab2-container:first').show();
-    $('#tab2-tabs ul li:first').addClass('tabs-selected');
-
-    $('#tab2-tabs ul li a').click(function(){
-      $('#tab2-tabs ul li').removeClass('tabs-selected');
-      $(this).parent().addClass('tabs-selected');
-      var currentTab = $(this).attr('href');
-      $('#tab2-tabs div.tab2-container').hide();
-      $(currentTab).show();
-      return false;
-    });
-    //end tab2 tabs
-
-    //tab3 tabs
-    $('#tab3-tabs div.tab3-container').hide();
-    $('#tab3-tabs div.tab3-container:first').show();
-    $('#tab3-tabs ul li:first').addClass('tabs-selected');
-
-    $('#tab3-tabs ul li a').click(function(){
-      $('#tab3-tabs ul li').removeClass('tabs-selected');
-      $(this).parent().addClass('tabs-selected');
-      var currentTab = $(this).attr('href');
-      $('#tab3-tabs div.tab3-container').hide();
-      $(currentTab).show();
-      return false;
-    });
-    //end tab3 tabs
-
-    $('#preview_theme').html($('#category_loading').html());
-    $(this).loadThemes();
-
-    $('a.eventCategory').click(function(){
-      $(this).loadThemes($(this).attr('cat_id'), $('#country_for_category').val());
-    });
-    $('select#country_for_category').change(function() {
-      if($(this).val()){
-        $('#event_cats').html($('#category_loading').html());
-        $.ajax({
-          url: '/events/' + $(this).val()+ '/country_changed?country_id=',
-          type: 'get',
-          dataType: 'script',
-          success: function(results) {
-            $('#event_category_id').val($('a.eventCategory:first').attr('cat_id'));
-            $('a.eventCategory').click(function(){
-              $(this).loadThemes($(this).attr('cat_id'));
-            });
-          }
-        });
-      }
-      return false;
-    });
-
-    $('#skip_step').click(function(){
-      $('#skip_step1').val(1);
-      $('#new_event').submit();
-    });
-
-    $('#save_n_continue').click(function(){
-      $('#new_event').submit();
-    });
-  });
-
-  $('#flickr_search_button').click(function(){
-    var req = new XMLHttpRequest();
-    req.open(
-    "GET",
-    "http://api.flickr.com/services/rest/?" +
-      "method=flickr.photos.search&" +
-      "api_key=90485e931f687a9b9c2a66bf58a3861a&" +
-      "text=hello%20world&" +
-      "safe_search=1&" +  // 1 is "safe"
-    "content_type=1&" +  // 1 is "photos only"
-    "sort=relevance&" +  // another good one is "interestingness-desc"
-    "per_page=20",
-    true);
-    req.onload = showPhotos;
-    req.send(null);
-  });
-
-  function showPhotos() {
-    var photos = req.responseXML.getElementsByTagName("photo");
-
-    for (var i = 0, photo; photo = photos[i]; i++) {
-      var img = document.createElement("image");
-      img.src = constructImageURL(photo);
-      document.body.appendChild(img);
-    }
-  }
-
-  // See: http://www.flickr.com/services/api/misc.urls.html
-  function constructImageURL(photo) {
-    return "http://farm" + photo.getAttribute("farm") +
-      ".static.flickr.com/" + photo.getAttribute("server") +
-      "/" + photo.getAttribute("id") +
-      "_" + photo.getAttribute("secret") +
-      "_s.jpg";
-  }
-</script>
 
 
 <%if false%>

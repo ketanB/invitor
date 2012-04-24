@@ -14,9 +14,15 @@ class UserSessionsController < ApplicationController
         redirect_to @redirect_path
         return false
       end
-      if admin?
-      redirect_to admin_path
-      return false
+      if admin?        
+        redirect_to admin_path
+        return false
+#      else
+#        puts "VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV"
+#        puts current_user.inspect
+#        puts current_user.role.inspect
+#        puts current_user.role.name == 'admin'
+#        xxxxx
       end
       flash[:notice] = "Successfully logged in."
       if(params[:invite_friend].to_i == 1 && params[:event_id].to_i > 0 )
@@ -31,6 +37,7 @@ class UserSessionsController < ApplicationController
       end
       
     else
+      flash[:notice] = "We are unable to logged in."
       render :action => 'new'
     end
   end

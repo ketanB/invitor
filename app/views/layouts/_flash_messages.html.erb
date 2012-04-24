@@ -1,4 +1,4 @@
-<% unless true # flash.empty? %>
+<% unless flash.empty? %>
   <div id="flash_messages" >
     <%= image_tag 'close.jpeg',  :id => 'close_flash_messages', :title => 'close' %>
 
@@ -21,9 +21,9 @@
 <style type="text/css">
   #flash_messages{
     top:100px;
-    position:fixed;
+    position:relative;
     width:600px;
-    height: 103px;
+    min-height: 50px;
     z-index:11;
     overflow: visible;
     padding: 10px;
@@ -37,6 +37,8 @@
   div.flash_message{
     width: 500px;
     color: green;
+    float: left;
+    position: absolute;
   }
   div.error {
     color: red;

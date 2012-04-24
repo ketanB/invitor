@@ -4,33 +4,33 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://www.facebook.com/2008/fbml">
 
   <head>
-<meta name="google-site-verification" content="a-CJk02SvsLrMDSFDviolUpxrsA9ik7odfm_XY-CRqg" />
+    <meta name="google-site-verification" content="a-CJk02SvsLrMDSFDviolUpxrsA9ik7odfm_XY-CRqg" />
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <title>Invitar | <%= @title || "Welcome" %></title>
-    <%= stylesheet_link_tag "style" , 'jquery-ui', 'autocomplete', 'stylejv' %>
+    <%= stylesheet_link_tag "style" , 'jquery-ui', 'autocomplete', 'stylejv', 'jquery.fancybox-1.3.2', 'contactable' %>
     <%= yield :stylesheet %>
 
-    <%= javascript_include_tag  'jquery.min', 'jquery-ui.min','rails', 'application', 'autocomplete-rails','markerclusterer' %>
-    
-   <!--<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>-->
-   <!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.5/jquery-ui.min.js"></script>-->
-
-    
+    <%= javascript_include_tag   'jquery.min', 'rails', 'application', 'jquery-ui.min', 'jquery.fancybox-1.3.4'  %>
 
     <%= yield :javascript_include %>
     <%= yield :javascript_tag %>
     <%= include_tiny_mce_if_needed %>
     <%= content_for :javascript_include  do%>
-   
     <% end %>
-    <!--<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>-->
+
+    <%= javascript_include_tag 'jquery.validate'%>
+    <%= javascript_include_tag 'jquery.contactable'%>
+     <%= javascript_include_tag "autocomplete-rails" %>
+     <%= javascript_include_tag 'markerclusterer' %>
 
   </head>
   <body>
-<%#= fb_connect_javascript_tag %>
-<%#= init_fb_connect "XFBML", :js => :jquery %>
+    <!-- TODO: Please move contactable code into which page you need. There is an error on jquery.contactable on search page. But it isn't neccessary on that page.-->
+    <% unless params[:controller] == "companies" && params[:action] == "search" %>
+      <div id="contactable"><!-- contactable html placeholder --></div>
+      <script>$(function(){$('#contactable').contactable({subject: 'feedback URL:/site/feedback'});});</script>
+    <% end %>
 
-    <div id="feedback"> <a href="#"><img src="/images/feedback_Btn.png"  /></a> </div>
     <div>
       <div class="footerBg">
         <div id="frame">

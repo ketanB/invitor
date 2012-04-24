@@ -1,27 +1,29 @@
 <%=render :partial=>"header"%>
+<div style="width:100%;float: left;">
+  <form method="post" action="/admin/add_pictures" enctype="multipart/form-data">
 
-<form method="post" action="/admin/add_images" enctype="multipart/form-data">
+    <table>
 
-  <table>
+      <tr>
+        <td>Country</td>
+        <td><%=select "cat", "id", @countries.collect {|p| [ p.name, p.id ] }%></td>
+      </tr>
+      <tr>
+        <td>Category</td>
+        <td><%=select "cat", "id", @categories.collect {|p| [ p.name, p.id ] }%></td>
+      </tr>
 
-    <tr>
-      <td>Country</td>
-      <td><%=select "cat", "id", @countries.collect {|p| [ p.name, p.id ] }%></td>
-    </tr>
-    <tr>
-      <td>Category</td>
-      <td><%=select "cat", "id", @categories.collect {|p| [ p.name, p.id ] }%></td>
-    </tr>
+      <tr>
+        <td>Image</td>
+        <td><input type="file" name="main_image"></input></td>
+      </tr>
 
-    <tr>
-      <td>Image</td>
-      <td><input type="file" name="main_image"></input></td>
-    </tr>
+      <tr>
+        <td colspan="2">
+          <input type="submit"></input>
+        </td>
+      </tr>
+    </table>
+  </form>
+</div>
 
-    <tr>
-      <td colspan="2">
-        <input type="submit"></input>
-      </td>
-    </tr>
-  </table>
-</form>

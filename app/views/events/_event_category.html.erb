@@ -1,1 +1,11 @@
-<li> <%= link_to event_category.name, 'javascript:void(0)', :class => 'eventCategory', :cat_id => event_category.id  %> </li>
+<li> 
+<%#= link_to event_category.name,
+'javascript:void(0)',
+:class => 'eventCategory',
+:cat_id => event_category.id  %>
+  <%= link_to_remote event_category.name,
+    :url => category_selected_designs_path(:cat_id => event_category.id),
+    :html => {:onclick => "$('#searched_and_fetched_designs').hide();$('#keyword_category_loading').show();",
+    :success => "$('#keyword_category_loading').hide();$('#searched_and_fetched_designs').show();"}
+%>
+</li>

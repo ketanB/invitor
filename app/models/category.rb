@@ -13,8 +13,11 @@
 class Category < ActiveRecord::Base
   translates :name, :description
   has_and_belongs_to_many :countries
+  belongs_to :country
   has_many :design
   has_and_belongs_to_many :themes
+  has_many :themes
+  has_many :patterns
 
   #scope :default_themes, themes.where('`default`=?', true)
 

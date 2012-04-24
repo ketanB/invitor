@@ -27,8 +27,8 @@ class Company < ActiveRecord::Base
   define_index do
     indexes key_words
     has city_id, rating, reviews_count
-    has "latitude",  :as => :latitude,  :type => :float
-    has "longitude",  :as => :longitude, :type => :float
+    has "RADIANS(latitude)",  :as => :latitude,  :type => :float
+    has "RADIANS(longitude)",  :as => :longitude, :type => :float
     set_property :latitude_attr => :latitude, :longitude_attr => :longitude
     set_property :delta => true
   end
@@ -70,33 +70,17 @@ class Company < ActiveRecord::Base
       push(name).push(location_address).push(phone).join(" ").split(" ").uniq.join(" ")
   end
 
-  def lat_degree
-    (self.latitude.to_f * 180)/Math::PI
-  end
-
-  def lng_degree
-    (self.longitude.to_f * 180)/Math::PI
-  end
-
   class << self
     def ts_search(args, per_page = 10)
       hash_conditions = {:geo => near(args), :with => with(args),
-          :include => :company, :page => (args[:page] || 1), :per_page => per_page,
-          :match_mode => :all, :order => order(args)}
+        :include => :company, :page => (args[:page] || 1), :per_page => per_page,
+        :match_mode => :all, :order => order(args)}
       results = self.search(keywords(args), hash_conditions)
       return results
     end
 
-    def ts_search_cities(args, limit=4)
-      hash_conditions = {:geo => near(args), :match_mode => :all, :order => "@relevance DESC"}
-      results = self.search(keywords(args), hash_conditions)
-      results = results.map{|x| x.city_id}.uniq[0..limit-1]
-      cities = City.find(results).map{|x| [x.id, x.name]}
-      return cities
-    end
-
     def keywords(args)
-      key_words = args[:csz]
+      key_words = args[:tag_name]
       unless args[:cat].blank?
         key_words = "#{key_words} #{args[:cat]}"
       end
@@ -104,29 +88,30 @@ class Company < ActiveRecord::Base
     end
 
     def near(args)
-      args[:csz] = "NY" if args[:csz].blank?
-      unless (args[:lat] && args[:lng])
-        geo = geocoder_address(args[:csz])
+      if args[:csz].blank?
+        geo = Geokit::Geocoders::IpGeocoder.geocode(args[:ip])
         if geo
-          args[:lat] = geo[0]
-          args[:lng] = geo[1]
-        else
-          geo = geocoder_address("NY")
-          args[:lat] = geo[0]
-          args[:lng] = geo[1]
+          args[:csz] = "#{geo.city}, #{geo.state}"
+          args[:lat] = geo.lat
+          args[:lng] = geo.lng
         end
+      end
+      unless (args[:lat] && args[:lng])
+        geo, state = geocoder_address(args[:csz])
+        args[:lat] = geo[0]
+        args[:lng] = geo[1]
+        args[:state] = state
       end
       return [args[:lat], args[:lng]]
     end
 
-    def with(args, city = true)    
+    def with(args, city = true)
       with = {}
       if city && !args[:cities].blank?
         with[:city_id] = args[:cities].split(",").map{|x| x.to_i}
       end
-      unless args[:dsn].blank?
-        with["@geodist"] = 0.0..(args[:dsn].to_i*METERS_PER_MILE)
-      end
+      args[:dsn] = 5.to_s if args[:dsn].blank?
+      with["@geodist"] = 0.0..(args[:dsn].to_i*METERS_PER_MILE)
       with
     end
 
@@ -147,7 +132,7 @@ class Company < ActiveRecord::Base
       if geo.success
         lat = (geo.lat / 180.0) * Math::PI
         lng = (geo.lng / 180.0) * Math::PI
-        return [lat, lng]
+        return [lat, lng], geo.state
       else
         return nil
       end
@@ -162,6 +147,8 @@ class Company < ActiveRecord::Base
     ActionController::Base.new.expire_fragment("search/company/#{id}")
     #rebuild keyword without callback
     Company.update_all("key_words = '#{build_keywords.gsub("'", "''")}'", "id = #{id}")
+    #Update locations table
+    Location.find_or_update(city_id, state_id, country_id, location)
   end
 
 end

@@ -1,0 +1,23 @@
+<div class="thumbox flexcroll" id="mycustomscroll">
+  <% designs.each_with_index do |design, index| %>
+    <% unless design.bg_image_file_name.nil? %>
+      <div style="width: 50%;float: left;">
+        <div class="theme_thumbs">
+          <a href="javascript:void(0);" class="innerThumb" style="background-image: url('<%= design.bg_image.url(:thumb) %>');width: 80px;height: 70px;" >
+            <%= image_tag(design.main_image.url(:thumb), :size => "40x35",:class => "h_front_image") %>
+          </a>
+        </div>
+        <div style="float: left;width: 200px;margin-left: 10px;">
+          <%= design.category.name %>
+          <br/>
+          <%= design.created_at.strftime("Created At %m/%d/%Y") %>
+          <br/>
+          <%= link_to "Edit", edit_design_path(:id => design.id) %>
+          <br/>
+          <%= link_to "Destroy", delete_design_path(:id => design.id), :confirm => "Are you sure?" %>
+        </div>
+      </div>
+
+    <% end %>
+  <% end %>
+</div>

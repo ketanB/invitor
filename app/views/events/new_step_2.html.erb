@@ -188,15 +188,15 @@
           <h3><label class="label_es"><%= t('guest_list_options') %></label></h3>
 
           <ul>
-            <li class="chk">
-              <div class="check"><%= check_box_tag 'settings[allow_guest_to_invite_friends]', true, @event_setting.allow_guest_to_invite_friends  %></div>
-              <div class="chkTxt">
-                <% I18n.locale = :en %>
-                <label class="label_en"><%= t('allow_guest_to_invite_friends') %></label>
-                <% I18n.locale = :es %>
-                <label class="label_es"><%= t('allow_guest_to_invite_friends') %></label>
-              </div>
-            </li>
+            <!--       <%#*<li class="chk">%>
+  <%#*<div class="check"><%= check_box_tag 'settings[allow_guest_to_invite_friends]', true, @event_setting.allow_guest_to_invite_friends  %></div>%>
+  <%#*<div class="chkTxt">%>
+  <%# I18n.locale = :en %>
+  <%#*<label class="label_en"><%= t('allow_guest_to_invite_friends') %></label>%>
+  <%# I18n.locale = :es %>
+  <%#*<label class="label_es"><%= t('allow_guest_to_invite_friends') %></label>%>
+  <%#*</div>%>
+  <%#*</li>%> -->
             <li class="chk">
               <div class="check"><%= check_box_tag 'settings[allow_guests_to_bring_people]', true, @event_setting.allow_guests_to_bring_people ? true : false   %></div>
               <div class="chkTxt">
@@ -427,95 +427,5 @@
     <div class="dashbord_bCrv"></div>
   </div>
   <%= hidden_field_tag 'skip_step_2' %>
+
 <% end %>
-<style type="text/css">
-  span.smltxt{
-    font-size: 12px;
-  }
-  #frame .boxes ul li .topcrv ul li div.w_230{width: 230px}
-  #frame .boxes ul li .topcrv ul li div.w_250{width: 250px}
-  .mceEditor{float: left}
-
-  div.cercularback {
-    float:left;
-    width:100%;
-    background: url("<%=@event.bg_image_url%>") 0px 145px repeat-x;
-
-  }
-  input{font-size: 20px ; font-family: "Myriad Pro", Arial, Helvetica, sans-serif;}
-  textarea{font-size: 20px ; font-family: "Myriad Pro", Arial, Helvetica, sans-serif;}
-  p{font-size: 20px ; font-family: "Myriad Pro", Arial, Helvetica, sans-serif;}
-</style>
-<script type="text/javascript" >
-  $(document).ready(function(){
-    var cur_lan = '<%=current_lang.to_s%>';
-
-    $('#settings_allow_guests_to_bring_people').click(function(){
-       $(this).disableMaxGuest($(this).attr('checked'));
-    });
-
-    $('#settings_event_reminder').click(function(){
-       $(this).disableReminderOptions($(this).attr('checked'));
-    });
-
-    $(this).disableMaxGuest($('#settings_allow_guests_to_bring_people').attr('checked'));
-
-    $(this).disableReminderOptions($('#settings_event_reminder').attr('checked'));
-    
-    $(this).showHideLangOption(cur_lan);
-    $('a#en_event_info').click(function(){
-      $(this).showHideLangOption('en');
-    });
-
-    $('a#es_event_info').click(function(){
-      $(this).showHideLangOption('es');
-    });
-
-    $('#skip_step').click(function(){
-      $('#skip_step2').val(1);
-      $('#event_form').submit();
-    });
-
-    $('#save_n_continue, #update_info').click(function(){
-      $('#event_form').submit();
-    });
-
-    $('#event_date').datepicker();
-    
-
-  });
-
-  $.fn.disableMaxGuest = function(state){
-    if(state)
-      $('#max_people_to_bring').removeAttr('disabled');
-    else
-      $('#max_people_to_bring').attr('disabled', 'disabled');
-  }
-
-  $.fn.disableReminderOptions = function(state){
-    if(state)
-      $('#reminder_days, #settings_reminder_yes, #settings_reminder_maybe, #settings_reminder_no_reply').removeAttr('disabled');
-    else
-      $('#reminder_days, #settings_reminder_yes, #settings_reminder_maybe, #settings_reminder_no_reply').attr('disabled', 'disabled');
-  }
-
-  $.fn.showHideLangOption = function(p_cur_lan){
-    if(p_cur_lan == 'en'){
-      $('.row_es').hide();
-      $('.label_es').hide();
-      $('.label_es p').hide();
-      $('.row_en').show();
-      $('.label_en').show();
-      $('.label_en p').show();
-    }
-    else{
-      $('.row_en').hide();
-      $('.label_en').hide();
-      $('.label_en p').hide();
-      $('.row_es').show();
-      $('.label_es').show();
-      $('.label_es p').show();
-    }
-  };
-  $('#event_form :checkbox').attr('checked', true)
-</script>

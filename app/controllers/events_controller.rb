@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   include EventsHelper
   before_filter :require_user, :only => [:index]
   before_filter :prepare_language, :only => [:new_step_3, :new_step_4, :invite_guests]
-  
+    
 
   uses_tiny_mce :options => {
     :width => '400px',
@@ -46,16 +46,18 @@ class EventsController < ApplicationController
       redirect_to root_path
       return
     end
-   render :layout => 'only_content'
+    render :layout => 'only_content'
   end
 
   # GET /events/new
   # GET /events/new.xml
   def new
     @event = Event.new
-    @categories = Category.all :conditions=>"country_id=226" #for default americans categories
+    @country = Country.find_by_code("US")
+    @categories = Category.all :conditions=>["country_id=?",@country.id] #for default americans categories
     @countries = Country.includes(:translations).order('country_translations.name')
-
+    @designs = Theme.all(:limit => 11)
+    @patterns = Pattern.all(:limit => 11)
     respond_to do |format|
       format.html # new.html.erb
       format.xml  { render :xml => @event }
@@ -93,6 +95,30 @@ class EventsController < ApplicationController
       @event.update_attributes(params[:es])
     end
     if @event.setting
+      unless params[:settings][:show_profile_pictures]
+        @event.setting.show_profile_pictures = false
+      end
+      unless params[:settings][:show_comment_board]
+        @event.setting.show_comment_board = false
+      end
+      unless params[:settings][:allow_guests_to_bring_people]
+        @event.setting.allow_guests_to_bring_people = false
+      end
+      unless params[:settings][:display_guest_list]
+        @event.setting.display_guest_list = false
+      end
+      unless params[:settings][:allow_guest_maybe]
+        @event.setting.allow_guest_maybe = false
+      end
+      unless params[:settings][:reminder_yes]
+        @event.setting.reminder_yes = false
+      end
+      unless params[:settings][:reminder_maybe]
+        @event.setting.reminder_maybe = false
+      end
+      unless params[:settings][:reminder_no_reply]
+        @event.setting.reminder_no_reply = false
+      end
       @event.setting.update_attributes(params[:settings])
     elsif params[:settings]
       EventSetting.create(params[:settings].merge(:event_id => @event.id))
@@ -101,7 +127,7 @@ class EventsController < ApplicationController
     if @event.setting && @event.setting.event_reminder? && @event.date
       @event.update_attribute(:reminder_date, @event.date - @event.setting.reminder_days.days)
     else
-       @event.update_attribute(:reminder_date, nil)
+      @event.update_attribute(:reminder_date, nil)
     end
   end
 
@@ -273,6 +299,25 @@ class EventsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def category_selected_designs
+    @designs = Theme.all :conditions => ["category_id=?", params[:cat_id]]
+    render :update do |page|
+      page[:mycustomscroll].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "design" }
+      page["tab-21"].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "main_picture" }
+      page["tab-31"].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "wallpaper" }
+    end    
+  end
+
+  def search_design_by_keywords
+    @designs = Theme.find_tagged_with(params[:theme][:tag_name], :match_all => true)
+    render :update do |page|
+      page[:mycustomscroll].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "design" }
+      page["tab-21"].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "main_picture" }
+      page["tab-31"].replace_html :partial => "category_selected_designs", :locals => { :designs => @designs, :tab => "wallpaper" }
+    end
+    
   end
 
   def upload_fg_image

@@ -30,8 +30,11 @@
                   <!---->
                 </div>
                 <% form_for @user_session, :url => user_session_path do |f| %>
-  <%#= f.error_messages %>
+
                   <div class="det_midRep">
+                    <div style="margin: 10px;padding: 10px;float: left;">
+                      <%= errors_for(@user_session, "Opps, unable to add sign in").html_safe %>
+                    </div>                    
                     <div class="row">
                       <label>Email Address</label>
                       <%= f.text_field :email, :class => 'text',  :style=>'height:40px; font-size:28px' %>

@@ -1,20 +1,16 @@
 class ApplicationController < ActionController::Base
   #  protect_from_forgery
   layout 'application'
-  
-  config.filter_parameters :password, :password_confirmation
-  helper_method :current_user, :logged_in?,:admin?,:facebook_session
+  helper :all
+  helper_method :current_user,:current_user_session, :logged_in?,:admin?,:facebook_session
 
   before_filter :set_facebook_session, :set_language, :load_defaults
-
 
   def call_rake(task, options = {})
     options[:rails_env] ||= Rails.env
     args = options.map { |n, v| "#{n.to_s.upcase}='#{v}'" }
     system "/usr/bin/rake #{task} #{args.join(' ')} --trace 2>&1 >> #{Rails.root}/log/rake.log &"
   end
-
-
 
   def update_event_from_session
     return unless current_user
@@ -70,6 +66,22 @@ class ApplicationController < ActionController::Base
 
   def admin?
     current_user && current_user.role && current_user.role.name == 'admin' ? true : false
+  end
+
+  def admin_required?    
+    unless current_user
+      store_location
+      unless session[:return_to] == "/"
+        flash[:notice] = "You must be logged in to access this page"
+      end
+      redirect_to login_path
+      return false
+    end
+
+    unless current_user.role && current_user.role.name == 'admin'
+      flash[:error] = "You don't have permission to access this page."
+      redirect_to dashboard_path
+    end
   end
 
   def require_user
